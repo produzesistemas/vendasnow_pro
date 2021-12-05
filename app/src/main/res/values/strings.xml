@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">VendasNow Premium</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_client">Clientes</string>
+    <string name="menu_product">Produtos</string>
+    <string name="menu_service">Serviços</string>
+    <string name="menu_sale">Vendas</string>
+    <string name="menu_new_sale">Nova venda</string>
+    <string name="menu_graphics">Gráficos</string>
+
+
+<!--        <string name="default_web_client_id" translatable="false">918458643178-qes184gml7730okop4roqdjcos9oo3j6.apps.googleusercontent.com</string>-->
+    <string name="sair_do_app">Sair do app</string>
+    <string name="logout">Desconectar do app</string>
+    <string name="login_google">Login com Google</string>
+    <string name="login_facebook">Login com Facebook</string>
+    <string name="msg_error_authentication_failure">Autenticação falhou!</string>
+    <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
+
+    <string name="hint_new_client">Informe o nome do Cliente</string>
+    <string name="hint_new_telephone">Informe o Telefone</string>
+    <string name="hint_quantity">Informe a quantidade</string>
+
+    <string name="hint_new_description">Informe a descrição</string>
+    <string name="hint_new_value">Informe o valor de venda</string>
+    <string name="hint_new_value_cost">Informe o valor de custo</string>
+
+    <string name="hint_search_view">Busque pelo nome</string>
+    <string name="hint_search_view_sale">Busque pelo nome do cliente</string>
+
+    <string name="facebook_application_id">381078873806816</string>
+    <string name="fb_login_protocol_scheme">fb381078873806816</string>
+
+    <string name="action_confirmar">Confirmar</string>
+    <string name="action_cancelar">Cancelar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_edit">Alterar</string>
+    <string name="action_add_product">Adicionar Produto</string>
+    <string name="action_go_back">Voltar</string>
+
+    <string name="label_client_name">Nome do Cliente</string>
+    <string name="label_new_client">Cadastro de Cliente</string>
+    <string name="label_new_product">Cadastro de Produto</string>
+    <string name="label_new_service">Cadastro de Serviço</string>
+    <string name="label_payment_form">Forma de pagamento</string>
+    <string name="label_telephone_name">Telefone</string>
+    <string name="label_value">Valor</string>
+    <string name="label_unit_value">Valor unitário:</string>
+    <string name="label_quantity">Quantidade:</string>
+    <string name="label_subtotal">Subtotal:</string>
+    <string name="label_total_products">Total em produtos: </string>
+    <string name="label_add_products">Adicione os produtos</string>
+    <string name="label_total_services">Total em serviços: </string>
+    <string name="label_add_services">Adicione os serviços</string>
+    <string name="label_total_sale">Total geral da venda: </string>
+    <string name="label_sale_date">Data da Venda: </string>
+    <string name="label_select_sale_date">Selecione a data de venda</string>
+    <string name="label_select_client">Selecione o cliente</string>
+    <string name="label_select_payment">Selecione a forma de pagamento</string>
+    <string name="label_detail_sale">Detalhes da venda</string>
+    <string name="label_field_required">Campos obrigatórios</string>
+    <string name="label_cost_value">(Custo)</string>
+    <string name="label_sale_value">(Venda)</string>
+
+    <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
+    <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>
+    <string name="label_graphics_invoices_year">Faturamento anual</string>
+    <string name="label_graphics_invoices_year_total">Total do faturamento no ano:</string>
+
+    <string name="msg_delete_item">Deseja excluir o item?</string>
+
+    <string name="validation_quantity">Informe a quantidade</string>
+    <string name="validation_quantity_and_value">Informe a quantidade e o valor de venda</string>
+    <string name="validation_sale_date">Informe a data da venda</string>
+    <string name="validation_sale_client">Selecione o cliente para a venda</string>
+    <string name="validation_sale_payment">Selecione a forma de pagamento para a venda</string>
+    <string name="validation_sale_products_services">Adicione ao menos um produto ou um serviço para a venda</string>
+
+    <string-array name="ArrayPayment">
+        <item>1,Dinheiro</item>
+        <item>2,Cartão de Crédito</item>
+        <item>3,Cartão de Débito</item>
+        <item>4,Boleto bancário</item>
+        <item>5,Cheque</item>
+        <item>6,Pix</item>
+        <item>7,30 dias</item>
+        <item>8,30/60 dias</item>
+        <item>9,30/60/90 dias</item>
+        <item>10,30/60/90/120 dias</item>
+    </string-array>
+
+    <string-array name="Graphics">
+        <item>Top 5 produtos mais vendidos</item>
+        <item>Top 5 serviços mais vendidos</item>
+        <item>Faturamento mensal</item>
+    </string-array>
+</resources>

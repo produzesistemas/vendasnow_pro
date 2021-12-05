@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_client"
+            android:icon="@drawable/ic_baseline_groups_24"
+            android:title="@string/menu_client" />
+
+        <item
+            android:id="@+id/nav_product"
+            android:icon="@drawable/ic_baseline_local_offer_24"
+            android:title="@string/menu_product" />
+
+        <item
+            android:id="@+id/nav_service"
+            android:icon="@drawable/ic_baseline_handyman_24"
+            android:title="@string/menu_service" />
+
+        <item
+            android:id="@+id/nav_sale"
+            android:icon="@drawable/ic_baseline_credit_card_24"
+            android:title="@string/menu_sale" />
+
+        <item
+            android:id="@+id/nav_graphic"
+            android:icon="@drawable/ic_baseline_insert_chart_24"
+            android:title="@string/menu_graphics" />
+
+        <item
+            android:id="@+id/navigation_logout"
+            android:icon="@drawable/ic_baseline_person_pin_24"
+            android:title="@string/logout" />
+        <item
+            android:id="@+id/navigation_sair_do_app"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"
+            android:title="@string/sair_do_app" />
+    </group>
+</menu>

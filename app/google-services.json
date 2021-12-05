@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "220223485428",
+    "project_id": "vendasnow-premium-55459",
+    "storage_bucket": "vendasnow-premium-55459.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220223485428:android:12480aca41d59cf445b5a1",
+        "android_client_info": {
+          "package_name": "com.produze.sistemas.vendasnow.vendasnowpremium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220223485428-49n2o69taqi6vkf368hd7ha7m1ebgthl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.produze.sistemas.vendasnow.vendasnowpremium",
+            "certificate_hash": "fffe55e7e8e8f79d2d03f5bc152c1ab9c22fc880"
+          }
+        },
+        {
+          "client_id": "220223485428-uo5fcn282vqsf5lq4q966k54jtmnrslk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdYj0-yznENYdWRwE5t8MByO_lXax7VFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220223485428-uo5fcn282vqsf5lq4q966k54jtmnrslk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
