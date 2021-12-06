@@ -16,7 +16,6 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="1dp"
             app:cardUseCompatPadding="true"
-            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -26,11 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_button"
                 android:layout_margin="5dp"
-                android:background="@drawable/custom_background_panel_green"
-                android:theme="@style/SearchViewStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@drawable/custom_background_panel_green" />
 
         </androidx.cardview.widget.CardView>
 
