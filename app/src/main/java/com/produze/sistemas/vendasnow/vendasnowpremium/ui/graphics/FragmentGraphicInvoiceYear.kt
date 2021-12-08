@@ -99,7 +99,11 @@ class FragmentGraphicInvoiceYear : Fragment(){
         var entries: ArrayList<BarEntry> = ArrayList()
         for (mes in 12 downTo 1 step 1) {
             var salesByMonth = sales.filter {
-                it.salesDate?.month == mes
+                var m = it.salesDate?.month
+                if (m != null) {
+                    m += 1
+                }
+                m == mes
             }
 
             salesByMonth.forEach{
@@ -113,7 +117,7 @@ class FragmentGraphicInvoiceYear : Fragment(){
             }
 
             if (total > 0) {
-                entries.add(BarEntry(mes.toFloat(), total))
+                entries.add(BarEntry(mes.toFloat() - 1, total))
                 totalGeral += total
                 total = 0.0f
             }

@@ -34,6 +34,7 @@ class FragmentSale : Fragment() {
     private lateinit var binding: FragmentSaleBinding
     private lateinit var viewModelMain: ViewModelMain
     private lateinit var adapterSale: AdapterSale
+    private lateinit var calendar: GregorianCalendar
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 
     override fun onCreateView(
@@ -83,7 +84,8 @@ class FragmentSale : Fragment() {
                             binding.progressBar.visibility = View.VISIBLE
                         }
                         is State.Success -> {
-                            load()
+                            calendar = GregorianCalendar()
+                            load(calendar)
                         }
                         is State.Failed -> {
                             binding.progressBar.visibility = View.GONE
@@ -105,8 +107,8 @@ class FragmentSale : Fragment() {
             binding.textViewTotalSale.text = nFormat.format(it)
         })
 
-
-        load()
+        calendar = GregorianCalendar()
+        load(calendar)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -119,9 +121,9 @@ class FragmentSale : Fragment() {
         false
     }
 
-    private fun load() {
+    private fun load(calendar: Calendar) {
         lifecycleScope.launch {
-            viewModel.getAll().collectLatest { state ->
+            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
 
