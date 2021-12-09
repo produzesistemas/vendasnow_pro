@@ -105,10 +105,14 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 lstFilter = results?.values as List<Sale>
                 notifyDataSetChanged()
+                viewModel.getTotalByFilter(lstFilter)
             }
 
         }
     }
 
+    fun getItems(): List<Sale> {
+        return lstFilter
+    }
 
 }

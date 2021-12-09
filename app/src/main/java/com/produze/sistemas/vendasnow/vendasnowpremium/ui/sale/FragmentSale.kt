@@ -19,6 +19,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
 import kotlinx.coroutines.flow.collectLatest
@@ -70,6 +71,7 @@ class FragmentSale : Fragment() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     adapterSale.filter.filter(newText)
+                    viewModel.getTotalByFilter(adapterSale.getItems())
                     return false
                 }
 
@@ -109,6 +111,16 @@ class FragmentSale : Fragment() {
 
         calendar = GregorianCalendar()
         load(calendar)
+
+        binding.btnBack.setOnClickListener {
+            calendar.add(Calendar.MONTH, -1);
+            load(calendar)
+        }
+
+        binding.btnGo.setOnClickListener {
+            calendar.add(Calendar.MONTH, 1);
+            load(calendar)
+        }
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -122,11 +134,13 @@ class FragmentSale : Fragment() {
     }
 
     private fun load(calendar: Calendar) {
+        binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
+        binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
         lifecycleScope.launch {
             viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
-
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is State.Success -> {
                         adapterSale  = AdapterSale((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
