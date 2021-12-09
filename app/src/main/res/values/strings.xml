@@ -72,6 +72,7 @@
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
     <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>
     <string name="label_graphics_invoices_year">Faturamento anual</string>
+    <string name="label_graphics_products_profitable">Top 5 produtos lucrativos</string>
     <string name="label_graphics_invoices_year_total">Total do faturamento no ano:</string>
 
     <string name="msg_delete_item">Deseja excluir o item?</string>
@@ -100,5 +101,6 @@
         <item>Top 5 produtos mais vendidos</item>
         <item>Top 5 serviços mais vendidos</item>
         <item>Faturamento mensal</item>
+        <item>Top 5 produtos lucrativos</item>
     </string-array>
 </resources>

@@ -90,7 +90,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
         }
         var result = entries
                 .groupBy { it.label }
-                .mapValues { entry -> entry.value.sumBy { it.value.toInt() } }.toList()
+                .mapValues { entry -> entry.value.sumOf { it.value.toInt() } }.toList()
 
         entries = arrayListOf()
 
@@ -137,9 +137,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
             l.yOffset = 15f
             l.isWordWrapEnabled = true
             l.calculatedLineSizes
-
-
-        }
+       }
 
     }
 

@@ -36,6 +36,7 @@ class AdapterGraphics(private val lst: MutableList<String>) :
                 0 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.red))
                 1 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
                 2 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.green))
+                3 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.blue))
             }
 
             binding.cardView.setOnClickListener {
@@ -43,6 +44,7 @@ class AdapterGraphics(private val lst: MutableList<String>) :
                     0 -> it?.findNavController()?.navigate(R.id.nav_graphic_top_five_products)
                     1 -> it?.findNavController()?.navigate(R.id.nav_graphic_top_five_services)
                     2 -> it?.findNavController()?.navigate(R.id.nav_graphic_invoice_year)
+                    3 -> it?.findNavController()?.navigate(R.id.nav_graphic_products_profitable)
                 }
             }
 

@@ -12,14 +12,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsProductsProfitableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsTopFiveProductsBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
@@ -32,12 +32,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-class FragmentGraphicTopFiveProducts : Fragment(){
+class FragmentGraphicTopFiveProductsProfitable : Fragment(){
 
-    private lateinit var binding: FragmentGraphicsTopFiveProductsBinding
+    private lateinit var binding: FragmentGraphicsProductsProfitableBinding
     private lateinit var calendar: GregorianCalendar
     private lateinit var viewModel: ViewModelSale
-    var mChart: PieChart? = null
+    var mChart: BarChart? = null
     private lateinit var viewModelMain: ViewModelMain
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     ): View? {
         binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context),
-                R.layout.fragment_graphics_top_five_products,
+                R.layout.fragment_graphics_products_profitable,
                 container,
                 false
         )
@@ -65,7 +65,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.label_graphics_top_products))
 
-        mChart = binding.chart
+        mChart = binding.barChart
         calendar = GregorianCalendar()
         load(calendar)
 
@@ -82,25 +82,47 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     }
 
     fun loadGraph(sales: List<Sale>) {
-        var entries: ArrayList<PieEntry> = ArrayList()
+        var entries: ArrayList<BarEntry> = ArrayList()
         var lst: MutableList<List<SaleProduct>> = sales.map { it.saleProducts }.toMutableList()
+
         val flattened: List<SaleProduct> = lst.flatten()
         flattened.forEach{
-            entries.add(PieEntry(it.quantity.toFloat(), it.product?.name))
+            entries.add(BarEntry(it.product?.costValue?.times(it.quantity)?.toFloat()!!, it.product?.value?.times(it.quantity)?.toFloat()!!))
         }
-        var result = entries
-                .groupBy { it.label }
-                .mapValues { entry -> entry.value.sumOf { it.value.toInt() } }.toList()
+//        var result = entries
+//            .groupBy { it.x }
+//            .mapValues { entry -> entry.value.sumOf { it.value.toInt() } }.toList()
+
+
+
+        var result = entries.sortedWith(compareByDescending { it.x }).take(5)
 
         entries = arrayListOf()
-
-        result = result.sortedWith(compareByDescending { it.second }).take(5)
         result.forEach{
-            entries.add(PieEntry(it.second.toFloat(), it.first))
+            entries.add(BarEntry(it.x.toFloat(), it.y))
         }
 
-        val set = PieDataSet(entries, "")
-        val data = PieData(set)
+        mChart!!.invalidate()
+        mChart!!.description.isEnabled = false
+        mChart!!.setNoDataText("Nenhuma venda encontrada.")
+        mChart!!.legend.isEnabled = false // Hide the legend
+        mChart!!.axisRight.setDrawLabels(false)
+        mChart?.setExtraOffsets(5f, 20f, 5f, 70f)
+
+        val xAxis = mChart!!.xAxis
+        xAxis.setDrawGridLines(false)
+        xAxis.granularity = 1f
+
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return MainUtils.getMonth(Math.round(value) + 1)
+            }
+        }
+
+        val set1: BarDataSet = BarDataSet(entries, "")
+
+        set1.values = entries
 
         val colors: MutableList<Int> = ArrayList()
         colors.add(ContextCompat.getColor(requireContext(), R.color.blue))
@@ -108,23 +130,20 @@ class FragmentGraphicTopFiveProducts : Fragment(){
         colors.add(ContextCompat.getColor(requireContext(), R.color.green))
         colors.add(ContextCompat.getColor(requireContext(), R.color.black))
         colors.add(ContextCompat.getColor(requireContext(), R.color.purple))
+        set1.colors = colors
+        val dataSets = ArrayList<IBarDataSet>()
+        dataSets.add(set1)
 
-        set.colors = colors
-        data.setValueTextSize(20f)
+        val data = BarData(dataSets)
+        data.setValueTextSize(10f)
+//        data.setValueFormatter(object : ValueFormatter() {
+//            override fun getFormattedValue(value: Float): String {
+//                return nFormat.format(value.toDouble())
+//            }
+//        })
 
-        data.setValueFormatter(object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return value.toInt().toString()
-            }
-        })
-
-        mChart?.setData(data)
-        mChart?.invalidate()
-        mChart?.getDescription()?.setEnabled(false)
-        mChart?.setNoDataText("Nenhuma venda encontrada.")
-        mChart?.setEntryLabelTextSize(14f)
-        mChart?.setEntryLabelColor(Color.TRANSPARENT)
-        mChart?.setExtraOffsets(5f, 5f, 5f, 60f)
+        data.barWidth = 0.9f
+        mChart!!.data = data
 
         val l: Legend? = mChart?.legend
         if (l != null) {
