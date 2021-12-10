@@ -65,7 +65,10 @@ class ViewModelDetailSale : ViewModel() {
     fun getTotalProfit(lstProduct: MutableList<SaleProduct>) {
         var total: Double = 0.00
         lstProduct.forEach {
-            total = total.plus((((it.product?.costValue ?: it.valueSale - it.product?.costValue!!?.times(it.quantity))!!)))
+            if (it.product?.costValue != null) {
+                var t = it.valueSale - it.product?.costValue!!
+                total=+ t.times(it.quantity)
+            }
         }
         _totalProfit.value = total
     }
