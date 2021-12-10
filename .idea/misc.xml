@@ -33,10 +33,13 @@
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_graphics.xml" value="0.14739583333333334" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_product.xml" value="0.4107485604606526" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_sale.xml" value="0.5" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_sale_product.xml" value="0.33" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_detail_sale.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_graphics.xml" value="0.16576086956521738" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_graphics_invoice_year.xml" value="0.18885869565217392" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_graphics_products_profitable.xml" value="0.16576086956521738" />
-        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_sale.xml" value="0.3350622406639004" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_sale.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/menu/menu_bottom_graphic.xml" value="0.27291666666666664" />
       </map>
     </option>

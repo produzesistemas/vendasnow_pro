@@ -56,10 +56,11 @@
     <string name="label_quantity">Quantidade:</string>
     <string name="label_subtotal">Subtotal:</string>
     <string name="label_total_products">Total em produtos: </string>
+    <string name="label_total_products_profit">Lucro produtos: </string>
     <string name="label_add_products">Adicione os produtos</string>
     <string name="label_total_services">Total em serviços: </string>
     <string name="label_add_services">Adicione os serviços</string>
-    <string name="label_total_sale">Total geral da venda: </string>
+    <string name="label_total_sale">Total da venda: </string>
     <string name="label_sale_date">Data da Venda: </string>
     <string name="label_select_sale_date">Selecione a data de venda</string>
     <string name="label_select_client">Selecione o cliente</string>
@@ -101,6 +102,5 @@
         <item>Top 5 produtos mais vendidos</item>
         <item>Top 5 serviços mais vendidos</item>
         <item>Faturamento mensal</item>
-        <item>Top 5 produtos lucrativos</item>
     </string-array>
 </resources>

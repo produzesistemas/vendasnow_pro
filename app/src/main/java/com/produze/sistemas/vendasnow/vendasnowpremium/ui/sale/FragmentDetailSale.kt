@@ -72,6 +72,10 @@ class FragmentDetailSale : Fragment(){
         viewModelDetailSale.totalSale.observe(viewLifecycleOwner, Observer<Double> {
             binding.textViewTotalSale.text = nFormat.format(it)
         })
+
+        viewModelDetailSale.totalProfit.observe(viewLifecycleOwner, Observer<Double> {
+            binding.textViewProductsProfit.text = nFormat.format(it)
+        })
     }
 
 
@@ -108,6 +112,7 @@ class FragmentDetailSale : Fragment(){
             viewModelDetailSale.getTotalServices(sale.saleServices.toMutableList())
         }
         viewModelDetailSale.getTotalSale(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+        viewModelDetailSale.getTotalProfit(sale.saleProducts.toMutableList())
     }
 
 }

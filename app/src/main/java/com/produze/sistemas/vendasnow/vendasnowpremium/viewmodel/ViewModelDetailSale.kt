@@ -13,6 +13,7 @@ class ViewModelDetailSale : ViewModel() {
     private val _totalProducts = MutableLiveData<Double>()
     private val _totalServices = MutableLiveData<Double>()
     private val _totalSale = MutableLiveData<Double>()
+    private val _totalProfit = MutableLiveData<Double>()
 
     fun select(item: Sale) {
         selected.value = item
@@ -55,6 +56,18 @@ class ViewModelDetailSale : ViewModel() {
             total = total.plus((it.valueSale * it.quantity))
         }
         _totalSale.value = total
+    }
+
+    val totalProfit: LiveData<Double> = Transformations.map(_totalProfit) {
+        it
+    }
+
+    fun getTotalProfit(lstProduct: MutableList<SaleProduct>) {
+        var total: Double = 0.00
+        lstProduct.forEach {
+            total = total.plus((((it.product?.costValue ?: it.valueSale - it.product?.costValue!!?.times(it.quantity))!!)))
+        }
+        _totalProfit.value = total
     }
 
 

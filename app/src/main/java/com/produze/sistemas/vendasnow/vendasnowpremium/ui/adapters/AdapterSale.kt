@@ -18,6 +18,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
 
 class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var viewModelDetailSale: ViewModelDetailSale) :
         RecyclerView.Adapter<AdapterSale.RecyclerViewViewHolder>(), Filterable {
@@ -32,6 +36,7 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
                 R.layout.card_view_sale,
                 parent,
                 false)
+
         return RecyclerViewViewHolder(binding)
     }
 
@@ -71,6 +76,8 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
                     R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_sale)
                 }
             }
+
+            binding.textViewTotal.text = nFormat.format(getTotalSale(lst[position].saleServices.toMutableList(), lst[position].saleProducts.toMutableList()))
 
         }
 
@@ -113,6 +120,17 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
 
     fun getItems(): List<Sale> {
         return lstFilter
+    }
+
+    fun getTotalSale(lstService: MutableList<SaleService>, lstProduct: MutableList<SaleProduct>): Double {
+        var total: Double = 0.00
+        lstService.forEach {
+            total = total.plus((it.valueSale * it.quantity))
+        }
+        lstProduct.forEach {
+            total = total.plus((it.valueSale * it.quantity))
+        }
+        return total
     }
 
 }

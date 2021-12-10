@@ -71,10 +71,5 @@
         android:label="@string/label_graphics_invoices_year"
         tools:layout="@layout/fragment_graphics_invoice_year" />
 
-    <fragment
-        android:id="@+id/nav_graphic_products_profitable"
-        android:name="com.produze.sistemas.vendasnow.vendasnowpremium.ui.graphics.FragmentGraphicTopFiveProductsProfitable"
-        android:label="@string/label_graphics_products_profitable"
-        tools:layout="@layout/fragment_graphics_products_profitable" />
 
 </navigation>
