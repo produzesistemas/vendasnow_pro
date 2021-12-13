@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +75,7 @@ class FragmentDetailSale : Fragment(){
         })
 
         viewModelDetailSale.totalProfit.observe(viewLifecycleOwner, Observer<Double> {
-            binding.textViewProductsProfit.text = nFormat.format(it)
+            if (it == 0.0) binding.linearLayoutProfit.visibility = View.GONE else binding.textViewProductsProfit.text = nFormat.format(it)
         })
     }
 

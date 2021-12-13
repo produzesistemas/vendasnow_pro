@@ -56,7 +56,7 @@
     <string name="label_quantity">Quantidade:</string>
     <string name="label_subtotal">Subtotal:</string>
     <string name="label_total_products">Total em produtos: </string>
-    <string name="label_total_products_profit">Lucro produtos: </string>
+    <string name="label_total_products_profit">Lucro sobre os produtos: </string>
     <string name="label_add_products">Adicione os produtos</string>
     <string name="label_total_services">Total em serviços: </string>
     <string name="label_add_services">Adicione os serviços</string>
@@ -72,9 +72,11 @@
 
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
     <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>
-    <string name="label_graphics_invoices_year">Faturamento anual</string>
+    <string name="label_graphics_invoices_year">Faturamento por mês e ano</string>
+    <string name="label_graphics_profit_year">Lucros por mês e ano</string>
     <string name="label_graphics_products_profitable">Top 5 produtos lucrativos</string>
     <string name="label_graphics_invoices_year_total">Total do faturamento no ano:</string>
+    <string name="label_graphics_profit_year_total">Total do lucro no ano:</string>
 
     <string name="msg_delete_item">Deseja excluir o item?</string>
 
@@ -101,6 +103,7 @@
     <string-array name="Graphics">
         <item>Top 5 produtos mais vendidos</item>
         <item>Top 5 serviços mais vendidos</item>
-        <item>Faturamento mensal</item>
+        <item>Faturamento por mês e ano</item>
+        <item>Lucros por mês e ano</item>
     </string-array>
 </resources>

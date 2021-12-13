@@ -65,12 +65,23 @@ class ViewModelDetailSale : ViewModel() {
     fun getTotalProfit(lstProduct: MutableList<SaleProduct>) {
         var total: Double = 0.00
         lstProduct.forEach {
-            if (it.product?.costValue != null) {
+            if (it.product?.costValue!! > 0.0) {
                 var t = it.valueSale - it.product?.costValue!!
                 total=+ t.times(it.quantity)
             }
         }
         _totalProfit.value = total
+    }
+
+    fun getTotalProfitByMonth(lstProduct: MutableList<SaleProduct>) : Double{
+        var total: Double = 0.00
+        lstProduct.forEach {
+            if (it.product?.costValue!! > 0.0) {
+                var t = it.valueSale - it.product?.costValue!!
+                total=+ t.times(it.quantity)
+            }
+        }
+        return total
     }
 
 
