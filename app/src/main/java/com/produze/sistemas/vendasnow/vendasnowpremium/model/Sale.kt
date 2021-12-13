@@ -14,8 +14,9 @@ data class Sale(
         var client: Client?,
         var saleProducts: List<SaleProduct> = ArrayList(),
         var saleServices: List<SaleService> = ArrayList(),
+        var accounts: List<Account> = ArrayList(),
         @ServerTimestamp var createDate: Timestamp? = null,
         @get:Exclude var id: String = "") {
-    constructor():this("","",null,null, null, emptyList(), emptyList())
+    constructor():this("","",null,null, null, emptyList(), emptyList(), emptyList())
 
 }

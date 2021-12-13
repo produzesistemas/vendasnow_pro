@@ -44,6 +44,7 @@ class FragmentNewSale : Fragment(){
     private var datePickerDialog: DatePickerDialog? = null
     private var formsPayment: MutableList<FormPayment> = ArrayList()
     val lst = mutableListOf<SaleProduct>()
+    val accounts = mutableListOf<Account>()
     val lstServices = mutableListOf<SaleService>()
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
@@ -259,6 +260,26 @@ class FragmentNewSale : Fragment(){
                 val date =
                     SimpleDateFormat("dd/MM/yyyy").parse(binding.textViewSaleDate.text.toString())
                 sale.salesDate = date
+
+                when (sale.formPayment!!.id) {
+                    "4" -> {
+                        var account = Account()
+                        account.status = 1
+                        val c = Calendar.getInstance()
+                        c.time = sale.salesDate
+                        c.add(Calendar.DATE, 2)
+                        account.dueDate = c.time
+                        account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+                        accounts.add(account)
+                        sale.accounts = accounts
+                    }
+                    "7" -> {}
+                    "8" -> {}
+                    "9" -> {}
+                    "10" -> {}
+
+                }
+
                 insert(sale, view)
                 return@OnNavigationItemSelectedListener true
             }

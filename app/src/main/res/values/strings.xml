@@ -100,6 +100,11 @@
         <item>10,30/60/90/120 dias</item>
     </string-array>
 
+    <string-array name="ArrayStatus">
+        <item>1,A receber</item>
+        <item>2,Recebida</item>
+    </string-array>
+
     <string-array name="Graphics">
         <item>Top 5 produtos mais vendidos</item>
         <item>Top 5 serviços mais vendidos</item>

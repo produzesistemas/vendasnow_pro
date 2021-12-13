@@ -76,6 +76,17 @@ class ViewModelSale : ViewModel() {
         _totalSale.value = total
     }
 
+    fun getTotalSaleToAccount(lstService: MutableList<SaleService>, lstProduct: MutableList<SaleProduct>) : Double{
+        var total: Double = 0.00
+        lstService.forEach {
+            total = total.plus((it.valueSale * it.quantity))
+        }
+        lstProduct.forEach {
+            total = total.plus((it.valueSale * it.quantity))
+        }
+        return total
+    }
+
     fun add(sale: Sale) = repository.add(sale)
 
     fun getTotalByFilter(sales: List<Sale>) {
