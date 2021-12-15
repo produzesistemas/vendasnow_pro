@@ -266,8 +266,7 @@ class FragmentNewSale : Fragment(){
                         var account = Account()
                         account.status = 1
                         val c = Calendar.getInstance()
-                        c.time = sale.salesDate
-                        c.add(Calendar.DATE, 2)
+                        c.add(Calendar.DAY_OF_MONTH, 2)
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)

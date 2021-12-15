@@ -86,18 +86,22 @@ class RepositorySale {
         calEnd.time = dateEnd
 
         calEnd[Calendar.DAY_OF_MONTH] = calEnd.getActualMaximum(Calendar.DAY_OF_MONTH)
+        calEnd[Calendar.HOUR] = 23
+        calEnd[Calendar.MINUTE] = 59
+        calEnd[Calendar.MILLISECOND] = 0
+//        Log.d(
+//                "VendasNowPro",
+//                dateStart.toString()
+//        )
 
-        Log.d(
-                "VendasNowPro",
-                dateStart.toString()
-        )
 
         dateEnd = calEnd.time
 
-        Log.d(
-                "VendasNowPro",
-                dateEnd.toString()
-        )
+
+//        Log.d(
+//                "VendasNowPro",
+//                dateEnd.toString()
+//        )
         val timeStampStart = Timestamp(dateStart.time)
         val timeStampEnd = Timestamp(dateEnd.time)
 
@@ -107,7 +111,8 @@ class RepositorySale {
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
             .whereEqualTo("createBy", user?.email.toString())
-                .whereGreaterThanOrEqualTo("salesDate", timeStampStart).whereLessThanOrEqualTo("salesDate", timeStampEnd)
+                .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
+            .whereLessThanOrEqualTo("salesDate", timeStampEnd)
             .get().await().documents.map { doc ->
                 var obj = doc.toObject(Sale::class.java)
                 if (obj != null) {
