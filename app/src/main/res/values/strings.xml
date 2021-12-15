@@ -14,6 +14,8 @@
     <string name="menu_sale">Vendas</string>
     <string name="menu_new_sale">Nova venda</string>
     <string name="menu_graphics">Gráficos</string>
+    <string name="menu_accounts_receivable">Contas a receber</string>
+
 
 
 <!--        <string name="default_web_client_id" translatable="false">918458643178-qes184gml7730okop4roqdjcos9oo3j6.apps.googleusercontent.com</string>-->

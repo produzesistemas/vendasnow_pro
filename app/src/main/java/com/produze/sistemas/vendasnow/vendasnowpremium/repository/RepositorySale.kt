@@ -89,19 +89,14 @@ class RepositorySale {
         calEnd[Calendar.HOUR] = 23
         calEnd[Calendar.MINUTE] = 59
         calEnd[Calendar.MILLISECOND] = 0
-//        Log.d(
-//                "VendasNowPro",
-//                dateStart.toString()
-//        )
 
+        calStart[Calendar.HOUR] = 0
+        calStart[Calendar.MINUTE] = 0
+        calStart[Calendar.MILLISECOND] = 0
 
         dateEnd = calEnd.time
+        dateStart = calStart.time
 
-
-//        Log.d(
-//                "VendasNowPro",
-//                dateEnd.toString()
-//        )
         val timeStampStart = Timestamp(dateStart.time)
         val timeStampEnd = Timestamp(dateEnd.time)
 
@@ -111,7 +106,7 @@ class RepositorySale {
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
             .whereEqualTo("createBy", user?.email.toString())
-                .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
+            .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
             .whereLessThanOrEqualTo("salesDate", timeStampEnd)
             .get().await().documents.map { doc ->
                 var obj = doc.toObject(Sale::class.java)
@@ -140,11 +135,16 @@ class RepositorySale {
 
         var dateEnd = GregorianCalendar(year, 11, calEnd.getMaximum(Calendar.DAY_OF_MONTH)).time
 
-//        calStart.time = dateStart
-//        calEnd.time = dateEnd
-//        calEnd[Calendar.DAY_OF_MONTH] = calEnd.getActualMaximum(Calendar.DAY_OF_MONTH)
-//
-//        dateEnd = calEnd.time
+        calEnd[Calendar.HOUR] = 23
+        calEnd[Calendar.MINUTE] = 59
+        calEnd[Calendar.MILLISECOND] = 0
+
+        calStart[Calendar.HOUR] = 0
+        calStart[Calendar.MINUTE] = 0
+        calStart[Calendar.MILLISECOND] = 0
+
+        dateEnd = calEnd.time
+        dateStart = calStart.time
 
         val timeStampStart = Timestamp(dateStart.time)
         val timeStampEnd = Timestamp(dateEnd.time)
@@ -174,4 +174,5 @@ class RepositorySale {
         )
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
 }
