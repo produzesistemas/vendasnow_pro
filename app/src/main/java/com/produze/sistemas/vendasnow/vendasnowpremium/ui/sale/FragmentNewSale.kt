@@ -48,6 +48,7 @@ class FragmentNewSale : Fragment(){
     val lstServices = mutableListOf<SaleService>()
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
+//    val formsPayment = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -254,7 +255,8 @@ class FragmentNewSale : Fragment(){
                     return@OnNavigationItemSelectedListener true
                 }
                 sale.client = binding.spinnerClient.selectedItem as Client
-                sale.formPayment = binding.spinnerFormPayment.selectedItem as FormPayment
+                sale.formPayment = formPayment
+                sale.formPaymentId = formPayment.id.toInt()
                 sale.saleProducts = lst
                 sale.saleServices = lstServices
                 val date =
@@ -266,6 +268,7 @@ class FragmentNewSale : Fragment(){
                         var account = Account()
                         account.status = 1
                         val c = Calendar.getInstance()
+                        c.time = sale.salesDate
                         c.add(Calendar.DAY_OF_MONTH, 2)
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
@@ -326,7 +329,6 @@ class FragmentNewSale : Fragment(){
         }
     }
     private fun loadFormPayments() {
-        formsPayment = ArrayList()
         val res = resources
         val forms = res.getStringArray(R.array.ArrayPayment)
         forms.forEach {
@@ -341,9 +343,7 @@ class FragmentNewSale : Fragment(){
             android.R.layout.simple_spinner_dropdown_item,
             formsPayment
         ) }
-        if (adapterFormPayment != null) {
-            adapterFormPayment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+        adapterFormPayment?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFormPayment.adapter = adapterFormPayment
     }
     private fun loadProducts() {

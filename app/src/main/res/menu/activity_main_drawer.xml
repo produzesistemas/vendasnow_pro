@@ -29,6 +29,11 @@
             android:title="@string/menu_sale" />
 
         <item
+            android:id="@+id/nav_account_receivable"
+            android:icon="@drawable/ic_baseline_thumb_down_24"
+            android:title="@string/menu_accounts_receivable" />
+
+        <item
             android:id="@+id/nav_graphic"
             android:icon="@drawable/ic_baseline_insert_chart_24"
             android:title="@string/menu_graphics" />

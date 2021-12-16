@@ -45,6 +45,7 @@ class RepositoryAccountReceivable {
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
             .whereEqualTo("createBy", user?.email.toString())
+            .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
             .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
             .whereLessThanOrEqualTo("salesDate", timeStampEnd)
             .get().await().documents.map { doc ->
