@@ -63,6 +63,7 @@
     <string name="label_total_services">Total em serviços: </string>
     <string name="label_add_services">Adicione os serviços</string>
     <string name="label_total_sale">Total da venda: </string>
+    <string name="label_total_account_receivable">Total a receber da venda: </string>
     <string name="label_sale_date">Data da Venda: </string>
     <string name="label_select_sale_date">Selecione a data de venda</string>
     <string name="label_select_client">Selecione o cliente</string>
@@ -71,6 +72,8 @@
     <string name="label_field_required">Campos obrigatórios</string>
     <string name="label_cost_value">(Custo)</string>
     <string name="label_sale_value">(Venda)</string>
+    <string name="label_due_date">Data de vencimento: </string>
+    <string name="label_situation">Situação: </string>
 
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
     <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>

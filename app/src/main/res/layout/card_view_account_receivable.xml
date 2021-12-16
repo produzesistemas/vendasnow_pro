@@ -34,23 +34,13 @@
                     android:layout_margin="5dp">
 
                     <TextView
-                        android:id="@+id/textViewSalesDate"
+                        android:id="@+id/textViewClient"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextStyleTitle"
                         android:layout_margin="5dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <TextView
-                        android:id="@+id/textViewClient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextStyleSmall"
-                        android:layout_margin="5dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewSalesDate"/>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
                         android:id="@+id/textViewPayment"
@@ -61,27 +51,40 @@
                         app:layout_constraintTop_toBottomOf="@+id/textViewClient"
                         android:layout_margin="5dp" />
 
-                    <TextView
-                        android:id="@+id/textViewLabelValue"
-                        style="@style/TextStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
-                        android:text="@string/label_total_sale"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewPayment" />
 
-                    <TextView
-                        android:id="@+id/textViewTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
-                        style="@style/TextStyleSmall"
-                        android:layout_marginTop="4dp"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="2dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.055"
-                        app:layout_constraintStart_toEndOf="@+id/textViewLabelValue"
-                        app:layout_constraintTop_toBottomOf="@id/textViewPayment" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewPayment"/>
+
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textViewLabelValue"-->
+<!--                        style="@style/TextStyleSmall"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="@dimen/margin_default"-->
+<!--                        android:text="@string/label_total_account_receivable"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/textViewPayment" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textViewTotal"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="@dimen/margin_default"-->
+<!--                        style="@style/TextStyleSmall"-->
+<!--                        android:layout_marginTop="4dp"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintHorizontal_bias="0.055"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/textViewLabelValue"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/textViewPayment" />-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
