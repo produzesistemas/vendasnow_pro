@@ -3,8 +3,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters
 import android.R.attr
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,19 +16,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetail
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import android.widget.TableLayout
-import android.view.Gravity
-
-import android.R.attr.textSize
-
-import android.util.TypedValue
-
-import android.widget.TextView
-
-
-
-
-
+import android.widget.*
 
 
 class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: ViewModelAccountReceivable, var viewModelDetailSale: ViewModelDetailSale) :
@@ -65,15 +51,12 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Sale>, position: Int) {
 
-//            val dt = lst[position].salesDate?.let { it }
-//            binding.textViewSalesDate.text = df.format(dt)
+            val dt = lst[position].salesDate?.let { it }
+            binding.textViewSalesDate.text = df.format(dt)
             binding.textViewClient.text = lst[position].client?.name
             binding.textViewPayment.text = lst[position].formPayment?.name
             binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
 
-            lst[position].accounts.forEach {
-
-            }
 
             binding.cardViewSale.setOnClickListener {
                 sale = lst[position]
@@ -82,9 +65,6 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
                     R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_sale)
                 }
             }
-
-//            binding.textViewTotal.text = nFormat.format(getTotalSale(lst[position].saleServices.toMutableList(), lst[position].saleProducts.toMutableList()))
-
         }
 
     }
