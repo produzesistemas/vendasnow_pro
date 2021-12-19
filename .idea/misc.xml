@@ -34,13 +34,14 @@
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable/custom_background_panel_purple.xml" value="0.17760416666666667" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_account.xml" value="0.5" />
-        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_account_receivable.xml" value="0.22" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_account_receivable.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_client.xml" value="0.15942028985507245" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_graphics.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_product.xml" value="0.4107485604606526" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_sale.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/card_view_sale_product.xml" value="0.33" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_accounts_receivable.xml" value="0.13272543059777103" />
+        <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_detail_account_receivable.xml" value="0.18" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_detail_sale.xml" value="0.5" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_graphics.xml" value="0.16576086956521738" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/layout/fragment_graphics_invoice_year.xml" value="0.18885869565217392" />

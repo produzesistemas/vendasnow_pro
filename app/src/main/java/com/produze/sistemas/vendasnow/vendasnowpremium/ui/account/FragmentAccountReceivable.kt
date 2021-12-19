@@ -5,19 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAccountsReceivableBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
@@ -26,9 +29,10 @@ import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
+
 class FragmentAccountReceivable : Fragment() {
-//    private val viewModelDetailSale: ViewModelDetailSale by activityViewModels()
     private lateinit var viewModelAccountReceivable: ViewModelAccountReceivable
+    private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
     private lateinit var viewModelDetailSale: ViewModelDetailSale
     private lateinit var viewModelClient: ViewModelClient
     private lateinit var viewModelProductService: ViewModelProduct
@@ -57,8 +61,9 @@ class FragmentAccountReceivable : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
+//        viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
-        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailSale)
+        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
         viewModelProductService = ViewModelProvider(this).get(ViewModelProduct::class.java)
 
@@ -112,7 +117,7 @@ class FragmentAccountReceivable : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     is State.Success -> {
-                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailSale)
+                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable)
                         binding.recyclerView.apply {
                             adapter = adapterAccountReceivable
                             layoutManager = LinearLayoutManager(context)

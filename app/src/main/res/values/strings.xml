@@ -74,6 +74,7 @@
     <string name="label_sale_value">(Venda)</string>
     <string name="label_due_date">Data de vencimento: </string>
     <string name="label_situation">Situação: </string>
+    <string name="label_sale_date_register">Venda registrada em:</string>
 
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
     <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>

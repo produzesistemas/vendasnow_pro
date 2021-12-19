@@ -17,9 +17,10 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 
 
-class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: ViewModelAccountReceivable, var viewModelDetailSale: ViewModelDetailSale) :
+class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: ViewModelAccountReceivable, var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable) :
     RecyclerView.Adapter<AdapterAccountReceivable.RecyclerViewViewHolder>(), Filterable {
 
     private lateinit var sale: Sale
@@ -33,8 +34,6 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
             R.layout.card_view_account_receivable,
             parent,
             false)
-
-        val tv2 = TextView(parent.context)
 
         return RecyclerViewViewHolder(binding)
     }
@@ -60,9 +59,9 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
 
             binding.cardViewSale.setOnClickListener {
                 sale = lst[position]
-                viewModelDetailSale.select(sale)
+                viewModelDetailAccountReceivable.selectedAccount(sale)
                 when (it.id) {
-                    R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_sale)
+                    R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_account_receivable)
                 }
             }
         }

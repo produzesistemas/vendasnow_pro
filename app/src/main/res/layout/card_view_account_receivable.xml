@@ -34,14 +34,33 @@
                     android:layout_margin="5dp">
 
                     <TextView
-                        android:id="@+id/textViewSalesDate"
+                        android:id="@+id/textViewLabelSalesDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextStyleTitle"
+                        android:text="@string/label_sale_date_register"
                         android:layout_margin="5dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/textViewSalesDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextStyleSmall"
+                        android:layout_margin="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelSalesDate" />
+
+                    <TextView
+                        android:id="@+id/textViewLabelClient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextStyleTitle"
+                        android:text="@string/label_client_name"
+                        android:layout_margin="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSalesDate" />
 
                     <TextView
                         android:id="@+id/textViewClient"
@@ -50,7 +69,17 @@
                         style="@style/TextStyleSmall"
                         android:layout_margin="5dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewSalesDate"/>
+                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelClient"/>
+
+                    <TextView
+                        android:id="@+id/textViewLabelPayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextStyleTitle"
+                        android:text="@string/label_payment_form"
+                        android:layout_margin="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewClient" />
 
                     <TextView
                         android:id="@+id/textViewPayment"
@@ -58,7 +87,7 @@
                         android:layout_height="wrap_content"
                         style="@style/TextStyleSmall"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewClient"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelPayment"
                         android:layout_margin="5dp" />
 
 
