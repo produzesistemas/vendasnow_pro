@@ -1,7 +1,9 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
@@ -34,11 +36,21 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
         fun bind(lst: List<Account>, position: Int) {
             val dt = lst[position].dueDate?.let { it }
             binding.textViewDueDate.text = df.format(dt)
-            val forms = itemView.getResources().getStringArray(R.array.ArrayStatus)
-            forms.forEach {
-                val s = it.split(",")
-                if (lst[position].status === s[0].toInt()) {
-                    binding.textViewSituation.text = s[1]
+            binding.textViewSituation.text = getStatusName(lst[position].status, itemView)
+
+            when (lst[position].status) {
+                1 -> {binding.radioGroup.check(R.id.radioButtonToReceive)}
+                2 -> {binding.radioGroup.check(R.id.radioButtonReceive)}
+            }
+
+            binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.radioButtonToReceive -> {
+
+                    }
+                    R.id.radioButtonReceive -> {
+
+                    }
                 }
             }
 
@@ -47,6 +59,19 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
 
     override fun getItemCount(): Int {
         return lst.size
+    }
+
+    fun getStatusName(status: Int, view: View) : String{
+        var str = ""
+        val arrayStatus = view.getResources().getStringArray(R.array.ArrayStatus)
+
+        arrayStatus.forEach {
+            val s = it.split(",")
+            if (status === s[0].toInt()) {
+                str = s[1]
+            }
+        }
+        return str
     }
 
 }
