@@ -28,6 +28,7 @@ class ViewModelSale : ViewModel() {
     fun getAllByMonthAndYear(year: Int, month: Int) = repository.getAllByMonthAndYear(year, month)
     fun getAllByYear(year: Int) = repository.getAllByYear(year)
     fun delete(sale: Sale) = repository.delete(sale)
+    fun update(sale: Sale) = repository.update(sale)
 
     fun onItemButtonClick(sale: Sale) {
         itemButtonClickEvent.postValue(sale)

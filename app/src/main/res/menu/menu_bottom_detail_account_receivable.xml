@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/navigation_confirm"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="@string/action_confirmar" />
+
+    <item
+        android:id="@+id/navigation_cancel"
+        android:icon="@drawable/ic_baseline_arrow_back_24"
+        android:title="@string/action_cancelar" />
+
 </menu>

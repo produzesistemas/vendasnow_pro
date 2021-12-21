@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
@@ -175,4 +176,21 @@ class RepositorySale {
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
 
+    fun update(sale: Sale) = flow<State<Void?>> {
+        // Emit loading state
+        emit(State.loading())
+        val postRef = FirebaseFirestore.getInstance()
+            .collection("sales").document(sale.id).update("accounts", sale.accounts)
+            .addOnSuccessListener { documentReference ->
+
+            }
+            .addOnFailureListener { e ->
+
+            }.await()
+        // Emit success state with post reference
+        emit(State.success(postRef))
+    }.catch {
+        // If exception is thrown, emit failed state along with message.
+        emit(State.failed(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 }

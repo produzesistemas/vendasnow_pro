@@ -37,6 +37,8 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
             val dt = lst[position].dueDate?.let { it }
             binding.textViewDueDate.text = df.format(dt)
             binding.textViewSituation.text = getStatusName(lst[position].status, itemView)
+            binding.textViewValue.text = nFormat.format(lst[position].value)
+            binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
 
             when (lst[position].status) {
                 1 -> {binding.radioGroup.check(R.id.radioButtonToReceive)}
@@ -46,10 +48,12 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
             binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
                 when (checkedId) {
                     R.id.radioButtonToReceive -> {
-
+                        lst[position].status = 1
+                        notifyDataSetChanged()
                     }
                     R.id.radioButtonReceive -> {
-
+                        lst[position].status = 2
+                        notifyDataSetChanged()
                     }
                 }
             }

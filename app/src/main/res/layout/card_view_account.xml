@@ -7,7 +7,22 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
+        android:foreground="?attr/selectableItemBackground">
+
+        <android.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <View
+            android:id="@+id/viewDetail"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayout"
@@ -22,7 +37,7 @@
 
             <TextView
                 android:id="@+id/textViewLabelDueDate"
-                style="@style/TextStyleSmall"
+                style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -45,7 +60,7 @@
 
             <TextView
                 android:id="@+id/textViewLabelSituation"
-                style="@style/TextStyleSmall"
+                style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -59,6 +74,22 @@
                 android:layout_margin="@dimen/margin_default"
                 android:text="@string/label_situation"/>
 
+                <TextView
+                    android:id="@+id/textViewLabelValue"
+                    style="@style/TextStyleSmallTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/label_value" />
+
+                <TextView
+                    android:id="@+id/textViewValue"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:text="@string/label_value"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:theme="@style/CustomRadioAccountReceivable"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -93,5 +125,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+        </android.widget.LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
