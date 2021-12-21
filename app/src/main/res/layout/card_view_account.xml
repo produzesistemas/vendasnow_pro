@@ -78,7 +78,7 @@
                         android:id="@+id/radioButtonToReceive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_account_to_receive">
+                        android:text="@string/label_account_to_receive"/>
 
                     <RadioButton
                         android:id="@+id/radioButtonReceive"
