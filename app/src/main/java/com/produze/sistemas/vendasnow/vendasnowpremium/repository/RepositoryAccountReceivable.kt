@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -16,6 +17,7 @@ import java.util.*
 class RepositoryAccountReceivable {
     var user = FirebaseAuth.getInstance().currentUser
     fun getAllByMonthAndYear(year: Int, month: Int) = flow {
+//        var entries: ArrayList<Sale> = ArrayList()
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
         var dateStart = GregorianCalendar(year, month - 1, 1).time
@@ -55,6 +57,12 @@ class RepositoryAccountReceivable {
                 }
                 obj
             }
+
+//        lst.forEach { s ->
+//            if (s?.accounts?.filter{ it.status == 1}?.size!! > 0) {
+//                entries.add(s)
+//            }
+//        }
 
         // Emit success state with data
         emit(State.success(lst))

@@ -87,12 +87,9 @@ class ViewModelAccountReceivable : ViewModel() {
     fun getTotalByFilter(sales: List<Sale>) {
         var total: Double = 0.00
         sales.forEach{
-            it.saleProducts.forEach {
-                total += (it.valueSale.times(it.quantity))?.toFloat()!!
-            }
-
-            it.saleServices.forEach {
-                total += (it.valueSale.times(it.quantity))?.toFloat()!!
+            var accounts = it?.accounts?.filter{ it.status == 1}
+            accounts.forEach {
+                total += (it.value)?.toFloat()!!
             }
         }
         _totalSaleByFilter.value = total

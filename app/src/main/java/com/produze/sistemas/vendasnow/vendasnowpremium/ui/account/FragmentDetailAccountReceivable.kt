@@ -66,7 +66,7 @@ class FragmentDetailAccountReceivable : Fragment(){
         viewModelMain.updateActionBarTitle(getString(R.string.menu_accounts_receivable))
         viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
+        binding.progressBar.visibility = View.GONE
         viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Sale> { item ->
             load(item)
         })
