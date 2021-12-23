@@ -17,7 +17,7 @@ import java.util.*
 class RepositoryAccountReceivable {
     var user = FirebaseAuth.getInstance().currentUser
     fun getAllByMonthAndYear(year: Int, month: Int) = flow {
-//        var entries: ArrayList<Sale> = ArrayList()
+        var entries: ArrayList<Sale> = ArrayList()
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
         var dateStart = GregorianCalendar(year, month - 1, 1).time
@@ -44,12 +44,24 @@ class RepositoryAccountReceivable {
         // Emit loading state
         emit(State.loading())
 
+//        var lst = FirebaseFirestore.getInstance()
+//            .collection("sales")
+//            .whereEqualTo("createBy", user?.email.toString())
+//            .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
+//            .whereGreaterThanOrEqualTo("accounts.dueDate", timeStampStart)
+//            .whereLessThanOrEqualTo("accounts.dueDate", timeStampEnd)
+//            .get().await().documents.map { doc ->
+//                var obj = doc.toObject(Sale::class.java)
+//                if (obj != null) {
+//                    obj.id = doc.id
+//                }
+//                obj
+//            }
+
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
             .whereEqualTo("createBy", user?.email.toString())
             .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
-            .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
-            .whereLessThanOrEqualTo("salesDate", timeStampEnd)
             .get().await().documents.map { doc ->
                 var obj = doc.toObject(Sale::class.java)
                 if (obj != null) {
@@ -58,14 +70,15 @@ class RepositoryAccountReceivable {
                 obj
             }
 
-//        lst.forEach { s ->
-//            if (s?.accounts?.filter{ it.status == 1}?.size!! > 0) {
-//                entries.add(s)
-//            }
-//        }
+        lst.forEach { s ->
+            if (s?.accounts?.filter{ it.dueDate!! >= timeStampStart && it.dueDate!! <= timeStampEnd}?.size!! > 0) {
+                entries.add(s)
+            }
+        }
 
         // Emit success state with data
-        emit(State.success(lst))
+//        emit(State.success(lst))
+        emit(State.success(entries))
     }.catch {
         // If exception is thrown, emit failed state along with message.
         Log.d(

@@ -21,7 +21,8 @@
         <entry key="..\:/Users/paulo.pereira/Documents/VendasNowPremium/app/src/main/res/layout/nav_header_main.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/paulo.pereira/Documents/VendasNowPremium/app/src/main/res/menu/main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/card_view_account.xml" value="0.49264705882352944" />
-        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_account_receivable.xml" value="0.2" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_accounts_receivable.xml" value="0.4083333333333333" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_account_receivable.xml" value="0.33" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_detail_account_receivable.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_new_sale.xml" value="0.18854166666666666" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable-v24/custom_background_search_view.xml" value="0.2890625" />
@@ -65,5 +66,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.5" />
+      </ProjectState>
+    </option>
   </component>
 </project>

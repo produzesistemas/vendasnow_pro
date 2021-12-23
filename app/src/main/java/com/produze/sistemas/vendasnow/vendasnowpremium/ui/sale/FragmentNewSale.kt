@@ -275,7 +275,17 @@ class FragmentNewSale : Fragment(){
                         accounts.add(account)
                         sale.accounts = accounts
                     }
-                    "7" -> {}
+                    "7" -> {
+                        var account = Account()
+                        account.status = 1
+                        val c = Calendar.getInstance()
+                        c.time = sale.salesDate
+                        c.add(Calendar.MONTH, 1)
+                        account.dueDate = c.time
+                        account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+                        accounts.add(account)
+                        sale.accounts = accounts
+                    }
                     "8" -> {}
                     "9" -> {}
                     "10" -> {}

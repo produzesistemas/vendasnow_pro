@@ -75,7 +75,6 @@
     <string name="label_due_date">Data de vencimento: </string>
     <string name="label_situation">Situação: </string>
     <string name="label_sale_date_register">Venda registrada em:</string>
-
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
     <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>
     <string name="label_graphics_invoices_year">Faturamento por mês e ano</string>
@@ -83,10 +82,10 @@
     <string name="label_graphics_products_profitable">Top 5 produtos lucrativos</string>
     <string name="label_graphics_invoices_year_total">Total do faturamento no ano:</string>
     <string name="label_graphics_profit_year_total">Total do lucro no ano:</string>
-
     <string name="label_account_to_receive">A receber</string>
     <string name="label_account_receive">Recebida</string>
-
+    <string name="label_app_bar_account_receive">Contas a receber geradas pela venda</string>
+    <string name="label_panel_account_receive">Total geral de contas a receber no mês</string>
     <string name="msg_delete_item">Deseja excluir o item?</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
