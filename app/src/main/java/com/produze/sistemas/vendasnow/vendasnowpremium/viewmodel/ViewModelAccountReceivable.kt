@@ -8,6 +8,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAccountReceivable
+import java.util.*
 
 class ViewModelAccountReceivable : ViewModel() {
     private val _totalProducts = MutableLiveData<Double>()
@@ -84,10 +85,30 @@ class ViewModelAccountReceivable : ViewModel() {
         return total
     }
 
-    fun getTotalByFilter(sales: List<Sale>) {
+    fun getTotalByFilter(sales: List<Sale>, year: Int, month: Int) {
         var total: Double = 0.00
+        val calStart = Calendar.getInstance()
+        val calEnd = Calendar.getInstance()
+        var dateStart = GregorianCalendar(year, month - 1, 1).time
+        var dateEnd = GregorianCalendar(year, month - 1, 1).time
+
+        calStart.time = dateStart
+        calEnd.time = dateEnd
+
+        calEnd[Calendar.DAY_OF_MONTH] = calEnd.getActualMaximum(Calendar.DAY_OF_MONTH)
+        calEnd[Calendar.HOUR] = 23
+        calEnd[Calendar.MINUTE] = 59
+        calEnd[Calendar.MILLISECOND] = 0
+
+        calStart[Calendar.HOUR] = 0
+        calStart[Calendar.MINUTE] = 0
+        calStart[Calendar.MILLISECOND] = 0
+
+        dateEnd = calEnd.time
+        dateStart = calStart.time
         sales.forEach{
-            var accounts = it?.accounts?.filter{ it.status == 1}
+            var accounts = it?.accounts?.filter{ it.status == 1 && (it.dueDate!!.after(dateStart) || it.dueDate!! == dateStart) &&
+                    (it.dueDate!!.before(dateEnd) || it.dueDate == dateEnd)}
             accounts.forEach {
                 total += (it.value)?.toFloat()!!
             }

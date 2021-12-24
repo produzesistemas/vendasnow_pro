@@ -286,9 +286,46 @@ class FragmentNewSale : Fragment(){
                         accounts.add(account)
                         sale.accounts = accounts
                     }
-                    "8" -> {}
-                    "9" -> {}
-                    "10" -> {}
+                    "8" -> {
+                        for (i in 1..2) {
+                            var account = Account()
+                            account.status = 1
+                            val c = Calendar.getInstance()
+                            c.time = sale.salesDate
+                            c.add(Calendar.MONTH, i)
+                            account.dueDate = c.time
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
+                            accounts.add(account)
+                            sale.accounts = accounts
+                        }
+
+                    }
+                    "9" -> {
+                        for (i in 1..3) {
+                            var account = Account()
+                            account.status = 1
+                            val c = Calendar.getInstance()
+                            c.time = sale.salesDate
+                            c.add(Calendar.MONTH, i)
+                            account.dueDate = c.time
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
+                            accounts.add(account)
+                            sale.accounts = accounts
+                        }
+                    }
+                    "10" -> {
+                        for (i in 1..4) {
+                            var account = Account()
+                            account.status = 1
+                            val c = Calendar.getInstance()
+                            c.time = sale.salesDate
+                            c.add(Calendar.MONTH, i)
+                            account.dueDate = c.time
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
+                            accounts.add(account)
+                            sale.accounts = accounts
+                        }
+                    }
 
                 }
 

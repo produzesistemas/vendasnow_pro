@@ -20,7 +20,10 @@ import android.widget.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 
 
-class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: ViewModelAccountReceivable, var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable) :
+class AdapterAccountReceivable (private val lst: List<Sale>,
+                                var viewModel: ViewModelAccountReceivable,
+                                var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable,
+                                var year: Int, var month: Int) :
     RecyclerView.Adapter<AdapterAccountReceivable.RecyclerViewViewHolder>(), Filterable {
 
     private lateinit var sale: Sale
@@ -96,8 +99,9 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 lstFilter = results?.values as List<Sale>
+
                 notifyDataSetChanged()
-                viewModel.getTotalByFilter(lstFilter)
+                viewModel.getTotalByFilter(lstFilter, year, month)
             }
 
         }
@@ -105,17 +109,6 @@ class AdapterAccountReceivable (private val lst: List<Sale>, var viewModel: View
 
     fun getItems(): List<Sale> {
         return lstFilter
-    }
-
-    fun getTotalSale(lstService: MutableList<SaleService>, lstProduct: MutableList<SaleProduct>): Double {
-        var total: Double = 0.00
-        lstService.forEach {
-            total = total.plus((it.valueSale * it.quantity))
-        }
-        lstProduct.forEach {
-            total = total.plus((it.valueSale * it.quantity))
-        }
-        return total
     }
 
 }

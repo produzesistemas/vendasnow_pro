@@ -39,7 +39,7 @@ class FragmentAccountReceivable : Fragment() {
     private lateinit var binding: FragmentAccountsReceivableBinding
     private lateinit var viewModelMain: ViewModelMain
     private lateinit var adapterAccountReceivable: AdapterAccountReceivable
-    private lateinit var calendar: GregorianCalendar
+    private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 
     override fun onCreateView(
@@ -63,7 +63,7 @@ class FragmentAccountReceivable : Fragment() {
         viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
 //        viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
-        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable)
+        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
         viewModelProductService = ViewModelProvider(this).get(ViewModelProduct::class.java)
 
@@ -76,7 +76,7 @@ class FragmentAccountReceivable : Fragment() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     adapterAccountReceivable.filter.filter(newText)
-                    viewModelAccountReceivable.getTotalByFilter(adapterAccountReceivable.getItems())
+                    viewModelAccountReceivable.getTotalByFilter(adapterAccountReceivable.getItems(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
                     return false
                 }
 
@@ -117,13 +117,13 @@ class FragmentAccountReceivable : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     is State.Success -> {
-                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable)
+                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
                         binding.recyclerView.apply {
                             adapter = adapterAccountReceivable
                             layoutManager = LinearLayoutManager(context)
                         }
                         binding.progressBar.visibility = View.GONE
-                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
+                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
                     }
 
                     is State.Failed -> {
