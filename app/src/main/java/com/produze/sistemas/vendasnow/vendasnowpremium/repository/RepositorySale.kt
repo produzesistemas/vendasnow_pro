@@ -139,13 +139,13 @@ class RepositorySale {
         calEnd[Calendar.HOUR] = 23
         calEnd[Calendar.MINUTE] = 59
         calEnd[Calendar.MILLISECOND] = 0
+        calEnd[Calendar.YEAR] = year
 
         calStart[Calendar.HOUR] = 0
         calStart[Calendar.MINUTE] = 0
         calStart[Calendar.MILLISECOND] = 0
 
         dateEnd = calEnd.time
-        dateStart = calStart.time
 
         val timeStampStart = Timestamp(dateStart.time)
         val timeStampEnd = Timestamp(dateEnd.time)

@@ -261,7 +261,11 @@ class FragmentNewSale : Fragment(){
                 sale.saleServices = lstServices
                 val date =
                     SimpleDateFormat("dd/MM/yyyy").parse(binding.textViewSaleDate.text.toString())
-                sale.salesDate = date
+
+                val cal = GregorianCalendar()
+                cal.time = date
+
+                sale.salesDate = cal.time
 
                 when (sale.formPayment!!.id) {
                     "4" -> {
