@@ -71,16 +71,19 @@ class NotificationService : IntentService("NotificationService") {
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, ResultActivity::class.java)
 
-            val title = "Sample Notification"
+
             val message = "Existem contas para receber hoje"
 
-            notifyIntent.putExtra("title", title)
+
             notifyIntent.putExtra("message", message)
             notifyIntent.putExtra("notification", true)
 
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
             val calendar = Calendar.getInstance()
+
+            val title = "Notificação enviada em:" + calendar.time
+            notifyIntent.putExtra("title", title)
             calendar.timeInMillis = timestamp
 
 
