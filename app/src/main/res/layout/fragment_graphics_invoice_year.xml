@@ -35,6 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_graphics_invoices_year_total"
+                    android:layout_marginEnd="@dimen/padding_3"
                     style="@style/TextStyleTitle" />
 
                 <TextView
@@ -52,6 +53,7 @@
             android:id="@+id/relativeLayoutNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayoutTotal">
 
@@ -65,30 +67,42 @@
                     android:id="@+id/btnBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_marginEnd="@dimen/nav_header_vertical_spacing"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_36" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewMes"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/padding_5"-->
+<!--                    android:layout_marginEnd="@dimen/fab_margin"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textStyle="bold" />-->
 
                 <TextView
                     android:id="@+id/textViewAno"
-                    style="@style/TextStyleTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="0" />
+                    android:layout_marginTop="@dimen/margin_7"
+                    android:layout_weight="0"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/btnGo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/fab_margin"
-                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_marginStart="@dimen/nav_header_vertical_spacing"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_36" />
+
 
             </LinearLayout>
+
 
         </RelativeLayout>
 
@@ -105,17 +119,17 @@
 
         </RelativeLayout>
 
-<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/bottom_nav_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:layout_marginEnd="0dp"-->
-<!--            android:background="?android:attr/windowBackground"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:itemIconTint="@color/black"-->
-<!--            app:itemTextColor="@color/black"-->
-<!--            app:menu="@menu/menu_bottom_graphic"/>-->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:itemIconTint="@color/black"
+            app:itemTextColor="@color/black"
+            app:menu="@menu/menu_bottom_graphic"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

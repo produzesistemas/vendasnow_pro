@@ -66,7 +66,7 @@ class FragmentGraphicInvoiceYear : Fragment(){
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.label_graphics_invoices_year))
 
-//        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         mChart = binding.chart
         calendar = GregorianCalendar()
@@ -94,7 +94,7 @@ class FragmentGraphicInvoiceYear : Fragment(){
         false
     }
 
-    fun loadGraph(sales: List<Sale>) {
+    private fun loadGraph(sales: List<Sale>) {
         totalGeral = 0.0f
         var entries: ArrayList<BarEntry> = ArrayList()
         for (mes in 12 downTo 1 step 1) {
@@ -132,7 +132,7 @@ class FragmentGraphicInvoiceYear : Fragment(){
         mChart!!.setNoDataText("Nenhuma venda encontrada.")
         mChart!!.legend.isEnabled = false // Hide the legend
         mChart!!.axisRight.setDrawLabels(false)
-        mChart?.setExtraOffsets(5f, 20f, 5f, 70f)
+        mChart?.setExtraOffsets(5f, 10f, 5f, 130f)
 
         val xAxis = mChart!!.xAxis
         xAxis.setDrawGridLines(false)

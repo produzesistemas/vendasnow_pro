@@ -4,7 +4,6 @@
     package="com.produze.sistemas.vendasnow.vendasnowpremium">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -44,6 +43,21 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="@string/fb_login_protocol_scheme" /> </intent-filter> </activity>
+
+        <receiver
+            android:name="com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver"
+            android:enabled="true" />
+
+        <service
+            android:name="com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationService"
+            android:enabled="true" />
+
+        <activity
+            android:name=".ResultActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:taskAffinity="" />
 
 
     </application>

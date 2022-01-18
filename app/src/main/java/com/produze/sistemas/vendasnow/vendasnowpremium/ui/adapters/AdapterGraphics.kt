@@ -33,10 +33,10 @@ class AdapterGraphics(private val lst: MutableList<String>) :
         fun bind(lst: MutableList<String>, position: Int) {
             binding.textViewLabel.text = lst[position]
             when (position) {
-                0 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.red))
-                1 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
-                2 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.green))
-                3 -> binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.blue))
+                0 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red))
+                1 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
+                2 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.green))
+                3 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.blue))
             }
 
             binding.cardView.setOnClickListener {

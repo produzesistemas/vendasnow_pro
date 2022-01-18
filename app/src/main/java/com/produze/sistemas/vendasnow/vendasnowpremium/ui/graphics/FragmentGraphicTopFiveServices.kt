@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsTopFiveServicesBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
@@ -63,6 +64,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.label_graphics_top_services))
+        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         mChart = binding.chart
         calendar = GregorianCalendar()
@@ -79,6 +81,17 @@ class FragmentGraphicTopFiveServices : Fragment(){
         }
 
     }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.navigation_cancel -> {
+                view?.findNavController()?.navigate(R.id.nav_graphic)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
 
     private fun loadGraph(sales: List<Sale>) {
         var entries: ArrayList<PieEntry> = ArrayList()
@@ -123,7 +136,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
         mChart?.setNoDataText("Nenhuma venda encontrada.")
         mChart?.setEntryLabelTextSize(14f)
         mChart?.setEntryLabelColor(Color.TRANSPARENT)
-        mChart?.setExtraOffsets(5f, 5f, 5f, 60f)
+        mChart?.setExtraOffsets(5f, 20f, 5f, 60f)
 
         val l: Legend? = mChart?.legend
         if (l != null) {
@@ -134,6 +147,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
             l.xEntrySpace = 7f
             l.yEntrySpace = 0f
             l.yOffset = 15f
+            l.xOffset = 15f
             l.isWordWrapEnabled = true
             l.calculatedLineSizes
         }

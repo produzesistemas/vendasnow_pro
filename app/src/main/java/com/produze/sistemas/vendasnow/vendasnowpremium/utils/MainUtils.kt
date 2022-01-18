@@ -5,6 +5,8 @@ import java.util.*
 
 object MainUtils {
 
+
+
     val currentDate: Date
         get() = Calendar.getInstance().time
     val currentOnlyDateStr: String

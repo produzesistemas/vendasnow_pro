@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -271,13 +272,16 @@ class FragmentNewSale : Fragment(){
                     "4" -> {
                         var account = Account()
                         account.status = 1
-                        val c = Calendar.getInstance()
+                        val c = GregorianCalendar()
                         c.time = sale.salesDate
                         c.add(Calendar.DAY_OF_MONTH, 2)
+                        c.add(Calendar.HOUR_OF_DAY, 10)
+
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
+                        activity?.let { NotificationUtils().setNotification(c, it) }
                     }
                     "7" -> {
                         var account = Account()

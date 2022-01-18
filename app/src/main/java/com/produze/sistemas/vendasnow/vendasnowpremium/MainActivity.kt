@@ -17,11 +17,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModelMain: ViewModelMain
+
+    private val mNotificationTime =  GregorianCalendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
+    private var mNotified = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -74,6 +79,10 @@ class MainActivity : AppCompatActivity() {
                 mTitle.setText(it)
             })
 
+//            if (!mNotified) {
+//                NotificationUtils().setNotification(mNotificationTime, this@MainActivity)
+//            }
+
 
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
@@ -100,4 +109,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         finishAffinity()
     }
+
+
 }
