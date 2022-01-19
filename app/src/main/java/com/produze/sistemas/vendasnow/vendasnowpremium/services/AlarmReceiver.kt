@@ -5,11 +5,11 @@ import android.content.Intent
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
         val service = Intent(context, NotificationService::class.java)
-        service.putExtra("reason", intent.getStringExtra("reason"))
-        service.putExtra("timestamp", intent.getLongExtra("timestamp", 0))
-
+        service.putExtra("client", intent.getStringExtra("client"))
+        service.putExtra("payment", intent.getStringExtra("payment"))
+        service.putExtra("dueDate", intent.getStringExtra("dueDate"))
+        service.putExtra("value", intent.getStringExtra("value"))
         context.startService(service)
     }
 

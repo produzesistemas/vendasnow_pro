@@ -281,30 +281,32 @@ class FragmentNewSale : Fragment(){
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
-                        activity?.let { NotificationUtils().setNotification(c, it) }
+                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "7" -> {
                         var account = Account()
                         account.status = 1
-                        val c = Calendar.getInstance()
+                        val c = GregorianCalendar()
                         c.time = sale.salesDate
                         c.add(Calendar.MONTH, 1)
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
+                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "8" -> {
                         for (i in 1..2) {
                             var account = Account()
                             account.status = 1
-                            val c = Calendar.getInstance()
+                            val c = GregorianCalendar()
                             c.time = sale.salesDate
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
                             accounts.add(account)
                             sale.accounts = accounts
+                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
 
                     }
@@ -312,26 +314,28 @@ class FragmentNewSale : Fragment(){
                         for (i in 1..3) {
                             var account = Account()
                             account.status = 1
-                            val c = Calendar.getInstance()
+                            val c = GregorianCalendar()
                             c.time = sale.salesDate
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
                             accounts.add(account)
                             sale.accounts = accounts
+                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
                     "10" -> {
                         for (i in 1..4) {
                             var account = Account()
                             account.status = 1
-                            val c = Calendar.getInstance()
+                            val c = GregorianCalendar()
                             c.time = sale.salesDate
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
                             accounts.add(account)
                             sale.accounts = accounts
+                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
 
@@ -367,9 +371,7 @@ class FragmentNewSale : Fragment(){
                                 )
                             )
                         }
-                        if (adapter != null) {
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        }
+                        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.spinnerClient.adapter = adapter
                     }
 

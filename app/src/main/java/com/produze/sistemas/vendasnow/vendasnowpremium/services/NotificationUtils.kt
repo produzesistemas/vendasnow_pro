@@ -4,6 +4,10 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -17,43 +21,20 @@ class NotificationUtils {
 //    }
 
 //    fun setNotification(timeInMilliSeconds: Long, activity: Activity) {
-        fun setNotification(calendar: GregorianCalendar, activity: Activity) {
-
-        //------------  alarm settings start  -----------------//
-
-//        val alarmPendingIntent by lazy {
-//            val intent = Intent(activity.applicationContext, AlarmReceiver::class.java)
-//            PendingIntent.getBroadcast(activity.applicationContext, 0, intent, 0)
-//        }
-
-//        if (timeInMilliSeconds > 0) {
-
+        fun setNotification(calendar: GregorianCalendar, activity: Activity, sale: Sale, account: Account) {
 
             val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
             val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
-
-            alarmIntent.putExtra("reason", "notification")
+            var df = SimpleDateFormat("dd/MM/yyyy")
+            val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+            alarmIntent.putExtra("client", sale.client?.name)
+            alarmIntent.putExtra("payment", sale.formPayment?.name)
+            alarmIntent.putExtra("dueDate", df.format(account.dueDate))
+            alarmIntent.putExtra("value", nFormat.format(account.value))
             alarmIntent.putExtra("timestamp", calendar.timeInMillis)
 
-
-//            val calendar = GregorianCalendar.getInstance()
-//            calendar.timeInMillis = timeInMilliSeconds
-
-
             val pendingIntent = PendingIntent.getBroadcast(activity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
 
-//            val calendar = GregorianCalendar.getInstance().apply {
-//                if (get(Calendar.HOUR_OF_DAY) >= HOUR_TO_SHOW_PUSH) {
-//                    add(Calendar.DAY_OF_MONTH, 1)
-//                }
-//
-//                set(Calendar.HOUR_OF_DAY, HOUR_TO_SHOW_PUSH)
-//                set(Calendar.MINUTE, 0)
-//                set(Calendar.SECOND, 0)
-//                set(Calendar.MILLISECOND, 0)
-//            }
-//
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,

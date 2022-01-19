@@ -12,11 +12,16 @@ import java.util.*
 import android.app.NotificationChannel
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.ResultActivity
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 
 
 class NotificationService : IntentService("NotificationService") {
     private lateinit var mNotification: Notification
     private val mNotificationId: Int = 1000
+    private lateinit var nameClient: String
+    private lateinit var payment: String
+    private lateinit var dueDate: String
+    private lateinit var value: String
 
     @SuppressLint("NewApi")
     private fun createChannel() {
@@ -54,35 +59,32 @@ class NotificationService : IntentService("NotificationService") {
 
         //Create Channel
         createChannel()
-
-
         var timestamp: Long = 0
         if (intent != null && intent.extras != null) {
             timestamp = intent.extras!!.getLong("timestamp")
+            nameClient = intent.extras!!.getString("client").toString()
+            payment = intent.extras!!.getString("payment").toString()
+            dueDate = intent.extras!!.getString("dueDate").toString()
+            value = intent.extras!!.getString("value").toString()
         }
 
-
-
-
         if (timestamp > 0) {
-
-
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, ResultActivity::class.java)
 
-
-            val message = "Existem contas para receber hoje"
-
+            val calendar = Calendar.getInstance()
+            val message = "Nome do cliente: $nameClient" +
+                    " - " + "Forma de pagamento: $payment" +
+                    " - " + "Data de vencimento: $dueDate" +
+                    " - " + "Valor a receber: $value"
 
             notifyIntent.putExtra("message", message)
             notifyIntent.putExtra("notification", true)
 
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-            val calendar = Calendar.getInstance()
-
-            val title = "Notificação enviada em:" + calendar.time
+            val title = "Existem contas para receber hoje"
             notifyIntent.putExtra("title", title)
             calendar.timeInMillis = timestamp
 
@@ -118,10 +120,7 @@ class NotificationService : IntentService("NotificationService") {
                         .bigText(message))
                     .setSound(uri)
                     .setContentText(message).build()
-
             }
-
-
 
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             // mNotificationId is a unique int for each notification that you must define

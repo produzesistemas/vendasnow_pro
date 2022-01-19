@@ -28,7 +28,7 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
 
     private lateinit var sale: Sale
     private var lstFilter: List<Sale> = arrayListOf()
-    val nFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+    val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     var df = SimpleDateFormat("dd/MM/yyyy")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder{
         val binding: CardViewSaleBinding = DataBindingUtil.inflate(
