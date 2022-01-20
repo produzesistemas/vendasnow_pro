@@ -22,21 +22,21 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_button"
+                android:layout_height="@dimen/height_card_panel"
                 android:background="@drawable/custom_background_panel_purple">
 
                 <TextView
                     android:id="@+id/textViewLabelTotalAccounts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@string/label_panel_account_receive"
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@string/label_panel_account_receive"
+                    android:textColor="@color/white"
+                    android:theme="@style/TextStyleSmallTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:theme="@style/TextStyleSmallTitle"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -45,8 +45,8 @@
                     android:src="@drawable/ic_baseline_attach_money_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewLabelTotalAccounts"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
                 <TextView
@@ -54,12 +54,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:theme="@style/TextStyleTitleActivity"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewLabelTotalAccounts"
-                    android:theme="@style/TextStyleTitleActivity"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

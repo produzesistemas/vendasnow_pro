@@ -19,72 +19,78 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayoutNavigation"
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="horizontal">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_card_panel">
 
                 <ImageButton
                     android:id="@+id/btnBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/nav_header_vertical_spacing"
-                    android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_left_36" />
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_36"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/textViewMes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewMes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginEnd="@dimen/padding_5"
-                    android:layout_weight="1"
+                    android:text="Jan"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/textViewAno"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewAno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_weight="0"
+                    android:text="2022"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textViewMes"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/btnGo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/nav_header_vertical_spacing"
-                    android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_36" />
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_36"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textViewAno"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <RelativeLayout
+            android:id="@+id/relativeGraphic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fab_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayoutNavigation">
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
@@ -101,6 +107,7 @@
             android:layout_marginEnd="0dp"
             android:background="?android:attr/windowBackground"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeGraphic"
             app:itemIconTint="@color/black"
             app:itemTextColor="@color/black"
             app:menu="@menu/menu_bottom_graphic"/>

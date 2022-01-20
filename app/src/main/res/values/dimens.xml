@@ -11,6 +11,7 @@
     <dimen name="padding_60">60sp</dimen>
     <dimen name="height_input">30dp</dimen>
     <dimen name="height_button">60dp</dimen>
+    <dimen name="height_card_panel">65dp</dimen>
     <dimen name="margin_default">5dp</dimen>
     <dimen name="margin_6">6sp</dimen>
     <dimen name="margin_7">7sp</dimen>

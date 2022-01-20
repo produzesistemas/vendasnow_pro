@@ -22,8 +22,21 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_button"
+                android:layout_height="@dimen/height_card_panel"
                 android:background="@drawable/custom_background_panel_green">
+
+                <TextView
+                    android:id="@+id/textViewLabelTotalSales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@string/label_panel_sales"
+                    android:textColor="@color/white"
+                    android:theme="@style/TextStyleSmallTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -32,6 +45,7 @@
                     android:src="@drawable/ic_baseline_attach_money_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewLabelTotalSales"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
@@ -43,6 +57,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewLabelTotalSales"
                     app:layout_constraintTop_toTopOf="parent"
                     android:theme="@style/TextStyleTitleActivity"/>
 

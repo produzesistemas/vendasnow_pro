@@ -136,7 +136,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
         mChart?.setNoDataText("Nenhuma venda encontrada.")
         mChart?.setEntryLabelTextSize(14f)
         mChart?.setEntryLabelColor(Color.TRANSPARENT)
-        mChart?.setExtraOffsets(5f, 20f, 5f, 60f)
+        mChart?.setExtraOffsets(5f, 5f, 5f, 5f)
 
         val l: Legend? = mChart?.legend
         if (l != null) {

@@ -86,6 +86,7 @@
     <string name="label_account_receive">Recebida</string>
     <string name="label_app_bar_account_receive">Contas a receber geradas pela venda</string>
     <string name="label_panel_account_receive">Total geral de contas a receber no mês</string>
+    <string name="label_panel_sales">Total geral de vendas no mês</string>
     <string name="msg_delete_item">Deseja excluir o item?</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
