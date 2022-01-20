@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Timestamp
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
@@ -265,7 +266,7 @@ class FragmentNewSale : Fragment(){
 
                 val cal = GregorianCalendar()
                 cal.time = date
-
+                cal.add(Calendar.HOUR_OF_DAY, 10)
                 sale.salesDate = cal.time
 
                 when (sale.formPayment!!.id) {
@@ -273,7 +274,7 @@ class FragmentNewSale : Fragment(){
                         var account = Account()
                         account.status = 1
                         val c = GregorianCalendar()
-                        c.time = sale.salesDate
+                        c.time = date
                         c.add(Calendar.DAY_OF_MONTH, 2)
                         c.add(Calendar.HOUR_OF_DAY, 10)
 
@@ -287,7 +288,7 @@ class FragmentNewSale : Fragment(){
                         var account = Account()
                         account.status = 1
                         val c = GregorianCalendar()
-                        c.time = sale.salesDate
+                        c.time = date
                         c.add(Calendar.MONTH, 1)
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
@@ -300,7 +301,7 @@ class FragmentNewSale : Fragment(){
                             var account = Account()
                             account.status = 1
                             val c = GregorianCalendar()
-                            c.time = sale.salesDate
+                            c.time = date
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
@@ -315,7 +316,7 @@ class FragmentNewSale : Fragment(){
                             var account = Account()
                             account.status = 1
                             val c = GregorianCalendar()
-                            c.time = sale.salesDate
+                            c.time = date
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
@@ -329,7 +330,7 @@ class FragmentNewSale : Fragment(){
                             var account = Account()
                             account.status = 1
                             val c = GregorianCalendar()
-                            c.time = sale.salesDate
+                            c.time = date
                             c.add(Calendar.MONTH, i)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
