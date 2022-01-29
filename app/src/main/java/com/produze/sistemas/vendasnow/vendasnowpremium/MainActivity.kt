@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -23,6 +24,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
+import android.view.ViewGroup
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,12 +83,6 @@ class MainActivity : AppCompatActivity() {
             viewModelMain.title.observe(this, Observer {
                 mTitle.setText(it)
             })
-
-//            if (!mNotified) {
-//                NotificationUtils().setNotification(mNotificationTime, this@MainActivity)
-//            }
-
-
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
         }

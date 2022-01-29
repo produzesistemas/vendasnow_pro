@@ -47,7 +47,7 @@ class RepositorySale {
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()
                 .collection("sales").add(sale)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener { doc ->
 
                 }
                 .addOnFailureListener { e ->
@@ -193,4 +193,32 @@ class RepositorySale {
         // If exception is thrown, emit failed state along with message.
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
+    fun getById(id: String) = flow {
+
+        // Emit loading state
+        emit(State.loading())
+
+        var lst = FirebaseFirestore.getInstance()
+            .collection("sales")
+            .document(id)
+            .get()
+            .addOnSuccessListener { documentReference ->
+
+            }
+            .addOnFailureListener { e ->
+
+            }.await()
+
+        // Emit success state with data
+        emit(State.success(lst))
+    }.catch {
+        // If exception is thrown, emit failed state along with message.
+        Log.d(
+            "VendasNowPro",
+            it.message.toString()
+        )
+        emit(State.failed(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
 }

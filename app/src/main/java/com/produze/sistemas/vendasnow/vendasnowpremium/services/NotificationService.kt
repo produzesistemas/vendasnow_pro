@@ -8,20 +8,24 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
-import java.util.*
-import android.app.NotificationChannel
+import com.produze.sistemas.vendasnow.vendasnowpremium.AccountReceivableDetailActivity
+import com.produze.sistemas.vendasnow.vendasnowpremium.MainActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
-import com.produze.sistemas.vendasnow.vendasnowpremium.ResultActivity
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import java.util.*
+import android.app.PendingIntent
+
+
+
 
 
 class NotificationService : IntentService("NotificationService") {
     private lateinit var mNotification: Notification
-    private val mNotificationId: Int = 1000
+    private var mNotificationId: Int = 0
     private lateinit var nameClient: String
     private lateinit var payment: String
     private lateinit var dueDate: String
     private lateinit var value: String
+    private lateinit var idSale: String
 
     @SuppressLint("NewApi")
     private fun createChannel() {
@@ -66,12 +70,14 @@ class NotificationService : IntentService("NotificationService") {
             payment = intent.extras!!.getString("payment").toString()
             dueDate = intent.extras!!.getString("dueDate").toString()
             value = intent.extras!!.getString("value").toString()
+            idSale = intent.extras!!.getString("idSale").toString()
+            mNotificationId = intent.extras!!.getInt("mNotificationId")
         }
 
         if (timestamp > 0) {
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notifyIntent = Intent(this, ResultActivity::class.java)
+            val notifyIntent = Intent(this, AccountReceivableDetailActivity::class.java)
 
             val calendar = Calendar.getInstance()
             val message = "Nome do cliente: $nameClient" +
@@ -81,13 +87,19 @@ class NotificationService : IntentService("NotificationService") {
 
             notifyIntent.putExtra("message", message)
             notifyIntent.putExtra("notification", true)
+            notifyIntent.putExtra("idSale", idSale)
+            notifyIntent.putExtra("mNotificationId", mNotificationId)
+
 
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-            val title = "Existem contas para receber hoje"
+            val title = "Existem contas para receber"
             notifyIntent.putExtra("title", title)
             calendar.timeInMillis = timestamp
 
+            val stackBuilder = TaskStackBuilder.create(this)
+            stackBuilder.addNextIntentWithParentStack(notifyIntent)
+            val stackIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             val res = this.resources
@@ -98,10 +110,10 @@ class NotificationService : IntentService("NotificationService") {
 
                 mNotification = Notification.Builder(this, CHANNEL_ID)
                     // Set the intent that will fire when the user taps the notification
-                    .setContentIntent(pendingIntent)
+                    .setContentIntent(stackIntent)
                     .setSmallIcon(R.drawable.ic_baseline_attach_money_24)
                     .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                    .setAutoCancel(true)
+                    .setAutoCancel(false)
                     .setContentTitle(title)
                     .setStyle(Notification.BigTextStyle()
                         .bigText(message))
@@ -110,10 +122,10 @@ class NotificationService : IntentService("NotificationService") {
 
                 mNotification = Notification.Builder(this)
                     // Set the intent that will fire when the user taps the notification
-                    .setContentIntent(pendingIntent)
+                    .setContentIntent(stackIntent)
                     .setSmallIcon(R.drawable.ic_baseline_attach_money_24)
                     .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                    .setAutoCancel(true)
+                    .setAutoCancel(false)
                     .setPriority(Notification.PRIORITY_MAX)
                     .setContentTitle(title)
                     .setStyle(Notification.BigTextStyle()
@@ -123,7 +135,6 @@ class NotificationService : IntentService("NotificationService") {
             }
 
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            // mNotificationId is a unique int for each notification that you must define
             notificationManager.notify(mNotificationId, mNotification)
         }
 

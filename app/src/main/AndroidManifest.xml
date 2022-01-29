@@ -34,6 +34,13 @@
                 android:value=".LoginActivity" />
         </activity>
 
+        <activity
+            android:name=".AccountReceivableDetailActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+
+
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
@@ -51,13 +58,6 @@
         <service
             android:name="com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationService"
             android:enabled="true" />
-
-        <activity
-            android:name=".ResultActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:taskAffinity="" />
 
 
     </application>

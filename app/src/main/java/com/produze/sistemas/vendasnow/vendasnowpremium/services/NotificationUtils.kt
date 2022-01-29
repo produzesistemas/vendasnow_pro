@@ -32,6 +32,8 @@ class NotificationUtils {
             alarmIntent.putExtra("dueDate", df.format(account.dueDate))
             alarmIntent.putExtra("value", nFormat.format(account.value))
             alarmIntent.putExtra("timestamp", calendar.timeInMillis)
+            alarmIntent.putExtra("idSale", sale.id)
+            alarmIntent.putExtra("mNotificationId", account.uniqueIDNotification)
 
             val pendingIntent = PendingIntent.getBroadcast(activity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
@@ -41,11 +43,6 @@ class NotificationUtils {
                 AlarmManager.INTERVAL_HOUR,
                 pendingIntent
             )
-
-//        }
-
-        //------------ end of alarm settings  -----------------//
-
 
     }
 }

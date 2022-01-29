@@ -27,6 +27,8 @@ class ViewModelSale : ViewModel() {
     fun getAll() = repository.getAll()
     fun getAllByMonthAndYear(year: Int, month: Int) = repository.getAllByMonthAndYear(year, month)
     fun getAllByYear(year: Int) = repository.getAllByYear(year)
+    fun getById(id: String) = repository.getById(id)
+
     fun delete(sale: Sale) = repository.delete(sale)
     fun update(sale: Sale) = repository.update(sale)
 

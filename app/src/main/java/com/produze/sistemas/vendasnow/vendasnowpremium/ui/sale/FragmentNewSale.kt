@@ -3,6 +3,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -280,9 +281,10 @@ class FragmentNewSale : Fragment(){
 
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+                        account.uniqueIDNotification = UUID.randomUUID().hashCode()
                         accounts.add(account)
                         sale.accounts = accounts
-                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
+//                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "7" -> {
                         var account = Account()
@@ -290,11 +292,12 @@ class FragmentNewSale : Fragment(){
                         val c = GregorianCalendar()
                         c.time = date
                         c.add(Calendar.MONTH, 1)
+                        c.add(Calendar.HOUR_OF_DAY, 10)
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
-                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
+//                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "8" -> {
                         for (i in 1..2) {
@@ -303,11 +306,12 @@ class FragmentNewSale : Fragment(){
                             val c = GregorianCalendar()
                             c.time = date
                             c.add(Calendar.MONTH, i)
+                            c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
                             accounts.add(account)
                             sale.accounts = accounts
-                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
+//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
 
                     }
@@ -318,11 +322,12 @@ class FragmentNewSale : Fragment(){
                             val c = GregorianCalendar()
                             c.time = date
                             c.add(Calendar.MONTH, i)
+                            c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
                             accounts.add(account)
                             sale.accounts = accounts
-                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
+//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
                     "10" -> {
@@ -332,11 +337,12 @@ class FragmentNewSale : Fragment(){
                             val c = GregorianCalendar()
                             c.time = date
                             c.add(Calendar.MONTH, i)
+                            c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
                             accounts.add(account)
                             sale.accounts = accounts
-                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
+//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
 
@@ -495,6 +501,9 @@ class FragmentNewSale : Fragment(){
                     }
 
                     is State.Success -> {
+                        val docReference = state.data
+                        sale.id = docReference.id
+                        sendNotification(sale)
                         binding.progressBar.visibility = View.GONE
                         view?.findNavController()?.navigate(R.id.nav_sale)
                     }
@@ -510,7 +519,42 @@ class FragmentNewSale : Fragment(){
             }
         }
     }
+    private fun sendNotification(saleToNotification: Sale) {
+        when (saleToNotification.formPaymentId) {
+            4,7 -> {
+                var accountToNotification: Account = saleToNotification.accounts.first()
+                val c = GregorianCalendar()
+                c.time = accountToNotification.dueDate
+                activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+            }
+            8 -> {
+                for (i in 1..2) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    val c = GregorianCalendar()
+                    c.time = accountToNotification.dueDate
+                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+                }
 
+            }
+            9 -> {
+                for (i in 1..3) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    val c = GregorianCalendar()
+                    c.time = accountToNotification.dueDate
+                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+                }
+            }
+            10 -> {
+                for (i in 1..4) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    val c = GregorianCalendar()
+                    c.time = accountToNotification.dueDate
+                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+                }
+            }
+
+        }
+    }
 
 }
 

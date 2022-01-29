@@ -34,6 +34,7 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
     inner class RecyclerViewViewHolder(private val binding: CardViewAccountBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Account>, position: Int) {
+
             val dt = lst[position].dueDate?.let { it }
             binding.textViewDueDate.text = df.format(dt)
             binding.textViewSituation.text = getStatusName(lst[position].status, itemView)
