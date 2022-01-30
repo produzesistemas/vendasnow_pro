@@ -56,14 +56,17 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_receivable_detail)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
         mProgressBar = findViewById(R.id.progressBar)
         mTextViewClient = findViewById(R.id.textViewClient)
         mTextViewPayment = findViewById(R.id.textViewPayment)
         mTextViewSaleDate = findViewById(R.id.textViewSaleDate)
         mRecyclerView = findViewById(R.id.recyclerView)
         try {
-
-
             auth = FirebaseAuth.getInstance()
             val user = auth.getCurrentUser()
             if (user == null) {
@@ -71,7 +74,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 finish()
             }
 
-            viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
+//            viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
             viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
 
@@ -107,7 +110,9 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
 
                     is State.Success -> {
                         mProgressBar.visibility = View.GONE
+                        val docReference = state.data
                         saleDetail = state.data.toObject(Sale::class.java)!!
+                        saleDetail.id = docReference.id
                         mTextViewClient.text = saleDetail.client?.name
                         mTextViewPayment.text = saleDetail.formPayment?.name
                         mTextViewSaleDate.text = df.format(saleDetail.salesDate)
@@ -144,7 +149,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
 
                     is State.Success -> {
                         mProgressBar.visibility = View.GONE
-
+                        finish()
                     }
 
                     is State.Failed -> {
@@ -167,7 +172,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_cancel -> {
-
+                finish()
                 return@OnNavigationItemSelectedListener true
             }
         }
