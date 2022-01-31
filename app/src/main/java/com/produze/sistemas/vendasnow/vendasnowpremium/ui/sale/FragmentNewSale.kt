@@ -282,6 +282,7 @@ class FragmentNewSale : Fragment(){
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         account.uniqueIDNotification = UUID.randomUUID().hashCode()
+                        account.mRequestCode = UUID.randomUUID().hashCode()
                         accounts.add(account)
                         sale.accounts = accounts
 //                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }

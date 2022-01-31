@@ -94,6 +94,7 @@
     <string name="validation_sale_date">Informe a data da venda</string>
     <string name="validation_sale_client">Selecione o cliente para a venda</string>
     <string name="validation_sale_payment">Selecione a forma de pagamento para a venda</string>
+    <string name="validation_no_requestCode">Conta a receber não encontrada!</string>
     <string name="validation_sale_products_services">Adicione ao menos um produto ou um serviço para a venda</string>
 
     <string-array name="ArrayPayment">

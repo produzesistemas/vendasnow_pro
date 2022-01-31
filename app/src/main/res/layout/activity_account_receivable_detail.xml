@@ -60,80 +60,109 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSaleDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        android:id="@+id/textViewLabelSaleDate"
-                        style="@style/TextStyleTitleActivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/label_sale_date_register"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textViewSaleDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelSaleDate" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSpinnerClient"
+                    android:id="@+id/ConstraintLayoutCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSaleDate"
+                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerPayment"
                     android:layout_margin="5dp">
 
-                    <TextView
-                        android:id="@+id/textViewLabelClient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/nav_header_height"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:text="@string/label_client_name"
-                        style="@style/TextStyleTitleActivity" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/textViewClient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelClient" />
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/linearLayoutInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ConstraintLayoutSaleDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp">
+
+                            <TextView
+                                android:id="@+id/textViewLabelSaleDate"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_sale_date_register"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textViewSaleDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewLabelSaleDate" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ConstraintLayoutSpinnerClient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSaleDate">
+
+                            <TextView
+                                android:id="@+id/textViewLabelClient"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_client_name"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textViewClient"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewLabelClient" />
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSpinnerPayment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient"
-                    android:layout_margin="5dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ConstraintLayoutSpinnerPayment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient">
 
-                    <TextView
-                        android:id="@+id/textViewLabelPayment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:text="@string/label_payment_form"
-                        style="@style/TextStyleTitleActivity" />
+                            <TextView
+                                android:id="@+id/textViewLabelPayment"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_payment_form"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <TextView
-                        android:id="@+id/textViewPayment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelPayment" />
+                            <TextView
+                                android:id="@+id/textViewPayment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewLabelPayment" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,41 +171,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerPayment"
+                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutCard"
                     android:layout_margin="5dp">
 
-                    <com.google.android.material.appbar.AppBarLayout
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:id="@+id/appBarLayoutProducts">
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbarAccount"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            style="@style/CustomToolBarAccountStyle">
+                            android:layout_height="@dimen/height_card_panel"
+                            android:background="@drawable/custom_background_panel_purple">
 
-                            <TextView
+                             <TextView
+                                android:id="@+id/textViewTotalSale"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/label_app_bar_account_receive"
-                                style="@style/TextStyleSmallTitle"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:id="@+id/toolbar_title" />
+                                 android:text="@string/label_app_bar_account_receive"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:theme="@style/TextStyleTitleActivity"/>
 
-                        </androidx.appcompat.widget.Toolbar>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </com.google.android.material.appbar.AppBarLayout>
+                    </androidx.cardview.widget.CardView>
+
+<!--                    <com.google.android.material.appbar.AppBarLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        android:id="@+id/appBarLayoutProducts">-->
+
+<!--                        <androidx.appcompat.widget.Toolbar-->
+<!--                            android:id="@+id/toolbarAccount"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="?attr/actionBarSize"-->
+<!--                            style="@style/CustomToolBarAccountStyle">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/label_app_bar_account_receive"-->
+<!--                                style="@style/TextStyleSmallTitle"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:id="@+id/toolbar_title" />-->
+
+<!--                        </androidx.appcompat.widget.Toolbar>-->
+
+<!--                    </com.google.android.material.appbar.AppBarLayout>-->
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutProducts" />
+                        app:layout_constraintTop_toBottomOf="@+id/card" />
 
 
 

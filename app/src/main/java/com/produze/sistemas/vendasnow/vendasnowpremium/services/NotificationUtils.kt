@@ -34,8 +34,8 @@ class NotificationUtils {
             alarmIntent.putExtra("timestamp", calendar.timeInMillis)
             alarmIntent.putExtra("idSale", sale.id)
             alarmIntent.putExtra("mNotificationId", account.uniqueIDNotification)
-
-            val pendingIntent = PendingIntent.getBroadcast(activity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+            alarmIntent.putExtra("mRequestCode", account.mRequestCode)
+            val pendingIntent = PendingIntent.getBroadcast(activity, account.mRequestCode, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
 
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,

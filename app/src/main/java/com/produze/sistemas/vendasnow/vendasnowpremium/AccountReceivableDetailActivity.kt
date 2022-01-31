@@ -1,5 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,13 @@ import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.PendingIntent
+
+import android.app.AlarmManager
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
+
 
 class AccountReceivableDetailActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -52,6 +60,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     private lateinit var mTextViewPayment: TextView
     private lateinit var mTextViewSaleDate: TextView
     private lateinit var mRecyclerView: RecyclerView
+    private var mRequestCode: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +94,13 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             val extras = intent.extras
             if (extras !== null) {
                 val isNotification = extras!!.getBoolean("notification")
-                val idNotification = extras!!.getInt("mNotificationId")
                 val idSale = extras!!.getString("idSale")
                 if (isNotification) {
                     idSale?.let { load(it) }
                 }
+            } else {
+                Toast.makeText(this, R.string.validation_no_requestCode,
+                    Toast.LENGTH_SHORT).show()
             }
 
 
@@ -148,6 +159,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                     }
 
                     is State.Success -> {
+                        cancelNotification(sale)
                         mProgressBar.visibility = View.GONE
                         finish()
                     }
@@ -179,5 +191,40 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
         false
     }
 
+    private fun cancelNotification(saleToNotification: Sale) {
+        when (saleToNotification.formPaymentId) {
+            4,7 -> {
+                var accountToNotification: Account = saleToNotification.accounts.first()
+                if (accountToNotification.status === 2) {
+                    val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+                    val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        applicationContext, accountToNotification.mRequestCode, myIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+
+                    alarmManager.cancel(pendingIntent)
+                }
+            }
+            8 -> {
+                for (i in 1..2) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                                    }
+
+            }
+            9 -> {
+                for (i in 1..3) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                  }
+            }
+            10 -> {
+                for (i in 1..4) {
+                    var accountToNotification: Account = saleToNotification.accounts[i]
+                 }
+            }
+
+        }
+
+    }
 
 }

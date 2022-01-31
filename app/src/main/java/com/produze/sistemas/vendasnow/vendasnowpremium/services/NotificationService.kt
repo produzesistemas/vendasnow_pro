@@ -21,6 +21,7 @@ import android.app.PendingIntent
 class NotificationService : IntentService("NotificationService") {
     private lateinit var mNotification: Notification
     private var mNotificationId: Int = 0
+    private var mRequestCode: Int = 0
     private lateinit var nameClient: String
     private lateinit var payment: String
     private lateinit var dueDate: String
@@ -72,6 +73,7 @@ class NotificationService : IntentService("NotificationService") {
             value = intent.extras!!.getString("value").toString()
             idSale = intent.extras!!.getString("idSale").toString()
             mNotificationId = intent.extras!!.getInt("mNotificationId")
+            mRequestCode = intent.extras!!.getInt("mRequestCode")
         }
 
         if (timestamp > 0) {
@@ -89,19 +91,21 @@ class NotificationService : IntentService("NotificationService") {
             notifyIntent.putExtra("notification", true)
             notifyIntent.putExtra("idSale", idSale)
             notifyIntent.putExtra("mNotificationId", mNotificationId)
+            notifyIntent.putExtra("mRequestCode", mRequestCode)
 
 
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-            val title = "Existem contas para receber"
+            val title = "Conta para receber"
             notifyIntent.putExtra("title", title)
             calendar.timeInMillis = timestamp
 
             val stackBuilder = TaskStackBuilder.create(this)
             stackBuilder.addNextIntentWithParentStack(notifyIntent)
-            val stackIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            val id = System.currentTimeMillis().toInt()
+            val stackIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_IMMUTABLE)
 
-            val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+//            val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             val res = this.resources
             val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
