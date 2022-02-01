@@ -40,6 +40,8 @@ import java.util.*
 import android.app.PendingIntent
 
 import android.app.AlarmManager
+import android.app.NotificationManager
+import android.content.Context
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
@@ -196,11 +198,15 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             4,7 -> {
                 var accountToNotification: Account = saleToNotification.accounts.first()
                 if (accountToNotification.status === 2) {
+
+                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.cancel(accountToNotification.uniqueIDNotification)
+
                     val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
                     val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
                     val pendingIntent = PendingIntent.getBroadcast(
                         applicationContext, accountToNotification.mRequestCode, myIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_IMMUTABLE
                     )
 
                     alarmManager.cancel(pendingIntent)
