@@ -215,17 +215,51 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             8 -> {
                 for (i in 1..2) {
                     var accountToNotification: Account = saleToNotification.accounts[i]
-                                    }
+                    if (accountToNotification.status === 2) {
+                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
+                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            applicationContext, accountToNotification.mRequestCode, myIntent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+                        alarmManager.cancel(pendingIntent)
+                    }
+
+                    }
 
             }
             9 -> {
                 for (i in 1..3) {
                     var accountToNotification: Account = saleToNotification.accounts[i]
+                    if (accountToNotification.status === 2) {
+                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
+                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            applicationContext, accountToNotification.mRequestCode, myIntent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+                        alarmManager.cancel(pendingIntent)
+                    }
                   }
             }
             10 -> {
                 for (i in 1..4) {
                     var accountToNotification: Account = saleToNotification.accounts[i]
+                    if (accountToNotification.status === 2) {
+                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
+                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            applicationContext, accountToNotification.mRequestCode, myIntent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+                        alarmManager.cancel(pendingIntent)
+                    }
                  }
             }
 
