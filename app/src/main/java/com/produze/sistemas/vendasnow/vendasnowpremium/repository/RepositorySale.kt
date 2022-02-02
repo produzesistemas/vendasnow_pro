@@ -132,20 +132,25 @@ class RepositorySale {
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
         var dateStart = GregorianCalendar(year,  0, 1).time
-        calEnd.add(Calendar.MONTH, -1);
+//        calEnd.add(Calendar.DECEMBER);
 
-        var dateEnd = GregorianCalendar(year, 11, calEnd.getMaximum(Calendar.DAY_OF_MONTH)).time
+//        var dateEnd = GregorianCalendar(year, 11, calEnd.getMaximum(Calendar.DAY_OF_MONTH)).time
 
-        calEnd[Calendar.HOUR] = 23
-        calEnd[Calendar.MINUTE] = 59
-        calEnd[Calendar.MILLISECOND] = 0
+        calEnd[Calendar.MONTH] = Calendar.DECEMBER
+//        calEnd[Calendar.HOUR] = 23
+//        calEnd[Calendar.MINUTE] = 59
+//        calEnd[Calendar.MILLISECOND] = 0
         calEnd[Calendar.YEAR] = year
+
+        var d = calEnd.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        calEnd[Calendar.DAY_OF_MONTH] = d
 
         calStart[Calendar.HOUR] = 0
         calStart[Calendar.MINUTE] = 0
         calStart[Calendar.MILLISECOND] = 0
 
-        dateEnd = calEnd.time
+        var dateEnd = calEnd.time
 
         val timeStampStart = Timestamp(dateStart.time)
         val timeStampEnd = Timestamp(dateEnd.time)

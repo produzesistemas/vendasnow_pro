@@ -30,15 +30,14 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textViewSalesDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextStyleTitle"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/margin_default"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextStyleSmall"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/margin_default"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewSalesDate"/>
 
@@ -59,7 +58,7 @@
                     style="@style/TextStyleSmall"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewClient"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="@dimen/margin_default" />
 
                     <TextView
                         android:id="@+id/textViewLabelValue"
@@ -87,6 +86,7 @@
                         android:id="@+id/btnDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default"
                         android:background="@drawable/custom_imagebutton_small_green"
                         android:src="@drawable/ic_baseline_delete_forever_24"
                         app:layout_constraintBottom_toBottomOf="parent"

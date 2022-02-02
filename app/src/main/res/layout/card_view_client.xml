@@ -32,18 +32,18 @@
                     style="@style/TextStyleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/margin_default"
                     android:text="@string/menu_client" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/textViewTelephone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
                         style="@style/TextStyleSmall"
                         android:text = "@string/menu_client"
                         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                         android:id="@+id/btnDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
+                        android:layout_margin="@dimen/margin_default"
                         android:background="@drawable/custom_imagebutton_small_blue"
                         android:src="@drawable/ic_baseline_delete_forever_24"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +65,7 @@
                         android:id="@+id/btnEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
                         android:background="@drawable/custom_imagebutton_small_blue"
                         android:src="@drawable/ic_baseline_edit_24"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -73,14 +74,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--                <android.widget.LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                   -->
-
-<!--                </android.widget.LinearLayout>-->
             </android.widget.LinearLayout>
         </android.widget.LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -5,9 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -49,51 +47,57 @@
                         app:cardUseCompatPadding="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/margin_default">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/linearLayoutInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_default"
                             android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textViewLabelSaleDate"
-                        style="@style/TextStyleTitleActivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/label_sale_date_register" />
+                            <TextView
+                                android:id="@+id/textViewLabelSaleDate"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_default"
+                                android:text="@string/label_sale_date_register" />
 
-                    <TextView
-                        android:id="@+id/textViewSaleDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/textViewSaleDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_default"/>
 
-                   <TextView
-                        android:id="@+id/textViewLabelClient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/label_client_name"
-                        style="@style/TextStyleTitleActivity" />
+                            <TextView
+                                android:id="@+id/textViewLabelClient"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_default"
+                                android:text="@string/label_client_name" />
 
-                    <TextView
-                        android:id="@+id/textViewClient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/textViewClient"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_default"/>
 
-                    <TextView
-                        android:id="@+id/textViewLabelPayment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/label_payment_form"
-                        style="@style/TextStyleTitleActivity" />
+                            <TextView
+                                android:id="@+id/textViewLabelPayment"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_margin="@dimen/margin_default"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_payment_form" />
 
 
-                    <TextView
-                        android:id="@+id/textViewPayment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/textViewPayment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_default"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.cardview.widget.CardView>
@@ -112,7 +116,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="10dp"
+                        android:layout_margin="@dimen/margin_default"
                         app:cardElevation="1dp"
+
                         app:cardUseCompatPadding="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +126,7 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_card_panel"
+                            android:layout_height="@dimen/height_card_panel_small"
                             android:background="@drawable/custom_background_panel_purple">
 
                             <TextView
@@ -129,7 +135,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/label_app_bar_account_receive"
                                 android:textColor="@color/white"
-                                android:theme="@style/TextStyleTitleActivity"
+                                android:theme="@style/TextStyleSmall"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +150,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/card" />
 
