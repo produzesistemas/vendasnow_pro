@@ -138,7 +138,7 @@ class FragmentGraphicProfitYear : Fragment(){
         mChart!!.setNoDataText("Nenhuma venda encontrada.")
         mChart!!.legend.isEnabled = false // Hide the legend
         mChart!!.axisRight.setDrawLabels(false)
-        mChart?.setExtraOffsets(5f, 10f, 5f, 130f)
+        mChart?.setExtraOffsets(5f, 10f, 5f, 10f)
 
         val xAxis = mChart!!.xAxis
         xAxis.setDrawGridLines(false)

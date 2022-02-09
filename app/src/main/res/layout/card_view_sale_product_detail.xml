@@ -9,26 +9,29 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true"
+        android:layout_marginStart="@dimen/margin_default_start_end"
+        android:layout_marginEnd="@dimen/margin_default_start_end"
         android:foreground="?attr/selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_default">
 
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewLabelValue"
-                style="@style/TextStyleTitleActivity"
+                style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_unit_value"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewName" />
@@ -37,8 +40,8 @@
                 android:id="@+id/textViewValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:layout_marginTop="8dp"
+                android:layout_margin="@dimen/margin_between_views"
+                style="@style/TextStyleSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintLeft_toRightOf="@+id/textViewLabelValue"
@@ -47,10 +50,10 @@
 
             <TextView
                 android:id="@+id/textViewLabelQuantity"
-                style="@style/TextStyleTitleActivity"
+                style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_quantity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelValue" />
@@ -59,8 +62,8 @@
                 android:id="@+id/textViewQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:layout_marginTop="4dp"
+                android:layout_margin="@dimen/margin_between_views"
+                style="@style/TextStyleSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.077"
                 app:layout_constraintStart_toEndOf="@+id/textViewLabelQuantity"
@@ -68,10 +71,10 @@
 
             <TextView
                 android:id="@+id/textViewLabelSubtotal"
-                style="@style/TextStyleTitleActivity"
+                style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_subtotal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelQuantity" />
@@ -80,8 +83,8 @@
                 android:id="@+id/textViewSubtotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:layout_marginTop="4dp"
+                android:layout_margin="@dimen/margin_between_views"
+                style="@style/TextStyleSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.055"
                 app:layout_constraintStart_toEndOf="@+id/textViewLabelSubtotal"

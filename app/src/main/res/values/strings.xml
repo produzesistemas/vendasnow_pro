@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VendasNow</string>
+    <string name="app_name">VendasNow Pro</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -80,8 +80,8 @@
     <string name="label_graphics_invoices_year">Faturamento por mês e ano</string>
     <string name="label_graphics_profit_year">Lucros por mês e ano</string>
     <string name="label_graphics_products_profitable">Top 5 produtos lucrativos</string>
-    <string name="label_graphics_invoices_year_total">Total do faturamento no ano:</string>
-    <string name="label_graphics_profit_year_total">Total do lucro no ano:</string>
+    <string name="label_graphics_invoices_year_total">Total do faturamento no ano</string>
+    <string name="label_graphics_profit_year_total">Total do lucro no ano</string>
     <string name="label_account_to_receive">A receber</string>
     <string name="label_account_receive">Recebida</string>
     <string name="label_app_bar_account_receive">Contas a receber geradas pela venda</string>

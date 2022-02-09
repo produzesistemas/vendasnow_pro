@@ -130,9 +130,9 @@ class FragmentGraphicTopFiveServices : Fragment(){
 
         set.colors = colors
         data.setValueTextSize(20f)
-        mChart?.setData(data)
+        mChart?.data = data
         mChart?.invalidate()
-        mChart?.getDescription()?.setEnabled(false)
+        mChart?.description?.isEnabled = false
         mChart?.setNoDataText("Nenhuma venda encontrada.")
         mChart?.setEntryLabelTextSize(14f)
         mChart?.setEntryLabelColor(Color.TRANSPARENT)
@@ -140,14 +140,13 @@ class FragmentGraphicTopFiveServices : Fragment(){
 
         val l: Legend? = mChart?.legend
         if (l != null) {
-            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             l.orientation = Legend.LegendOrientation.VERTICAL
+            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             l.setDrawInside(false)
             l.form = Legend.LegendForm.CIRCLE
-            l.xEntrySpace = 7f
             l.yEntrySpace = 0f
             l.yOffset = 15f
-            l.xOffset = 15f
             l.isWordWrapEnabled = true
             l.calculatedLineSizes
         }

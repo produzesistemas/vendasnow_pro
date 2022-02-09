@@ -133,28 +133,26 @@ class FragmentGraphicTopFiveProducts : Fragment(){
             }
         })
 
-        mChart?.setData(data)
+        mChart?.data = data
         mChart?.invalidate()
-        mChart?.getDescription()?.setEnabled(false)
+        mChart?.description?.isEnabled = false
         mChart?.setNoDataText("Nenhuma venda encontrada.")
         mChart?.setEntryLabelTextSize(14f)
         mChart?.setEntryLabelColor(Color.TRANSPARENT)
-        mChart?.setExtraOffsets(5f, 5f, 5f, 15f)
+        mChart?.setExtraOffsets(5f, 2f, 5f, 15f)
 
         val l: Legend? = mChart?.legend
         if (l != null) {
-            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             l.orientation = Legend.LegendOrientation.VERTICAL
+            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             l.setDrawInside(false)
             l.form = Legend.LegendForm.CIRCLE
-            l.xEntrySpace = 7f
             l.yEntrySpace = 0f
             l.yOffset = 15f
-            l.xOffset = 15f
             l.isWordWrapEnabled = true
             l.calculatedLineSizes
        }
-
     }
 
     private fun load(calendar: Calendar) {

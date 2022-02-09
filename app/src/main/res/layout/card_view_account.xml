@@ -40,7 +40,7 @@
                 style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_due_date" />
 
             <TextView
@@ -48,7 +48,7 @@
                 style="@style/TextStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_due_date" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -63,7 +63,7 @@
                 style="@style/TextStyleSmallTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_situation" />
 
             <TextView
@@ -71,7 +71,7 @@
                 style="@style/TextStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_between_views"
                 android:text="@string/label_situation"/>
 
                 <TextView
@@ -79,7 +79,7 @@
                     style="@style/TextStyleSmallTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/margin_between_views"
                     android:text="@string/label_value" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     style="@style/TextStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default"
+                    android:layout_margin="@dimen/margin_between_views"
                     android:text="@string/label_value"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

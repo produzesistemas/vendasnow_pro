@@ -61,34 +61,34 @@
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_margin="@dimen/margin_default"
+                                android:layout_margin="@dimen/margin_between_views"
                                 android:text="@string/label_sale_date_register" />
 
                             <TextView
                                 android:id="@+id/textViewSaleDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_default"/>
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
                                 android:id="@+id/textViewLabelClient"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_margin="@dimen/margin_default"
+                                android:layout_margin="@dimen/margin_between_views"
                                 android:text="@string/label_client_name" />
 
                             <TextView
                                 android:id="@+id/textViewClient"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_default"/>
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
                                 android:id="@+id/textViewLabelPayment"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
-                                android:layout_margin="@dimen/margin_default"
+                                android:layout_margin="@dimen/margin_between_views"
                                 android:layout_height="match_parent"
                                 android:text="@string/label_payment_form" />
 
@@ -97,7 +97,7 @@
                                 android:id="@+id/textViewPayment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_default"/>
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.cardview.widget.CardView>

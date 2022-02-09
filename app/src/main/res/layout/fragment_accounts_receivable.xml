@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_between_views">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -13,6 +14,9 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
             app:cardElevation="1dp"
+            android:layout_marginStart="@dimen/margin_default_start_end"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default_start_end"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +73,14 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_default"
             android:background="@drawable/custom_background_search_view"
             android:closeIcon="@drawable/ic_baseline_close_24"
             android:iconifiedByDefault="false"
             android:queryBackground="@null"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default_start_end"
+            android:layout_marginEnd="@dimen/margin_default_searchView"
+            android:layout_marginStart="@dimen/margin_default_searchView"
             android:queryHint="@string/hint_search_view_sale"
             android:theme="@style/SearchViewStyle"
             app:defaultQueryHint="@string/hint_search_view_sale"
@@ -87,6 +94,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="1dp"
             app:cardUseCompatPadding="true"
+            android:layout_marginTop="@dimen/margin_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView">
@@ -148,7 +156,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_between_views"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

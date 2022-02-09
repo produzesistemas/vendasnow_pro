@@ -4,7 +4,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_between_views">
 
     <SearchView
         android:id="@+id/searchView"
@@ -15,7 +16,10 @@
         app:defaultQueryHint="@string/hint_search_view"
         android:theme="@style/SearchViewStyle"
         android:closeIcon="@drawable/ic_baseline_close_24"
-        android:layout_margin="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_default_start_end"
+        android:layout_marginEnd="@dimen/margin_default_searchView"
+        android:layout_marginStart="@dimen/margin_default_searchView"
         android:background="@drawable/custom_background_search_view"
         android:queryBackground="@null"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +30,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_between_views"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

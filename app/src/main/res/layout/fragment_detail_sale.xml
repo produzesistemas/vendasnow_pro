@@ -5,14 +5,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="60dp">
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linearLayout"
@@ -21,43 +23,49 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSaleDate"
+                    android:id="@+id/ConstraintLayoutCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/margin_default">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/linearLayoutInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textViewLabelSaleDate"
                         style="@style/TextStyleTitleActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/label_sale_date"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_margin="@dimen/margin_between_views"
+                        android:text="@string/label_sale_date" />
 
                     <TextView
                         android:id="@+id/textViewSaleDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelSaleDate" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSpinnerClient"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSaleDate"
-                    android:layout_margin="5dp">
+                        android:layout_margin="@dimen/margin_between_views"/>
 
                     <TextView
                         android:id="@+id/textViewLabelClient"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/margin_between_views"
                         android:text="@string/label_client_name"
                         style="@style/TextStyleTitleActivity" />
 
@@ -65,26 +73,13 @@
                         android:id="@+id/textViewClient"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelClient" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutSpinnerPayment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient"
-                    android:layout_margin="5dp">
+                        android:layout_margin="@dimen/margin_between_views"/>
 
                     <TextView
                         android:id="@+id/textViewLabelPayment"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/margin_between_views"
                         android:text="@string/label_payment_form"
                         style="@style/TextStyleTitleActivity" />
 
@@ -93,43 +88,51 @@
                         android:id="@+id/textViewPayment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelPayment" />
+                        android:layout_margin="@dimen/margin_between_views"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ConstraintLayoutProducts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient"
-                    android:layout_margin="5dp">
+                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutCard">
 
-                    <com.google.android.material.appbar.AppBarLayout
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/appBarLayoutProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        android:layout_margin="@dimen/margin_default"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:id="@+id/appBarLayoutProducts">
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbar"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            style="@style/CustomToolBarSaleStyle">
+                            android:layout_height="@dimen/height_card_panel_small"
+                            android:background="@drawable/custom_background_panel_green">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/menu_product"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:id="@+id/toolbar_title" />
+                                android:theme="@style/TextStyleSmall"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        </androidx.appcompat.widget.Toolbar>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </com.google.android.material.appbar.AppBarLayout>
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewProducts"
@@ -142,7 +145,7 @@
                         android:id="@+id/linearLayoutTotalProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/margin_default"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/recyclerViewProducts"
                         android:orientation="horizontal">
@@ -150,6 +153,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin_between_views"
                             android:text="@string/label_total_products"
                             style="@style/TextStyleTitle" />
 
@@ -157,8 +161,7 @@
                             android:id="@+id/textViewTotalProducts"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_margin="@dimen/margin_between_views"
                             style="@style/TextStyleSmall"/>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -167,7 +170,7 @@
                         android:id="@+id/linearLayoutProfit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/margin_default"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTotalProducts"
                         android:orientation="horizontal">
@@ -175,6 +178,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin_between_views"
                             android:text="@string/label_total_products_profit"
                             style="@style/TextStyleTitle" />
 
@@ -182,8 +186,7 @@
                             android:id="@+id/textViewProductsProfit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_margin="@dimen/margin_between_views"
                             style="@style/TextStyleSmall"/>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -195,39 +198,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient"
-                    android:layout_margin="5dp">
+                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerClient">
 
-                    <com.google.android.material.appbar.AppBarLayout
+<!--                    <com.google.android.material.appbar.AppBarLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        android:id="@+id/appBarLayoutServcices">-->
+
+<!--                        <androidx.appcompat.widget.Toolbar-->
+<!--                            android:id="@+id/toolbarService"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            style="@style/CustomToolBarSaleStyle"-->
+<!--                            android:layout_height="?attr/actionBarSize">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/menu_service"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:layout_gravity="center" />-->
+
+<!--                        </androidx.appcompat.widget.Toolbar>-->
+
+<!--                    </com.google.android.material.appbar.AppBarLayout>-->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/appBarLayoutServices"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        android:layout_margin="@dimen/margin_default"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:id="@+id/appBarLayoutServcices">
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbarService"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            style="@style/CustomToolBarSaleStyle"
-                            android:layout_height="?attr/actionBarSize">
+                            android:layout_height="@dimen/height_card_panel_small"
+                            android:background="@drawable/custom_background_panel_green">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/menu_service"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center" />
+                                android:theme="@style/TextStyleSmall"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        </androidx.appcompat.widget.Toolbar>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </com.google.android.material.appbar.AppBarLayout>
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewServices"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutServcices"/>
+                        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutServices"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/linearLayoutTotalSale"
@@ -263,22 +297,21 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayoutTotalSale"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/margin_default"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/label_total_sale"
-                        android:layout_marginStart="5dp"
+                        android:layout_margin="@dimen/margin_between_views"
                         style="@style/TextStyleTitle" />
 
                     <TextView
                         android:id="@+id/textViewTotalSale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_margin="@dimen/margin_between_views"
                         style="@style/TextStyleSmall"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -15,6 +15,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelService
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import java.util.*
 
 class DialogNewService (private var viewModel: ViewModelService, private val service: Service,
@@ -36,7 +37,10 @@ class DialogNewService (private var viewModel: ViewModelService, private val ser
         val mLocale = Locale("pt", "BR")
         binding.editTextValue.addTextChangedListener(MoneyTextWatcher(binding.editTextValue, mLocale))
         binding.editTextDescription.setText(service.name)
-        binding.editTextValue.setText(service.value.toString())
+        var strSaleValue = NumberFormat.getCurrencyInstance(mLocale).format(service.value)
+        strSaleValue = strSaleValue.replace("R$", "")
+        strSaleValue = strSaleValue.trim()
+        binding.editTextValue.setText(strSaleValue)
         binding.btnConfirm.setOnClickListener {
             if ((binding.editTextDescription.text.isEmpty()) ||
                     (binding.editTextValue.text.equals("0,00"))){

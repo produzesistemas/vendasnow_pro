@@ -32,7 +32,7 @@
                 android:hint="@string/hint_new_description"
                 android:inputType="textPersonName"
                 style="@style/SearchViewStyle"
-                android:background="@drawable/custom_background_search_view"
+                android:background="@drawable/custom_background_field_required"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
@@ -56,7 +56,7 @@
                 android:inputType="number"
                 android:maxLength="18"
                 style="@style/SearchViewStyle"
-                android:background="@drawable/custom_background_search_view"
+                android:background="@drawable/custom_background_field_required"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
