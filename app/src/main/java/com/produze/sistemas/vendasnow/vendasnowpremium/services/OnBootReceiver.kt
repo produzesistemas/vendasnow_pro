@@ -13,6 +13,9 @@ class OnBootReceiver : BroadcastReceiver() {
         service.putExtra("payment", intent.getStringExtra("payment"))
         service.putExtra("dueDate", intent.getStringExtra("dueDate"))
         service.putExtra("value", intent.getStringExtra("value"))
+        service.putExtra("idSale", intent.getStringExtra("idSale"))
+        service.putExtra("mNotificationId", intent.getIntExtra("mNotificationId", 0))
+        service.putExtra("mRequestCode", intent.getIntExtra("mRequestCode", 0))
         context.startService(service)
     }
 }

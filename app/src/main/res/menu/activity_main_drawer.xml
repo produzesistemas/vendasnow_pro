@@ -39,6 +39,12 @@
             android:title="@string/menu_graphics" />
 
         <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="@string/menu_about" />
+
+
+        <item
             android:id="@+id/navigation_logout"
             android:icon="@drawable/ic_baseline_person_pin_24"
             android:title="@string/logout" />

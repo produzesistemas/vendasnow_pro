@@ -26,18 +26,11 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 import android.view.ViewGroup
 
-
-
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModelMain: ViewModelMain
-
-    private val mNotificationTime =  GregorianCalendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
-    private var mNotified = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             val navView: NavigationView = findViewById(R.id.nav_view)
             val navController = findNavController(R.id.nav_host_fragment)
             appBarConfiguration = AppBarConfiguration(setOf(
-                    R.id.nav_home, R.id.nav_client, R.id.nav_product, R.id.nav_service, R.id.nav_sale, R.id.nav_graphic, R.id.nav_account_receivable), drawerLayout)
+                    R.id.nav_home, R.id.nav_client, R.id.nav_product, R.id.nav_service, R.id.nav_sale, R.id.nav_graphic, R.id.nav_account_receivable, R.id.nav_about), drawerLayout)
             setupActionBarWithNavController(navController, appBarConfiguration)
             navView.setupWithNavController(navController)
 
