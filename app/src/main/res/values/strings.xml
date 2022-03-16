@@ -122,4 +122,13 @@
         <item>Faturamento por mês e ano</item>
         <item>Lucros por mês e ano</item>
     </string-array>
+
+    <string-array name="Menu_Main">
+        <item>Clientes</item>
+        <item>Produtos</item>
+        <item>Serviços</item>
+        <item>Vendas</item>
+        <item>Contas a receber</item>
+        <item>Gráficos</item>
+    </string-array>
 </resources>
