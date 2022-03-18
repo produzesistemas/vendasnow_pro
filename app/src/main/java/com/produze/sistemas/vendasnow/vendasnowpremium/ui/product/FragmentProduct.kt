@@ -51,6 +51,7 @@ class FragmentProduct : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ViewModelProduct::class.java)
         adapterProduct = AdapterProduct(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

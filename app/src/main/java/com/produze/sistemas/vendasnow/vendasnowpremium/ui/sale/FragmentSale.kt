@@ -57,6 +57,7 @@ class FragmentSale : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
         adapterSale = AdapterSale(arrayListOf(), viewModel, viewModelDetailSale)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)

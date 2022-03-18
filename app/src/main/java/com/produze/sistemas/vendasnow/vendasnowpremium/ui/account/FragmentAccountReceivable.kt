@@ -61,8 +61,8 @@ class FragmentAccountReceivable : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
-//        viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
         adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)

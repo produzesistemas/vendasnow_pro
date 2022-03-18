@@ -51,6 +51,7 @@ class FragmentService : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ViewModelService::class.java)
         adapterService = AdapterService(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
