@@ -2,10 +2,9 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.account
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -41,6 +40,8 @@ class FragmentAccountReceivable : Fragment() {
     private lateinit var adapterAccountReceivable: AdapterAccountReceivable
     private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+    private var mSearchItem: MenuItem? = null
+    private var sv: SearchView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,23 +67,6 @@ class FragmentAccountReceivable : Fragment() {
         adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
         viewModelProductService = ViewModelProvider(this).get(ViewModelProduct::class.java)
-
-
-        binding.searchView.apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    adapterAccountReceivable.filter.filter(newText)
-                    viewModelAccountReceivable.getTotalByFilter(adapterAccountReceivable.getItems(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-                    return false
-                }
-
-            })
-        }
-
 
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
@@ -136,5 +120,23 @@ class FragmentAccountReceivable : Fragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_searchview, menu)
+
+        mSearchItem = menu.findItem(R.id.action_search)
+        sv = MenuItemCompat.getActionView(mSearchItem) as SearchView
+        sv!!.isIconified = true
+        sv!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                adapterAccountReceivable.filter.filter(query)
+                return false
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
 }

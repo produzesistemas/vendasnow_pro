@@ -2,11 +2,10 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.product
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,6 +30,8 @@ class FragmentProduct : Fragment() {
     private lateinit var product: Product
     private lateinit var viewModelMain: ViewModelMain
     private lateinit var adapterProduct: AdapterProduct
+    private var mSearchItem: MenuItem? = null
+    private var sv: SearchView? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -53,20 +54,6 @@ class FragmentProduct : Fragment() {
         viewModel = ViewModelProvider(this).get(ViewModelProduct::class.java)
         adapterProduct = AdapterProduct(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        binding.searchView.apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    adapterProduct.filter.filter(newText)
-                    return false
-                }
-
-            })
-        }
 
         val observer = Observer<Product> { product ->
             lifecycleScope.launch {
@@ -144,6 +131,28 @@ class FragmentProduct : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_searchview, menu)
+
+        mSearchItem = menu.findItem(R.id.action_search)
+        sv = MenuItemCompat.getActionView(mSearchItem) as SearchView
+        sv!!.isIconified = true
+        sv!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                adapterProduct.filter.filter(query)
+                return false
+            }
+        })
+
+
+        super.onCreateOptionsMenu(menu, inflater)
+
     }
 
 

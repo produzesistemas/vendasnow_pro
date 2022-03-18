@@ -146,7 +146,7 @@ class FragmentClient : Fragment() {
 
         mSearchItem = menu.findItem(R.id.action_search)
         sv = MenuItemCompat.getActionView(mSearchItem) as SearchView
-        sv!!.setIconified(true)
+        sv!!.isIconified = true
         sv!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -157,10 +157,7 @@ class FragmentClient : Fragment() {
                 return false
             }
         })
-
-
         super.onCreateOptionsMenu(menu, inflater)
-
     }
 
 

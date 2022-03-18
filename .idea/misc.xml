@@ -42,7 +42,7 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/card_view_sale_service_detail.xml" value="0.1" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/card_view_service.xml" value="0.5" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_about.xml" value="0.5" />
-        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_accounts_receivable.xml" value="0.4083333333333333" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_accounts_receivable.xml" value="0.2" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_client.xml" value="0.22" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_account_receivable.xml" value="0.4083333333333333" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_sale.xml" value="0.23934837092731828" />
@@ -54,7 +54,7 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_home.xml" value="0.1308876811594203" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_sale.xml" value="0.25" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_product.xml" value="0.16576086956521738" />
-        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_sale.xml" value="0.33" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_sale.xml" value="0.22" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_service.xml" value="0.129981884057971" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/activity_main_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_detail_account_receivable.xml" value="0.18854166666666666" />

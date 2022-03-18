@@ -67,26 +67,6 @@
 
         </androidx.cardview.widget.CardView>
 
-
-
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/margin_default_start_end"
-            android:layout_marginEnd="@dimen/margin_default_searchView"
-            android:layout_marginStart="@dimen/margin_default_searchView"
-            android:background="@drawable/custom_background_search_view"
-            android:closeIcon="@drawable/ic_baseline_close_24"
-            android:iconifiedByDefault="false"
-            android:queryBackground="@null"
-            android:queryHint="@string/hint_search_view_sale"
-            android:theme="@style/SearchViewStyle"
-            app:defaultQueryHint="@string/hint_search_view_sale"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"></SearchView>
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewNavigation"
             android:layout_width="wrap_content"
@@ -97,7 +77,7 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView">
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

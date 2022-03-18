@@ -7,35 +7,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_between_views">
 
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/hint_search_view"
-            app:defaultQueryHint="@string/hint_search_view"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/margin_default_start_end"
-            android:layout_marginEnd="@dimen/margin_default_searchView"
-            android:layout_marginStart="@dimen/margin_default_searchView"
-            android:theme="@style/SearchViewStyle"
-            android:closeIcon="@drawable/ic_baseline_close_24"
-            android:background="@drawable/custom_background_search_view"
-            android:queryBackground="@null"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"></SearchView>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_between_views"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView"
-            app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressBar"
