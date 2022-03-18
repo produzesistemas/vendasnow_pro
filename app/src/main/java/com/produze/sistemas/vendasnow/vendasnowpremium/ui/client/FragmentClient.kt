@@ -3,9 +3,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.client
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -24,7 +21,14 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.produze.sistemas.vendasnow.vendasnowpremium.MainActivity
+import android.view.*
+import android.view.MenuInflater
 
+import androidx.annotation.NonNull
+import android.app.SearchManager
+
+import androidx.core.view.MenuItemCompat
 
 class FragmentClient : Fragment() {
 
@@ -33,6 +37,8 @@ class FragmentClient : Fragment() {
     private lateinit var client: Client
     private lateinit var adapterClient: AdapterClient
     private lateinit var viewModelMain: ViewModelMain
+    private var mSearchItem: MenuItem? = null
+    private var sv: SearchView? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -52,23 +58,10 @@ class FragmentClient : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ViewModelClient::class.java)
         adapterClient = AdapterClient(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        binding.searchView.apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    adapterClient.filter.filter(newText)
-                    return false
-                }
-
-            })
-        }
 
         val observer = Observer<Client> { client ->
             lifecycleScope.launch {
@@ -147,6 +140,30 @@ class FragmentClient : Fragment() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_searchview, menu)
+
+        mSearchItem = menu.findItem(R.id.action_search)
+        sv = MenuItemCompat.getActionView(mSearchItem) as SearchView
+        sv!!.setIconified(true)
+        sv!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                adapterClient.filter.filter(query)
+                return false
+            }
+        })
+
+
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+
 
 }
 

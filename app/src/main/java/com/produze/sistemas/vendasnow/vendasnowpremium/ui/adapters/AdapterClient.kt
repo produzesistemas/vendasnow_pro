@@ -14,7 +14,6 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.DialogNewClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -42,7 +41,8 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelC
         holder.bind(clientsFilter, position)
     }
 
-    inner class RecyclerViewViewHolder(private val binding: CardViewClientBinding) :
+    inner class RecyclerViewViewHolder(
+        private val binding: CardViewClientBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clients: List<Client>, position: Int) {

@@ -43,7 +43,7 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/card_view_service.xml" value="0.5" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_about.xml" value="0.5" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_accounts_receivable.xml" value="0.4083333333333333" />
-        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_client.xml" value="0.41566265060240964" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_client.xml" value="0.22" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_account_receivable.xml" value="0.4083333333333333" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_detail_sale.xml" value="0.23934837092731828" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_graphics.xml" value="0.21" />
@@ -59,6 +59,7 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/activity_main_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_detail_account_receivable.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_new_sale.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_searchview.xml" value="0.20416666666666666" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable-v24/custom_background_search_view.xml" value="0.2890625" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable-v24/ic_baseline_account_balance_24.xml" value="0.2890625" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable-v24/ic_baseline_local_offer_24.xml" value="0.2890625" />
