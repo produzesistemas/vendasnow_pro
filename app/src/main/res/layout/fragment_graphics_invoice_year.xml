@@ -33,26 +33,17 @@
                 android:layout_height="@dimen/height_card_panel">
 
                 <TextView
-                    android:id="@+id/textViewTotalInvoice"
-                    style="@style/TextStyleTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default_start_end"
-                    android:text="@string/label_graphics_invoices_year_total"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/textViewTotal"
                     style="@style/TextStyleTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_default_start_end"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="@string/app_name"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewTotalInvoice"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

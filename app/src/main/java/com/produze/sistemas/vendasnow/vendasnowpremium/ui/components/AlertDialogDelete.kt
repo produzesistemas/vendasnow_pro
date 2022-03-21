@@ -1,18 +1,20 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.components
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAlertdialogDeleteBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 
 class AlertDialogDelete (private val message: String,
                          val onClickAction: (String) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentAlertdialogDeleteBinding
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -24,11 +26,15 @@ class AlertDialogDelete (private val message: String,
                 container,
                 false
         )
-
         binding.textViewMessage.text = message
         binding.btnConfirm.setOnClickListener {
+            if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             onClickAction(message)
             dismiss()
+            } else {
+                Toast.makeText(context, R.string.validation_connection,
+                    Toast.LENGTH_SHORT).show()
+            }
         }
         binding.btnCancel.setOnClickListener {
             dismiss()

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewClientBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.Mask
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
@@ -40,6 +41,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
         binding.editTextTelefone.setText(client.telephone)
 
         binding.btnConfirm.setOnClickListener {
+            if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             if (binding.editTextNome.text.isEmpty()) {
                 Toast.makeText(activity, R.string.hint_new_client,
                         Toast.LENGTH_SHORT).show()
@@ -52,6 +54,10 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                     binding.progressBar.visibility = View.VISIBLE
                     update(client)
                 }
+            }
+            } else {
+                Toast.makeText(context, R.string.validation_connection,
+                    Toast.LENGTH_SHORT).show()
             }
         }
         binding.btnCancel.setOnClickListener {

@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         graphicTitles.forEach {
             lstMain.add(it)
         }
-        adapterMain = AdapterMain(lstMain)
+        adapterMain = activity?.let { AdapterMain(lstMain, it) }!!
         binding.recyclerView.apply {
             adapter = adapterMain
             layoutManager = LinearLayoutManager(context)

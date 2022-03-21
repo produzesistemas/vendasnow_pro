@@ -21,6 +21,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleService
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
 import kotlinx.coroutines.flow.collectLatest
@@ -494,6 +495,7 @@ class FragmentNewSale : Fragment(){
         }
     }
     private fun insert(sale: Sale, view: View?) {
+        if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
         lifecycleScope.launch {
             viewModel.add(sale).collectLatest { state ->
                 when (state) {
@@ -519,6 +521,11 @@ class FragmentNewSale : Fragment(){
                 }
             }
         }
+        } else {
+            Toast.makeText(context, R.string.validation_connection,
+                Toast.LENGTH_SHORT).show()
+        }
+
     }
     private fun sendNotification(saleToNotification: Sale) {
         when (saleToNotification.formPaymentId) {

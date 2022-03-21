@@ -1,9 +1,11 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
@@ -13,6 +15,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewClien
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.DialogNewClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import kotlin.collections.ArrayList
 
@@ -22,6 +25,7 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelC
 
     private lateinit var client: Client
     private var clientsFilter: List<Client> = arrayListOf()
+    private var mContext: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
         val binding: CardViewClientBinding = DataBindingUtil.inflate(
@@ -50,6 +54,7 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelC
             binding.textViewTelephone.text = clients[position].telephone
             binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.blue))
             binding.btnDelete.setOnClickListener {
+
                 client = clients[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
                 val dialog = client?.let {
@@ -58,6 +63,9 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelC
                     }
                 }
                 dialog?.show(manager, "dialog")
+
+
+
             }
 
             binding.btnEdit.setOnClickListener {

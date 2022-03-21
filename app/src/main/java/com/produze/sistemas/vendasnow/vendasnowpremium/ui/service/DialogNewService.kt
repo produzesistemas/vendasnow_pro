@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewServiceBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Service
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MoneyTextWatcher
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelService
@@ -42,6 +43,7 @@ class DialogNewService (private var viewModel: ViewModelService, private val ser
         strSaleValue = strSaleValue.trim()
         binding.editTextValue.setText(strSaleValue)
         binding.btnConfirm.setOnClickListener {
+            if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             if ((binding.editTextDescription.text.isEmpty()) ||
                     (binding.editTextValue.text.equals("0,00"))){
                 Toast.makeText(activity, R.string.hint_new_description,
@@ -62,6 +64,10 @@ class DialogNewService (private var viewModel: ViewModelService, private val ser
                     binding.progressBar.visibility = View.VISIBLE
                     update(service)
                 }
+            }
+            } else {
+                Toast.makeText(context, R.string.validation_connection,
+                    Toast.LENGTH_SHORT).show()
             }
         }
         binding.btnCancel.setOnClickListener {

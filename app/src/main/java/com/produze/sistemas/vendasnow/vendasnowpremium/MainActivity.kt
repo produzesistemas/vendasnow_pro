@@ -1,6 +1,8 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -25,16 +27,37 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 import android.view.ViewGroup
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModelMain: ViewModelMain
+    var requestPermissionsResultCallback: (() -> Unit)? = null
+
+    private val PERMISSION_REQUEST_CODE = 34
+    private lateinit var afterPermissionFunc: (Map<String, Int>) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        checkAndRequestPermission(arrayOf(Manifest.permission.INTERNET)) { permissionResults ->
+//            if (permissionResults.none { it.value != PackageManager.PERMISSION_GRANTED })
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    "Permission Granted",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            else
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    "Permission Denied",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//        }
+
         try {
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             val mTitle: TextView = toolbar.findViewById(R.id.toolbar_title);
@@ -82,6 +105,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+//    private fun checkAndRequestPermission(permissions: Array<String>, param: (Map<String, Int>) -> Unit) {
+//        requestPermissions(permissions, PERMISSION_REQUEST_CODE)
+//        afterPermissionFunc = param
+//    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
@@ -102,5 +130,17 @@ class MainActivity : AppCompatActivity() {
         finishAffinity()
     }
 
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        val permissionResults = mutableMapOf<String, Int>()
+//        permissions.forEachIndexed { i, permission ->
+//            permissionResults[permission] = grantResults[i]
+//        }
+//        afterPermissionFunc(permissionResults)
+//    }
 
 }
