@@ -45,6 +45,7 @@
     <string name="action_cancelar">Cancelar</string>
     <string name="action_delete">Excluir</string>
     <string name="action_edit">Alterar</string>
+    <string name="action_new">Novo</string>
     <string name="action_add_product">Adicionar Produto</string>
     <string name="action_go_back">Voltar</string>
 

@@ -45,7 +45,7 @@ class AdapterService(private val lst: List<Service>, var viewModel: ViewModelSer
         fun bind(lst: List<Service>, position: Int) {
             binding.textViewName.text = lst[position].name
             binding.textViewValue.text = nFormat.format(lst[position].value)
-            binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
+            binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.black))
             binding.btnDelete.setOnClickListener {
                 service = lst[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager

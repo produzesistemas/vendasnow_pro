@@ -57,22 +57,22 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_baseline_delete_forever_24"
                         android:layout_margin="@dimen/margin_between_views"
-                        android:background="@drawable/custom_imagebutton_small_purple"
+                        android:background="@drawable/custom_imagebutton_small_black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btnEdit"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/purple"/>
+                        app:tint="@color/black"/>
 
                     <ImageButton
                         android:id="@+id/btnEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_between_views"
-                        android:background="@drawable/custom_imagebutton_small_purple"
+                        android:background="@drawable/custom_imagebutton_small_black"
                         android:src="@drawable/ic_baseline_edit_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/purple"/>
+                        app:tint="@color/black"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </android.widget.LinearLayout>
         </android.widget.LinearLayout>

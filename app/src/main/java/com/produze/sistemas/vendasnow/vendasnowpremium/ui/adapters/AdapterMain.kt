@@ -39,9 +39,9 @@ class AdapterMain(private val lst: MutableList<String>, context: Context) :
             when (position) {
                 0 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.blue))
                 1 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red))
-                2 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
+                2 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.black))
                 3 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.green))
-                4 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.black))
+                4 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
                 5 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red_google))
             }
 

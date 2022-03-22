@@ -4,6 +4,6 @@
     <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/ic_baseline_add_circle_outline_24"
-        android:title="Novo" />
+        android:title="@string/action_new"/>
 
 </menu>
