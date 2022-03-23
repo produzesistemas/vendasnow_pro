@@ -36,7 +36,7 @@ class DialogSaleProduct(private var lst: List<Product>,
         )
         val mLocale = Locale("pt", "BR")
         binding.editTextValueSale.addTextChangedListener(MoneyTextWatcher(binding.editTextValueSale, mLocale))
-
+        binding.editTextQuantity.addTextChangedListener(MoneyTextWatcher(binding.editTextQuantity, mLocale))
         binding.btnConfirm.setOnClickListener {
             if ((binding.editTextQuantity.text.isEmpty()) ||
                     (binding.editTextQuantity.text.equals("0")) ||
@@ -53,7 +53,13 @@ class DialogSaleProduct(private var lst: List<Product>,
                 vl = vl.replace(",", ".")
                 vl = vl.replace("\\s".toRegex(), "")
                 saleProduct.valueSale = vl.toDouble()
-                saleProduct.quantity = binding.editTextQuantity.text.toString().toInt()
+
+                var vlq: String = binding.editTextQuantity.text.toString().trim { it <= ' ' }
+                vlq = vlq.trim { it <= ' ' }
+                vlq = vlq.replace(".", "")
+                vlq = vlq.replace(",", ".")
+                vlq = vlq.replace("\\s".toRegex(), "")
+                saleProduct.quantity = vlq.toDouble()
                 saleProduct.product = product
                 dismiss()
                 onClickAction(saleProduct)

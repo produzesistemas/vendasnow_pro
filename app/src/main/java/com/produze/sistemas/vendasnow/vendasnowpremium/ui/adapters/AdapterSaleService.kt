@@ -37,7 +37,7 @@ class AdapterSaleService(private var lst: List<SaleService>, var viewModelSaleSe
         fun bind(lst: List<SaleService>, position: Int) {
             binding.textViewName.text = lst[position].service?.name
             binding.textViewValue.text = nFormat.format(lst[position].service?.value)
-            binding.textViewQuantity.text = lst[position].quantity.toString()
+            binding.textViewQuantity.text = nFormat.format(lst[position].quantity)
             binding.textViewSubtotal.text = nFormat.format((lst[position].service?.value?.times(lst[position].quantity)))
             binding.btnDelete.setOnClickListener {
                 saleService = lst[position]

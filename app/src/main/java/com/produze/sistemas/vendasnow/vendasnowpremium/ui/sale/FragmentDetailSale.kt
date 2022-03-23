@@ -95,7 +95,9 @@ class FragmentDetailSale : Fragment(){
         binding.textViewPayment.text = sale.formPayment?.name
         binding.textViewSaleDate.text = df.format(sale.salesDate)
         if (sale.saleProducts.isEmpty()) {
-            binding.ConstraintLayoutProducts.visibility = View.GONE
+            binding.appBarLayoutProducts.visibility = View.GONE
+            binding.recyclerViewProducts.visibility = View.GONE
+            binding.linearLayoutTotalProducts.visibility = View.GONE
         } else {
             binding.recyclerViewProducts.apply {
                 adapter = AdapterSaleProductDetail(sale.saleProducts)
@@ -104,7 +106,9 @@ class FragmentDetailSale : Fragment(){
             viewModelDetailSale.getTotalProducts(sale.saleProducts.toMutableList())
         }
         if (sale.saleServices.isEmpty()) {
-            binding.ConstraintLayoutServices.visibility = View.GONE
+            binding.appBarLayoutServices.visibility = View.GONE
+            binding.recyclerViewServices.visibility = View.GONE
+            binding.linearLayoutTotalServices.visibility = View.GONE
         } else {
             binding.recyclerViewServices.apply {
                 adapter = AdapterSaleServiceDetail(sale.saleServices)

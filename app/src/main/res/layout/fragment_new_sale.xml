@@ -136,7 +136,6 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/ConstraintLayoutSpinnerPayment"
                                 android:layout_width="match_parent"
@@ -184,197 +183,206 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/ConstraintLayoutRadio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerPayment">
+
+                                <RadioGroup
+                                    android:id="@+id/radioGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent">
+
+                                    <RadioButton
+                                        android:id="@+id/radioButtonProducts"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_product" />
+
+                                    <RadioButton
+                                        android:id="@+id/radioButtonServices"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_service" />
+
+                                </RadioGroup>
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/ConstraintLayoutProducts"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutRadio">
+
+                                <com.google.android.material.appbar.AppBarLayout
+                                    android:id="@+id/appBarLayoutProducts"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.appcompat.widget.Toolbar
+                                        android:id="@+id/toolbar"
+                                        style="@style/CustomToolBarSaleStyle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="?attr/actionBarSize">
+
+                                        <TextView
+                                            android:id="@+id/toolbar_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:text="@string/label_add_products"
+                                            android:textColor="@color/white" />
+
+                                    </androidx.appcompat.widget.Toolbar>
+
+                                </com.google.android.material.appbar.AppBarLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recyclerViewProducts"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/appBarLayoutProducts" />
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_default"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewProducts">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="@dimen/margin_between_views"
+                                        android:text="@string/label_total_products"
+                                        style="@style/TextStyleTitle" />
+
+                                    <TextView
+                                        android:id="@+id/textViewTotalProducts"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/margin_between_views" />
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/ConstraintLayoutServices"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutRadio">
+
+                                <com.google.android.material.appbar.AppBarLayout
+                                    android:id="@+id/appBarLayoutServices"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.appcompat.widget.Toolbar
+                                        android:id="@+id/toolbarService"
+                                        style="@style/CustomToolBarSaleStyle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="?attr/actionBarSize">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:text="@string/label_add_services"
+                                            android:textColor="@color/white" />
+
+                                    </androidx.appcompat.widget.Toolbar>
+
+                                </com.google.android.material.appbar.AppBarLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recyclerViewServices"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/appBarLayoutServices" />
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:id="@+id/linearLayoutTotalSale"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_default"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewServices">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="@dimen/margin_between_views"
+                                        android:text="@string/label_total_services"
+                                        style="@style/TextStyleTitle" />
+
+                                    <TextView
+                                        android:id="@+id/textViewTotalServices"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/margin_between_views"/>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_default"
+                                android:orientation="horizontal"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayoutTotalSale">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="@dimen/margin_between_views"
+                                    android:text="@string/label_total_sale"
+                                    style="@style/TextStyleTitle" />
+
+                                <TextView
+                                    android:id="@+id/textViewTotalSale"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_between_views" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
                         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutRadio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutCard">
-
-                    <RadioGroup
-                        android:id="@+id/radioGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
-
-                        <RadioButton
-                            android:id="@+id/radioButtonProducts"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/menu_product" />
-
-                        <RadioButton
-                            android:id="@+id/radioButtonServices"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/menu_service" />
-
-                    </RadioGroup>
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutProducts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutRadio">
-
-                    <com.google.android.material.appbar.AppBarLayout
-                        android:id="@+id/appBarLayoutProducts"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbar"
-                            style="@style/CustomToolBarSaleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize">
-
-                            <TextView
-                                android:id="@+id/toolbar_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/label_add_products"
-                                android:textColor="@color/white" />
-
-                        </androidx.appcompat.widget.Toolbar>
-
-                    </com.google.android.material.appbar.AppBarLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewProducts"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutProducts" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerViewProducts">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/margin_between_views"
-                            android:text="@string/label_total_products"
-                            style="@style/TextStyleTitle" />
-
-                        <TextView
-                            android:id="@+id/textViewTotalProducts"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_between_views" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutServices"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutRadio">
-
-                    <com.google.android.material.appbar.AppBarLayout
-                        android:id="@+id/appBarLayoutServices"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbarService"
-                            style="@style/CustomToolBarSaleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/label_add_services"
-                                android:textColor="@color/white" />
-
-                        </androidx.appcompat.widget.Toolbar>
-
-                    </com.google.android.material.appbar.AppBarLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewServices"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutServices" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/linearLayoutTotalSale"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerViewServices">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/margin_between_views"
-                            android:text="@string/label_total_services"
-                            style="@style/TextStyleTitle" />
-
-                        <TextView
-                            android:id="@+id/textViewTotalServices"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_between_views"/>
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutTotalSale">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_between_views"
-                        android:text="@string/label_total_sale"
-                        style="@style/TextStyleTitle" />
 
-                    <TextView
-                        android:id="@+id/textViewTotalSale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_between_views" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
