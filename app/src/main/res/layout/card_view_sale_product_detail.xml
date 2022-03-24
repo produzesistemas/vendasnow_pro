@@ -6,12 +6,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="1dp"
-        app:cardUseCompatPadding="true"
-        android:layout_marginStart="@dimen/margin_default_start_end"
-        android:layout_marginEnd="@dimen/margin_default_start_end"
-        android:foreground="?attr/selectableItemBackground">
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

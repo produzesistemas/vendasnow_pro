@@ -95,7 +95,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="10dp"
-                            android:layout_margin="@dimen/margin_default"
                             app:cardElevation="1dp"
                             app:cardUseCompatPadding="true"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -133,22 +132,20 @@
                             android:id="@+id/linearLayoutTotalProducts"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/label_total_products"
-                            style="@style/TextStyleTitle" />
+                            <TextView
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_between_views"
+                                android:text="@string/label_total_products" />
 
                         <TextView
                             android:id="@+id/textViewTotalProducts"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            style="@style/TextStyleSmall"/>
+                            android:layout_margin="@dimen/margin_between_views"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -156,22 +153,20 @@
                             android:id="@+id/linearLayoutProfit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="@string/label_total_products_profit"
-                                style="@style/TextStyleTitle" />
+                                android:layout_margin="@dimen/margin_between_views"
+                                style="@style/TextStyleTitleActivity" />
 
                             <TextView
                                 android:id="@+id/textViewProductsProfit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                style="@style/TextStyleSmall"/>
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -180,7 +175,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="10dp"
-                            android:layout_margin="@dimen/margin_default"
                             app:cardElevation="1dp"
                             app:cardUseCompatPadding="true">
 
@@ -215,52 +209,36 @@
                             android:id="@+id/linearLayoutTotalServices"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="@string/label_total_services"
-                                style="@style/TextStyleTitle" />
+                                android:layout_margin="@dimen/margin_between_views"
+                                style="@style/TextStyleTitleActivity" />
 
                             <TextView
                                 android:id="@+id/textViewTotalServices"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                style="@style/TextStyleSmall"/>
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="@string/label_total_sale"
-                                style="@style/TextStyleTitle" />
+                                android:layout_margin="@dimen/margin_between_views"
+                                style="@style/TextStyleTitleActivity" />
 
                             <TextView
                                 android:id="@+id/textViewTotalSale"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                style="@style/TextStyleSmall"/>
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-
-
+                                android:layout_margin="@dimen/margin_between_views"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

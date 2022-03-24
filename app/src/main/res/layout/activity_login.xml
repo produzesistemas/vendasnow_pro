@@ -19,7 +19,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center|center_horizontal|center_vertical"
-            android:src="@drawable/ic_baseline_person_24" />
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:src="@mipmap/ic_launcher" />
 
 <!--        <com.google.android.gms.common.SignInButton-->
 <!--                    android:id="@+id/google_sign_in_button"-->

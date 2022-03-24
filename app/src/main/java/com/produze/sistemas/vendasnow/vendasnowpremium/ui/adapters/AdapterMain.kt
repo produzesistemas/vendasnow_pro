@@ -37,12 +37,30 @@ class AdapterMain(private val lst: MutableList<String>, context: Context) :
         fun bind(lst: MutableList<String>, position: Int) {
             binding.textViewLabel.text = lst[position]
             when (position) {
-                0 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.blue))
-                1 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red))
-                2 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.black))
-                3 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.green))
-                4 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
-                5 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red_google))
+                0 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_blue)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.blue))
+                }
+                1 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_red)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.red))
+                }
+                2 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_black)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.black))
+                }
+                3 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_green)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
+                }
+                4 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                }
+                5 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_red_google)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.red_google))
+                }
             }
 
             binding.cardView.setOnClickListener {
