@@ -33,10 +33,26 @@ class AdapterGraphics(private val lst: MutableList<String>) :
         fun bind(lst: MutableList<String>, position: Int) {
             binding.textViewLabel.text = lst[position]
             when (position) {
-                0 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.red))
-                1 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
-                2 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.green))
-                3 -> binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.blue))
+                0 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                }
+                1 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                }
+                2 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                }
+                3 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                }
             }
 
             binding.cardView.setOnClickListener {

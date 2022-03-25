@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
-import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewGraphicsBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewMainBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 
@@ -40,26 +39,32 @@ class AdapterMain(private val lst: MutableList<String>, context: Context) :
                 0 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_blue)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.blue))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.blue))
                 }
                 1 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_red)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.red))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.red))
                 }
                 2 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_black)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.black))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.black))
                 }
                 3 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_green)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.green))
                 }
                 4 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
                 }
                 5 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_red_google)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.red_google))
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
                 }
             }
 

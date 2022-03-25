@@ -8,20 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
+        android:layout_marginBottom="@dimen/margin_default"
         app:cardCornerRadius="10dp"
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true">
 
-        <android.widget.LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_button"
-            android:orientation="horizontal">
+<!--        <android.widget.LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/height_button"-->
+<!--            android:orientation="horizontal">-->
 
-            <View
-                android:id="@+id/viewDetail"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
+<!--            <View-->
+<!--                android:id="@+id/viewDetail"-->
+<!--                android:layout_width="5dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -49,6 +50,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.widget.LinearLayout>
+<!--        </android.widget.LinearLayout>-->
     </androidx.cardview.widget.CardView>
 </layout>
