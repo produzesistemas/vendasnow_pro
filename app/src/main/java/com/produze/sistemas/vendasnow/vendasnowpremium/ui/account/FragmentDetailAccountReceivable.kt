@@ -23,6 +23,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivableDetail
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
 import kotlinx.coroutines.flow.collectLatest
@@ -35,6 +36,7 @@ class FragmentDetailAccountReceivable : Fragment(){
     private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
     private lateinit var viewModel: ViewModelSale
     private lateinit var binding: FragmentDetailAccountReceivableBinding
+    private val viewModelDetailSale: ViewModelDetailSale by activityViewModels()
     var df = SimpleDateFormat("dd/MM/yyyy")
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
@@ -71,6 +73,10 @@ class FragmentDetailAccountReceivable : Fragment(){
             load(item)
         })
 
+        viewModelDetailSale.totalSale.observe(viewLifecycleOwner, Observer<Double> {
+            binding.textViewTotalSale.text = nFormat.format(it)
+        })
+
 
     }
 
@@ -95,8 +101,15 @@ class FragmentDetailAccountReceivable : Fragment(){
         binding.textViewPayment.text = sale.formPayment?.name
         binding.textViewSaleDate.text = df.format(sale.salesDate)
 
+        viewModelDetailSale.getTotalSale(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+
             binding.recyclerView.apply {
-                adapter = AdapterAccountReceivableDetail(sale.accounts)
+                adapter = AdapterAccountReceivableDetail(sale.accounts.filter {
+                val calendar = Calendar.getInstance()
+                calendar.time = it.dueDate
+                    calendar.get(Calendar.YEAR) == sale.year &&
+                    calendar.get(Calendar.MONTH) + 1 == sale.month
+                    })
                 layoutManager = LinearLayoutManager(context)
             }
 

@@ -30,7 +30,6 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
     private var lstFilter: List<Sale> = arrayListOf()
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     var df = SimpleDateFormat("dd/MM/yyyy")
-    private var mTableLayout: TableLayout? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder{
         val binding: CardViewAccountReceivableBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -57,12 +56,11 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
             binding.textViewSalesDate.text = df.format(dt)
             binding.textViewClient.text = lst[position].client?.name
             binding.textViewPayment.text = lst[position].formPayment?.name
-            binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
-
+            binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
 
             binding.cardViewSale.setOnClickListener {
                 sale = lst[position]
-                viewModelDetailAccountReceivable.selectedAccount(sale)
+                viewModelDetailAccountReceivable.selectedAccount(sale, year, month)
                 when (it.id) {
                     R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_account_receivable)
                 }

@@ -11,6 +11,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewAccou
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class AdapterAccountReceivableDetail (private var lst: List<Account>) :
@@ -34,31 +35,28 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
     inner class RecyclerViewViewHolder(private val binding: CardViewAccountBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Account>, position: Int) {
+            var dt = lst[position].dueDate?.let { it }
+                binding.textViewDueDate.text = df.format(dt)
+                binding.textViewSituation.text = getStatusName(lst[position].status, itemView)
+                binding.textViewValue.text = nFormat.format(lst[position].value)
+                binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
+                when (lst[position].status) {
+                    1 -> {binding.radioGroup.check(R.id.radioButtonToReceive)}
+                    2 -> {binding.radioGroup.check(R.id.radioButtonReceive)}
+                }
 
-            val dt = lst[position].dueDate?.let { it }
-            binding.textViewDueDate.text = df.format(dt)
-            binding.textViewSituation.text = getStatusName(lst[position].status, itemView)
-            binding.textViewValue.text = nFormat.format(lst[position].value)
-            binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.purple))
-
-            when (lst[position].status) {
-                1 -> {binding.radioGroup.check(R.id.radioButtonToReceive)}
-                2 -> {binding.radioGroup.check(R.id.radioButtonReceive)}
-            }
-
-            binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-                when (checkedId) {
-                    R.id.radioButtonToReceive -> {
-                        lst[position].status = 1
-                        notifyDataSetChanged()
-                    }
-                    R.id.radioButtonReceive -> {
-                        lst[position].status = 2
-                        notifyDataSetChanged()
+                binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    when (checkedId) {
+                        R.id.radioButtonToReceive -> {
+                            lst[position].status = 1
+                            notifyDataSetChanged()
+                        }
+                        R.id.radioButtonReceive -> {
+                            lst[position].status = 2
+                            notifyDataSetChanged()
+                        }
                     }
                 }
-            }
-
         }
     }
 
@@ -68,7 +66,7 @@ class AdapterAccountReceivableDetail (private var lst: List<Account>) :
 
     fun getStatusName(status: Int, view: View) : String{
         var str = ""
-        val arrayStatus = view.getResources().getStringArray(R.array.ArrayStatus)
+        val arrayStatus = view.resources.getStringArray(R.array.ArrayStatus)
 
         arrayStatus.forEach {
             val s = it.split(",")

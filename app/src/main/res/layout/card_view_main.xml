@@ -13,22 +13,10 @@
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true">
 
-<!--        <android.widget.LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/height_button"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <View-->
-<!--                android:id="@+id/viewDetail"-->
-<!--                android:layout_width="5dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical" />-->
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp">
-
 
                 <TextView
                     android:id="@+id/textViewLabel"
@@ -48,7 +36,5 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--        </android.widget.LinearLayout>-->
     </androidx.cardview.widget.CardView>
 </layout>

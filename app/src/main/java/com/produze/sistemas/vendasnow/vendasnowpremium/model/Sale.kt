@@ -17,7 +17,8 @@ data class Sale(
         var accounts: List<Account> = ArrayList(),
         var formPaymentId: Int,
         @ServerTimestamp var createDate: Timestamp? = null,
-        @get:Exclude var id: String = "") {
+        @get:Exclude var id: String = "",
+        @get:Exclude var year: Int = 0, @get:Exclude var month: Int = 0){
     constructor():this("","",null,null, null, emptyList(), emptyList(), emptyList(), 0)
 
 }
