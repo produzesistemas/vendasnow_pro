@@ -41,6 +41,8 @@ class FragmentDetailAccountReceivable : Fragment(){
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
     private var saleDetail: Sale = Sale()
+    private var year: Int = 0
+    private var month: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,13 +72,21 @@ class FragmentDetailAccountReceivable : Fragment(){
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         binding.progressBar.visibility = View.GONE
         viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Sale> { item ->
-            load(item)
+            saleDetail = item
+        })
+
+        viewModelDetailAccountReceivable.selectedYear.observe(viewLifecycleOwner, Observer<Int> { item ->
+            year = item
+        })
+
+        viewModelDetailAccountReceivable.selectedMonth.observe(viewLifecycleOwner, Observer<Int> { item ->
+            month = item
+            load()
         })
 
         viewModelDetailSale.totalSale.observe(viewLifecycleOwner, Observer<Double> {
             binding.textViewTotalSale.text = nFormat.format(it)
         })
-
 
     }
 
@@ -95,20 +105,19 @@ class FragmentDetailAccountReceivable : Fragment(){
         false
     }
 
-    private fun load(sale: Sale) {
-        saleDetail = sale
-        binding.textViewClient.text = sale.client?.name
-        binding.textViewPayment.text = sale.formPayment?.name
-        binding.textViewSaleDate.text = df.format(sale.salesDate)
+    private fun load() {
+        binding.textViewClient.text = saleDetail.client?.name
+        binding.textViewPayment.text = saleDetail.formPayment?.name
+        binding.textViewSaleDate.text = df.format(saleDetail.salesDate)
 
-        viewModelDetailSale.getTotalSale(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+        viewModelDetailSale.getTotalSale(saleDetail.saleServices.toMutableList(), saleDetail.saleProducts.toMutableList())
 
             binding.recyclerView.apply {
-                adapter = AdapterAccountReceivableDetail(sale.accounts.filter {
+                adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
                 val calendar = Calendar.getInstance()
                 calendar.time = it.dueDate
-                    calendar.get(Calendar.YEAR) == sale.year &&
-                    calendar.get(Calendar.MONTH) + 1 == sale.month
+                    calendar.get(Calendar.YEAR) == year &&
+                    calendar.get(Calendar.MONTH) + 1 == month
                     })
                 layoutManager = LinearLayoutManager(context)
             }
