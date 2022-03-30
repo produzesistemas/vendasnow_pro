@@ -56,13 +56,14 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
     private var saleDetail: Sale = Sale()
+    private lateinit var dueDate: Date
+    private var calendarDueDate: Calendar = Calendar.getInstance()
 
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mTextViewClient: TextView
     private lateinit var mTextViewPayment: TextView
     private lateinit var mTextViewSaleDate: TextView
     private lateinit var mRecyclerView: RecyclerView
-    private var mRequestCode: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +86,6 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 finish()
             }
 
-//            viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
             viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
 
@@ -97,6 +97,8 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             if (extras !== null) {
                 val isNotification = extras!!.getBoolean("notification")
                 val idSale = extras!!.getString("idSale")
+                dueDate = df.parse(extras!!.getString("dueDate"))
+                calendarDueDate.time = dueDate
                 if (isNotification) {
                     idSale?.let { load(it) }
                 }
@@ -104,13 +106,9 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.validation_no_requestCode,
                     Toast.LENGTH_SHORT).show()
             }
-
-
-
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
         }
-
     }
 
     private fun load(id: String) {
@@ -131,7 +129,13 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                         mTextViewSaleDate.text = df.format(saleDetail.salesDate)
 
                         mRecyclerView.apply {
-                            adapter = AdapterAccountReceivableDetail(saleDetail.accounts)
+                            adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
+                                val calendar = Calendar.getInstance()
+                                calendar.time = it.dueDate
+                                calendar.get(Calendar.DAY_OF_MONTH) == calendarDueDate.get(Calendar.DAY_OF_MONTH) &&
+                                calendar.get(Calendar.YEAR) == calendarDueDate.get(Calendar.YEAR) &&
+                                calendar.get(Calendar.MONTH) + 1 == calendarDueDate.get(Calendar.MONTH) + 1
+                            })
                             layoutManager = LinearLayoutManager(context)
                         }
                     }

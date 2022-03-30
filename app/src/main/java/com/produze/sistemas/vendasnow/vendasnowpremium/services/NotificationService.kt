@@ -61,8 +61,6 @@ class NotificationService : IntentService("NotificationService") {
 
 
     override fun onHandleIntent(intent: Intent?) {
-
-        //Create Channel
         createChannel()
         var timestamp: Long = 0
         if (intent != null && intent.extras != null) {
@@ -90,13 +88,12 @@ class NotificationService : IntentService("NotificationService") {
             notifyIntent.putExtra("message", message)
             notifyIntent.putExtra("notification", true)
             notifyIntent.putExtra("idSale", idSale)
+            notifyIntent.putExtra("dueDate", dueDate)
             notifyIntent.putExtra("mNotificationId", mNotificationId)
             notifyIntent.putExtra("mRequestCode", mRequestCode)
-
-
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-            val title = "Conta para receber"
+            val title = "Conta a receber"
             notifyIntent.putExtra("title", title)
             calendar.timeInMillis = timestamp
 
@@ -104,14 +101,10 @@ class NotificationService : IntentService("NotificationService") {
             stackBuilder.addNextIntentWithParentStack(notifyIntent)
             val id = System.currentTimeMillis().toInt()
             val stackIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_IMMUTABLE)
-
-//            val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             val res = this.resources
             val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-
                 mNotification = Notification.Builder(this, CHANNEL_ID)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(stackIntent)
@@ -123,7 +116,6 @@ class NotificationService : IntentService("NotificationService") {
                         .bigText(message))
                     .setContentText(message).build()
             } else {
-
                 mNotification = Notification.Builder(this)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(stackIntent)
@@ -137,11 +129,8 @@ class NotificationService : IntentService("NotificationService") {
                     .setSound(uri)
                     .setContentText(message).build()
             }
-
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(mNotificationId, mNotification)
         }
-
-
     }
 }

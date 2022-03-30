@@ -10,21 +10,12 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by devdeeds.com on 5/12/17.
- */
-
 class NotificationUtils {
 
-//    companion object {
-//        private const val HOUR_TO_SHOW_PUSH = 10
-//    }
-
-//    fun setNotification(timeInMilliSeconds: Long, activity: Activity) {
         fun setNotification(calendar: GregorianCalendar, activity: Activity, sale: Sale, account: Account) {
 
             val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-            val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
+            val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
             var df = SimpleDateFormat("dd/MM/yyyy")
             val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
             alarmIntent.putExtra("client", sale.client?.name)

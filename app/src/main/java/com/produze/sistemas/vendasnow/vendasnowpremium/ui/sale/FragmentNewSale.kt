@@ -52,7 +52,6 @@ class FragmentNewSale : Fragment(){
     val lstServices = mutableListOf<SaleService>()
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
-//    val formsPayment = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -286,7 +285,6 @@ class FragmentNewSale : Fragment(){
                         account.mRequestCode = UUID.randomUUID().hashCode()
                         accounts.add(account)
                         sale.accounts = accounts
-//                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "7" -> {
                         var account = Account()
@@ -299,7 +297,6 @@ class FragmentNewSale : Fragment(){
                         account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
-//                        activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                     }
                     "8" -> {
                         for (i in 1..2) {
@@ -313,7 +310,6 @@ class FragmentNewSale : Fragment(){
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
                             accounts.add(account)
                             sale.accounts = accounts
-//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
 
                     }
@@ -329,7 +325,6 @@ class FragmentNewSale : Fragment(){
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
                             accounts.add(account)
                             sale.accounts = accounts
-//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
                     "10" -> {
@@ -344,7 +339,6 @@ class FragmentNewSale : Fragment(){
                             account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
                             accounts.add(account)
                             sale.accounts = accounts
-//                            activity?.let { NotificationUtils().setNotification(c, it, sale, account) }
                         }
                     }
 
@@ -537,7 +531,7 @@ class FragmentNewSale : Fragment(){
             }
             8 -> {
                 for (i in 1..2) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
                     val c = GregorianCalendar()
                     c.time = accountToNotification.dueDate
                     activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
@@ -546,7 +540,7 @@ class FragmentNewSale : Fragment(){
             }
             9 -> {
                 for (i in 1..3) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
                     val c = GregorianCalendar()
                     c.time = accountToNotification.dueDate
                     activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
@@ -554,7 +548,7 @@ class FragmentNewSale : Fragment(){
             }
             10 -> {
                 for (i in 1..4) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
                     val c = GregorianCalendar()
                     c.time = accountToNotification.dueDate
                     activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
