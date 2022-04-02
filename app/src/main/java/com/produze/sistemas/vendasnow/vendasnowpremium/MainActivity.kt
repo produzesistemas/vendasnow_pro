@@ -95,6 +95,8 @@ class MainActivity : AppCompatActivity() {
                 Picasso.get().load(user.photoUrl).into(profileImage);
             }
 
+            startNotification()
+
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModelMain.title.observe(this, Observer {
                 mTitle.setText(it)
@@ -142,5 +144,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //        afterPermissionFunc(permissionResults)
 //    }
+
+    private fun startNotification() {
+        val c = GregorianCalendar()
+        NotificationUtils().setAlarmManager(c, this)
+    }
 
 }

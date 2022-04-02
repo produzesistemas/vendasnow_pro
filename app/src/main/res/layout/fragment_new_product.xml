@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:maxLength="100"/>
 
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

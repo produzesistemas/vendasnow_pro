@@ -30,27 +30,17 @@ class NotificationService : IntentService("NotificationService") {
 
     @SuppressLint("NewApi")
     private fun createChannel() {
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
-
-            val context = this.applicationContext
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val notificationChannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
-            notificationChannel.enableVibration(true)
-            notificationChannel.setShowBadge(true)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.parseColor("#e8334a")
-            notificationChannel.description = getString(R.string.app_name)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-
+        val context = this.applicationContext
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val notificationChannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
+        notificationChannel.enableVibration(true)
+        notificationChannel.setShowBadge(true)
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.parseColor("#e8334a")
+        notificationChannel.description = getString(R.string.app_name)
+        notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        notificationManager.createNotificationChannel(notificationChannel)
     }
 
     companion object {
@@ -63,39 +53,41 @@ class NotificationService : IntentService("NotificationService") {
     override fun onHandleIntent(intent: Intent?) {
         createChannel()
         var timestamp: Long = 0
-        if (intent != null && intent.extras != null) {
-            timestamp = intent.extras!!.getLong("timestamp")
-            nameClient = intent.extras!!.getString("client").toString()
-            payment = intent.extras!!.getString("payment").toString()
-            dueDate = intent.extras!!.getString("dueDate").toString()
-            value = intent.extras!!.getString("value").toString()
-            idSale = intent.extras!!.getString("idSale").toString()
-            mNotificationId = intent.extras!!.getInt("mNotificationId")
-            mRequestCode = intent.extras!!.getInt("mRequestCode")
-        }
+//        if (intent != null && intent.extras != null) {
+//            timestamp = intent.extras!!.getLong("timestamp")
+//            nameClient = intent.extras!!.getString("client").toString()
+//            payment = intent.extras!!.getString("payment").toString()
+//            dueDate = intent.extras!!.getString("dueDate").toString()
+//            value = intent.extras!!.getString("value").toString()
+//            idSale = intent.extras!!.getString("idSale").toString()
+//            mNotificationId = intent.extras!!.getInt("mNotificationId")
+//            mRequestCode = intent.extras!!.getInt("mRequestCode")
+//        }
 
-        if (timestamp > 0) {
+//        if (timestamp > 0) {
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, AccountReceivableDetailActivity::class.java)
 
             val calendar = Calendar.getInstance()
-            val message = "Nome do cliente: $nameClient" +
-                    " - " + "Forma de pagamento: $payment" +
-                    " - " + "Data de vencimento: $dueDate" +
-                    " - " + "Valor a receber: $value"
+//            val message = "Nome do cliente: $nameClient" +
+//                    " - " + "Forma de pagamento: $payment" +
+//                    " - " + "Data de vencimento: $dueDate" +
+//                    " - " + "Valor a receber: $value"
 
-            notifyIntent.putExtra("message", message)
-            notifyIntent.putExtra("notification", true)
-            notifyIntent.putExtra("idSale", idSale)
-            notifyIntent.putExtra("dueDate", dueDate)
-            notifyIntent.putExtra("mNotificationId", mNotificationId)
-            notifyIntent.putExtra("mRequestCode", mRequestCode)
+            val message = "Teste para notificação"
+
+//            notifyIntent.putExtra("message", message)
+//            notifyIntent.putExtra("notification", true)
+//            notifyIntent.putExtra("idSale", idSale)
+//            notifyIntent.putExtra("dueDate", dueDate)
+//            notifyIntent.putExtra("mNotificationId", mNotificationId)
+//            notifyIntent.putExtra("mRequestCode", mRequestCode)
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
             val title = "Conta a receber"
             notifyIntent.putExtra("title", title)
-            calendar.timeInMillis = timestamp
+//            calendar.timeInMillis = timestamp
 
             val stackBuilder = TaskStackBuilder.create(this)
             stackBuilder.addNextIntentWithParentStack(notifyIntent)
@@ -132,5 +124,5 @@ class NotificationService : IntentService("NotificationService") {
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(mNotificationId, mNotification)
         }
-    }
+//    }
 }

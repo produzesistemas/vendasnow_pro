@@ -500,7 +500,7 @@ class FragmentNewSale : Fragment(){
                     is State.Success -> {
                         val docReference = state.data
                         sale.id = docReference.id
-                        sendNotification(sale)
+//                        sendNotification(sale)
                         binding.progressBar.visibility = View.GONE
                         view?.findNavController()?.navigate(R.id.nav_sale)
                     }
@@ -521,42 +521,46 @@ class FragmentNewSale : Fragment(){
         }
 
     }
-    private fun sendNotification(saleToNotification: Sale) {
-        when (saleToNotification.formPaymentId) {
-            4,7 -> {
-                var accountToNotification: Account = saleToNotification.accounts.first()
-                val c = GregorianCalendar()
-                c.time = accountToNotification.dueDate
-                activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
-            }
-            8 -> {
-                for (i in 1..2) {
-                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
-                    val c = GregorianCalendar()
-                    c.time = accountToNotification.dueDate
-                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
-                }
+//    private fun sendNotification(saleToNotification: Sale) {
+//        when (saleToNotification.formPaymentId) {
+//            4,7 -> {
+//                var accountToNotification: Account = saleToNotification.accounts.first()
+//                val c = GregorianCalendar()
+//                c.time = accountToNotification.dueDate
+//                activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+//            }
+//            8 -> {
+//                for (i in 1..2) {
+//                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
+//                    val c = GregorianCalendar()
+//                    c.time = accountToNotification.dueDate
+//                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+//                }
+//
+//            }
+//            9 -> {
+//                for (i in 1..3) {
+//                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
+//                    val c = GregorianCalendar()
+//                    c.time = accountToNotification.dueDate
+//                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+//                }
+//            }
+//            10 -> {
+//                for (i in 1..4) {
+//                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
+//                    val c = GregorianCalendar()
+//                    c.time = accountToNotification.dueDate
+//                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
+//                }
+//            }
+//
+//        }
+//    }
 
-            }
-            9 -> {
-                for (i in 1..3) {
-                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
-                    val c = GregorianCalendar()
-                    c.time = accountToNotification.dueDate
-                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
-                }
-            }
-            10 -> {
-                for (i in 1..4) {
-                    var accountToNotification: Account = saleToNotification.accounts[i - 1]
-                    val c = GregorianCalendar()
-                    c.time = accountToNotification.dueDate
-                    activity?.let { NotificationUtils().setNotification(c, it, saleToNotification, accountToNotification) }
-                }
-            }
 
-        }
+
+
     }
 
-}
 

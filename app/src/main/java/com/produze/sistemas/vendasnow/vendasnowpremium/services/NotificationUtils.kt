@@ -36,4 +36,19 @@ class NotificationUtils {
             )
 
     }
+
+
+    fun setAlarmManager(calendar: GregorianCalendar, activity: Activity) {
+        val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(activity, 10, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 1,
+            pendingIntent
+        )
+
+    }
 }
