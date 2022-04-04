@@ -44,20 +44,6 @@ class RepositoryAccountReceivable {
         // Emit loading state
         emit(State.loading())
 
-//        var lst = FirebaseFirestore.getInstance()
-//            .collection("sales")
-//            .whereEqualTo("createBy", user?.email.toString())
-//            .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
-//            .whereGreaterThanOrEqualTo("accounts.dueDate", timeStampStart)
-//            .whereLessThanOrEqualTo("accounts.dueDate", timeStampEnd)
-//            .get().await().documents.map { doc ->
-//                var obj = doc.toObject(Sale::class.java)
-//                if (obj != null) {
-//                    obj.id = doc.id
-//                }
-//                obj
-//            }
-
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
             .whereEqualTo("createBy", user?.email.toString())
@@ -78,6 +64,62 @@ class RepositoryAccountReceivable {
 
         // Emit success state with data
 //        emit(State.success(lst))
+        emit(State.success(entries))
+    }.catch {
+        // If exception is thrown, emit failed state along with message.
+        Log.d(
+            "VendasNowPro",
+            it.message.toString()
+        )
+        emit(State.failed(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
+    fun getAllCurrentDay(calendar: GregorianCalendar, email: String) = flow {
+        var entries: ArrayList<Sale> = ArrayList()
+//        val calStart = Calendar.getInstance()
+//        val calEnd = Calendar.getInstance()
+        var dateStart = calendar.time
+//        var dateEnd = calendar.time
+
+//        calStart.time = dateStart
+//        calEnd.time = dateEnd
+//
+//        calEnd[Calendar.DAY_OF_MONTH] = calEnd.getActualMaximum(Calendar.DAY_OF_MONTH)
+//        calEnd[Calendar.HOUR] = 23
+//        calEnd[Calendar.MINUTE] = 59
+//        calEnd[Calendar.MILLISECOND] = 0
+//
+//        calStart[Calendar.HOUR] = 0
+//        calStart[Calendar.MINUTE] = 0
+//        calStart[Calendar.MILLISECOND] = 0
+//
+//        dateEnd = calEnd.time
+//        dateStart = calStart.time
+
+        val timeStampStart = Timestamp(dateStart.time)
+//        val timeStampEnd = Timestamp(dateEnd.time)
+
+        // Emit loading state
+        emit(State.loading())
+
+        var lst = FirebaseFirestore.getInstance()
+            .collection("sales")
+            .whereEqualTo("createBy", email.toString())
+            .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
+            .get().await().documents.map { doc ->
+                var obj = doc.toObject(Sale::class.java)
+                if (obj != null) {
+                    obj.id = doc.id
+                }
+                obj
+            }
+
+        lst.forEach { s ->
+            if (s?.accounts?.filter{ it.dueDate!! == timeStampStart }?.size!! > 0) {
+                entries.add(s)
+            }
+        }
+
         emit(State.success(entries))
     }.catch {
         // If exception is thrown, emit failed state along with message.

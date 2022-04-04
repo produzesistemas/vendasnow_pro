@@ -17,8 +17,8 @@ class AlarmReceiver : BroadcastReceiver() {
 //        service.putExtra("value", intent.getStringExtra("value"))
 //        service.putExtra("idSale", intent.getStringExtra("idSale"))
 //        service.putExtra("mNotificationId", intent.getIntExtra("mNotificationId", 0))
-//        service.putExtra("mRequestCode", intent.getIntExtra("mRequestCode", 0))
-        context.startService(service)
+//            service.putExtra("mRequestCode", UUID.randomUUID().hashCode())
+            context.startService(service)
 
 //        Toast.makeText(context, "Alarme foi chamado",
 //            Toast.LENGTH_LONG).show()

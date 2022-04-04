@@ -28,6 +28,9 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.work.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.ReminderWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -95,12 +98,15 @@ class MainActivity : AppCompatActivity() {
                 Picasso.get().load(user.photoUrl).into(profileImage);
             }
 
-            startNotification()
+//            startNotification()
 
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModelMain.title.observe(this, Observer {
                 mTitle.setText(it)
             })
+
+            createWorkRequest("Funciona", 30)
+
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
         }
@@ -148,6 +154,26 @@ class MainActivity : AppCompatActivity() {
     private fun startNotification() {
         val c = GregorianCalendar()
         NotificationUtils().setAlarmManager(c, this)
+    }
+
+    private fun createWorkRequest(message: String,timeDelayInSeconds: Long  ) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(false)
+            .build()
+
+
+
+        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(15, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .setInputData(workDataOf(
+                "title" to "Reminder",
+                "message" to message,
+            )
+            )
+            .build()
+
+        WorkManager.getInstance(this).enqueue(myWorkRequest)
     }
 
 }
