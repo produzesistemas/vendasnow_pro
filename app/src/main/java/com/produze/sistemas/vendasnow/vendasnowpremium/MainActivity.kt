@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(15, TimeUnit.MINUTES)
+        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(workDataOf(
                 "title" to "Reminder",
