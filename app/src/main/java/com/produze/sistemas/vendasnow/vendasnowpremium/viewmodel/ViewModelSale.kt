@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService

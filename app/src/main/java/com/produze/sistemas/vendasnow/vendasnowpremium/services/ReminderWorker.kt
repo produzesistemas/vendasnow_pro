@@ -2,6 +2,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.services
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import androidx.work.WorkerParameters
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
@@ -32,6 +34,7 @@ class ReminderWorker(val context: Context, val params: WorkerParameters) : Corou
     override suspend fun doWork(): Result {
         auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
+        var entries: ArrayList<Sale> = ArrayList()
         withContext(Dispatchers.IO) {
 
             if (user != null) {
@@ -51,34 +54,14 @@ class ReminderWorker(val context: Context, val params: WorkerParameters) : Corou
 
                 lst.forEach { s ->
                     if (s?.accounts?.filter{
-                            val calendarAccount = Calendar.getInstance()
-                            calendarAccount.time = it.dueDate
-                            calendarAccount.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
-                            calendarAccount.get(Calendar.MONTH) + 1 == calendar.get(Calendar.MONTH) &&
-                            calendarAccount.get(Calendar.DAY_OF_MONTH) ==  calendar.get(Calendar.DAY_OF_MONTH)
-
+                        val calendarDueDate = Calendar.getInstance()
+                        calendarDueDate.time = it.dueDate
+                        calendarDueDate.time < calendar.time && it.status == 1
                     }?.size!! > 0) {
-                        s.client?.let {
-                            NotificationHelper(context).createNotification(
-                                "VendasNow Pro",
-                                it.name
-                            )
-                        }
+                            NotificationHelper(context, s).createNotification()
                     }
                 }
 
-//                lst.forEach { s ->
-//                    s?.accounts?.filter { it.dueDate!! == timeStampStart }?.forEach {
-//                        if (s != null) {
-//                            s.client?.let { it1 ->
-//                                NotificationHelper(context).createNotification(
-//                                    "VendasNow Pro",
-//                                    it1.name
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
                 }
         }
         return Result.success()

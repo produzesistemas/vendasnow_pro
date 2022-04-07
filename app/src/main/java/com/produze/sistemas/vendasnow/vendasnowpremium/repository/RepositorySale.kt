@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -46,13 +47,16 @@ class RepositorySale {
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()
-                .collection("sales").add(sale)
-                .addOnSuccessListener { doc ->
-
+                .collection("sales").add(sale).continueWithTask {
+                it.addOnSuccessListener { doc ->
+                    doc.id
                 }
-                .addOnFailureListener { e ->
+            }
+
+            .addOnFailureListener { e ->
 
                 }.await()
+
         // Emit success state with post reference
         emit(State.success(postRef))
     }.catch {

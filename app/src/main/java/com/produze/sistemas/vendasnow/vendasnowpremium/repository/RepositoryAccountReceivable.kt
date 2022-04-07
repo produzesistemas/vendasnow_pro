@@ -3,6 +3,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -57,7 +58,8 @@ class RepositoryAccountReceivable {
             }
 
         lst.forEach { s ->
-            if (s?.accounts?.filter{ it.dueDate!! >= timeStampStart && it.dueDate!! <= timeStampEnd}?.size!! > 0) {
+            if (s?.accounts?.filter{ it.dueDate!! >= timeStampStart &&
+                        it.dueDate!! <= timeStampEnd && it.status == 1}?.size!! > 0) {
                 entries.add(s)
             }
         }
@@ -114,13 +116,15 @@ class RepositoryAccountReceivable {
                 obj
             }
 
-        lst.forEach { s ->
-            if (s?.accounts?.filter{ it.dueDate!! == timeStampStart }?.size!! > 0) {
-                entries.add(s)
-            }
-        }
+        var lsta: MutableList<List<Account>> = lst.map { it!!.accounts }.toMutableList()
+        val flattened: List<Account> = lsta.flatten()
+//        lst.forEach { s ->
+//            if (s?.accounts?.filter{ it.dueDate!! == timeStampStart }?.size!! > 0) {
+//                entries.add(s)
+//            }
+//        }
 
-        emit(State.success(entries))
+        emit(State.success(flattened))
     }.catch {
         // If exception is thrown, emit failed state along with message.
         Log.d(

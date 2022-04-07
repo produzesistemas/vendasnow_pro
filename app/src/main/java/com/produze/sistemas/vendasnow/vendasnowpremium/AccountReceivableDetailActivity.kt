@@ -46,7 +46,6 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
 
-
 class AccountReceivableDetailActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable
