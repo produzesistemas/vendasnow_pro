@@ -40,16 +40,16 @@ class NotificationHelper(val context: Context, val sale: Sale) {
 //                    calendarDueDate.get(Calendar.MONTH) + 1 == calendar.get(Calendar.MONTH) + 1
 //        }
         val intent = Intent(context, AccountReceivableDetailActivity:: class.java).apply{
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         intent.putExtra("notification", true)
         intent.putExtra("idSale", sale.id)
         intent.putExtra("dueDate", df.format(account!!.dueDate))
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-//        val stackBuilder = TaskStackBuilder.create(context)
-//        stackBuilder.addNextIntentWithParentStack(intent)
-//        val id = System.currentTimeMillis().toInt()
-//        val stackIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_IMMUTABLE)
+//        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val stackBuilder = TaskStackBuilder.create(context)
+        stackBuilder.addNextIntentWithParentStack(intent)
+        val id = System.currentTimeMillis().toInt()
+        val stackIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_IMMUTABLE)
         val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         val mTitle = "Conta a receber"
         val mMessage = "Nome do cliente: ${sale.client?.name}" +
@@ -64,7 +64,7 @@ class NotificationHelper(val context: Context, val sale: Sale) {
             .setStyle(
                 NotificationCompat.BigTextStyle().bigText(mMessage)
             )
-            .setContentIntent(pendingIntent)
+            .setContentIntent(stackIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
         NotificationManagerCompat.from(context).notify(UUID.randomUUID().hashCode(), notification)
