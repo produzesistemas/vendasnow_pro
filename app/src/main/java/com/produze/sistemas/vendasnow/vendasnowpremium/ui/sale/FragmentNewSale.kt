@@ -36,7 +36,6 @@ class FragmentNewSale : Fragment(){
     private lateinit var viewModel: ViewModelSale
     private lateinit var viewModelClient: ViewModelClient
     private lateinit var viewModelProduct: ViewModelProduct
-    private lateinit var viewModelService: ViewModelService
     private lateinit var viewModelSaleProduct: ViewModelSaleProduct
     private lateinit var viewModelSaleService: ViewModelSaleService
     private lateinit var binding: FragmentNewSaleBinding
@@ -76,7 +75,6 @@ class FragmentNewSale : Fragment(){
         viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
         viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
         viewModelProduct = ViewModelProvider(this).get(ViewModelProduct::class.java)
-        viewModelService = ViewModelProvider(this).get(ViewModelService::class.java)
         viewModelSaleProduct = ViewModelProvider(this).get(ViewModelSaleProduct::class.java)
         viewModelSaleService = ViewModelProvider(this).get(ViewModelSaleService::class.java)
         binding.progressBar.visibility = View.GONE;
@@ -102,7 +100,30 @@ class FragmentNewSale : Fragment(){
         binding.toolbarService.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_service -> {
-                    loadServices()
+//                    loadServices()
+
+                    saleService = SaleService()
+                        val dialog = saleService?.let {
+                            DialogSaleService(
+//                                (state.data as MutableList<Service>).sortedWith(
+//                                    compareBy(
+//                                        String.CASE_INSENSITIVE_ORDER,
+//                                        { it.name })
+//                                )
+                            ) {
+                                view?.let { view ->
+                                    lstServices.add(it)
+                                    binding.recyclerViewServices.adapter = AdapterSaleService(
+                                        lstServices,
+                                        viewModelSaleService
+                                    )
+                                    viewModel.getTotalServices(lstServices)
+                                    viewModel.getTotalSale(lstServices, lst)
+                                }
+                            }
+                        }
+                        dialog?.show(childFragmentManager, "dialog")
+
                     true
                 }
                 else -> false
@@ -447,47 +468,47 @@ class FragmentNewSale : Fragment(){
             }
         }
     }
-    private fun loadServices() {
-        lifecycleScope.launch {
-            viewModelService.getAll().collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-
-                    }
-                    is State.Success -> {
-                        saleService = SaleService()
-                        val dialog = saleService?.let {
-                            DialogSaleService(
-                                (state.data as MutableList<Service>).sortedWith(
-                                    compareBy(
-                                        String.CASE_INSENSITIVE_ORDER,
-                                        { it.name })
-                                )
-                            ) {
-                                view?.let { view ->
-                                    lstServices.add(it)
-                                    binding.recyclerViewServices.adapter = AdapterSaleService(
-                                        lstServices,
-                                        viewModelSaleService
-                                    )
-                                    viewModel.getTotalServices(lstServices)
-                                    viewModel.getTotalSale(lstServices, lst)
-                                }
-                            }
-                        }
-                        dialog?.show(childFragmentManager, "dialog")
-                    }
-
-                    is State.Failed -> {
-                        Toast.makeText(
-                            activity, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
-    }
+//    private fun loadServices() {
+//        lifecycleScope.launch {
+//            viewModelService.getAll().collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//
+//                    }
+//                    is State.Success -> {
+//                        saleService = SaleService()
+//                        val dialog = saleService?.let {
+//                            DialogSaleService(
+//                                (state.data as MutableList<Service>).sortedWith(
+//                                    compareBy(
+//                                        String.CASE_INSENSITIVE_ORDER,
+//                                        { it.name })
+//                                )
+//                            ) {
+//                                view?.let { view ->
+//                                    lstServices.add(it)
+//                                    binding.recyclerViewServices.adapter = AdapterSaleService(
+//                                        lstServices,
+//                                        viewModelSaleService
+//                                    )
+//                                    viewModel.getTotalServices(lstServices)
+//                                    viewModel.getTotalSale(lstServices, lst)
+//                                }
+//                            }
+//                        }
+//                        dialog?.show(childFragmentManager, "dialog")
+//                    }
+//
+//                    is State.Failed -> {
+//                        Toast.makeText(
+//                            activity, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
+//    }
     private fun insert(sale: Sale, view: View?) {
         if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
         lifecycleScope.launch {

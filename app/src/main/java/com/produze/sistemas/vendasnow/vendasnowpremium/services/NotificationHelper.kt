@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -56,11 +57,12 @@ class NotificationHelper(val context: Context, val sale: Sale) {
                 " - " + "Forma de pagamento: ${sale.formPayment?.name}" +
                 " - " + "Data de vencimento: ${df.format(account.dueDate)}" +
                 " - " + "Valor a receber: ${nFormat.format(account!!.value)}"
-
+        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(context, "VendasNow")
             .setSmallIcon(R.drawable.ic_baseline_attach_money_24)
             .setContentTitle(mTitle)
             .setContentText(mMessage)
+            .setSound(uri)
             .setStyle(
                 NotificationCompat.BigTextStyle().bigText(mMessage)
             )

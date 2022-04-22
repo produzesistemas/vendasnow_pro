@@ -57,13 +57,14 @@
     <string name="label_telephone_name">Telefone</string>
     <string name="label_value">Valor</string>
     <string name="label_unit_value">Valor unitário:</string>
+    <string name="label_unit_value_service">Valor do serviço:</string>
     <string name="label_quantity">Quantidade:</string>
     <string name="label_subtotal">Subtotal:</string>
     <string name="label_total_products">Total em produtos: </string>
     <string name="label_total_products_profit">Lucro sobre os produtos: </string>
     <string name="label_add_products">Adicione os produtos</string>
     <string name="label_total_services">Total em serviços: </string>
-    <string name="label_add_services">Adicione os serviços</string>
+    <string name="label_add_services">Informe o serviço</string>
     <string name="label_total_sale">Total da venda: </string>
     <string name="label_total_account_receivable">Total a receber da venda: </string>
     <string name="label_sale_date">Data da Venda: </string>
@@ -78,7 +79,7 @@
     <string name="label_situation">Situação: </string>
     <string name="label_sale_date_register">Venda registrada em:</string>
     <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
-    <string name="label_graphics_top_services">Top 5 serviços mais vendidos</string>
+    <string name="label_graphics_top_services">Serviços por mês e ano</string>
     <string name="label_graphics_invoices_year">Faturamento por mês e ano</string>
     <string name="label_graphics_profit_year">Lucros por mês e ano</string>
     <string name="label_graphics_products_profitable">Top 5 produtos lucrativos</string>
@@ -92,7 +93,7 @@
     <string name="msg_delete_item">Deseja excluir o item?</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
-    <string name="validation_quantity_and_value">Informe a quantidade e o valor de venda</string>
+    <string name="validation_quantity_and_value">Informe o valor</string>
     <string name="validation_sale_date">Informe a data da venda</string>
     <string name="validation_sale_client">Selecione o cliente para a venda</string>
     <string name="validation_sale_payment">Selecione a forma de pagamento para a venda</string>
@@ -120,7 +121,7 @@
 
     <string-array name="Graphics">
         <item>Top 5 produtos mais vendidos</item>
-        <item>Top 5 serviços mais vendidos</item>
+        <item>Serviços por mês e ano</item>
         <item>Faturamento por mês e ano</item>
         <item>Lucros por mês e ano</item>
     </string-array>
@@ -128,7 +129,6 @@
     <string-array name="Menu_Main">
         <item>Clientes</item>
         <item>Produtos</item>
-        <item>Serviços</item>
         <item>Vendas</item>
         <item>Contas a receber</item>
         <item>Gráficos</item>

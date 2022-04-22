@@ -34,24 +34,24 @@ class AdapterGraphics(private val lst: MutableList<String>) :
             binding.textViewLabel.text = lst[position]
             when (position) {
                 0 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
                 }
                 1 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
                 }
                 2 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
                 }
                 3 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
                 }
             }
 

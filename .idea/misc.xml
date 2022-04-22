@@ -68,7 +68,8 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_client.xml" value="0.1" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_product.xml" value="0.4083333333333333" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_sale.xml" value="0.36465116279069765" />
-        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_service.xml" value="0.75" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_sale_service.xml" value="0.33" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_new_service.xml" value="0.27241139680333565" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_product.xml" value="0.16576086956521738" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_sale.xml" value="0.5" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/layout/fragment_service.xml" value="0.129981884057971" />
@@ -76,6 +77,7 @@
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_client.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_detail_account_receivable.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_bottom_new_sale.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_sale_add_service.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/menu/menu_searchview.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/paulo.sergio/Documents/vendasnow_premium/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2203125" />
         <entry key="..\:/projetos/VendasNowPremium/app/src/main/res/drawable-v24/custom_background_search_view.xml" value="0.2890625" />

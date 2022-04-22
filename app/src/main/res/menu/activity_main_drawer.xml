@@ -19,11 +19,6 @@
             android:title="@string/menu_product" />
 
         <item
-            android:id="@+id/nav_service"
-            android:icon="@drawable/ic_baseline_handyman_24"
-            android:title="@string/menu_service" />
-
-        <item
             android:id="@+id/nav_sale"
             android:icon="@drawable/ic_baseline_credit_card_24"
             android:title="@string/menu_sale" />

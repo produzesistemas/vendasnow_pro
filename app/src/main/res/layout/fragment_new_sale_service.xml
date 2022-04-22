@@ -9,53 +9,78 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ConstraintLayoutSpinnerClient"
-            android:layout_width="match_parent"
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/ConstraintLayoutSpinnerClient"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSaleDate"-->
+<!--            android:layout_margin="5dp">-->
+
+        <TextView
+            android:id="@+id/textViewClient"
+            style="@style/TextStyleTitleActivity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/label_add_services"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSaleDate"
-            android:layout_margin="5dp">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textViewClient"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/label_add_services"
-                style="@style/TextStyleTitleActivity" />
-
-            <RelativeLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewClient">
+                android:layout_margin="5dp"
+                android:textColorHint="@color/black"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="100">
 
-            <Spinner
-                android:id="@+id/spinnerService"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/custom_spinner_default"
-                android:spinnerMode="dropdown">
-
-            </Spinner>
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextDescription"
+                    android:hint="@string/hint_new_description"
+                    android:inputType="textPersonName"
+                    style="@style/SearchViewStyle"
+                    android:background="@drawable/custom_background_field_required"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="15dp"
-                    android:src="@drawable/ic_baseline_expand_more_24" />
-
-            </RelativeLayout>
+                    android:maxLength="100"/>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textViewClient">-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerService"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="@drawable/custom_spinner_default"-->
+<!--                android:spinnerMode="dropdown">-->
+
+<!--            </Spinner>-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginEnd="15dp"-->
+<!--                    android:src="@drawable/ic_baseline_expand_more_24" />-->
+
+<!--            </RelativeLayout>-->
+
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -76,29 +101,6 @@
                 android:background="@drawable/custom_background_field_required"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textColorHint="@color/black"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="18">
-
-            <EditText
-                android:id="@+id/editTextQuantity"
-                android:hint="@string/hint_quantity"
-                android:inputType="number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/SearchViewStyle"
-                android:background="@drawable/custom_background_search_view"
-                android:maxLength="18"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

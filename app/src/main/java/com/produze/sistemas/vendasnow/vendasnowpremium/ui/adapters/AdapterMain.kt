@@ -47,24 +47,19 @@ class AdapterMain(private val lst: MutableList<String>, context: Context) :
                     binding.imageView.setColorFilter(itemView.resources.getColor(R.color.red))
                 }
                 2 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_black)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.black))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.black))
-                }
-                3 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_green)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
                     binding.imageView.setColorFilter(itemView.resources.getColor(R.color.green))
+                }
+                3 -> {
+                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_black)
+                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.black))
+                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.black))
                 }
                 4 -> {
                     binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_purple)
                     binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.purple))
                     binding.imageView.setColorFilter(itemView.resources.getColor(R.color.purple))
-                }
-                5 -> {
-                    binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_gold)
-                    binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.darkOrange))
-                    binding.imageView.setColorFilter(itemView.resources.getColor(R.color.darkOrange))
                 }
             }
 
@@ -73,10 +68,9 @@ class AdapterMain(private val lst: MutableList<String>, context: Context) :
                     when (position) {
                         0 -> it?.findNavController()?.navigate(R.id.nav_client)
                         1 -> it?.findNavController()?.navigate(R.id.nav_product)
-                        2 -> it?.findNavController()?.navigate(R.id.nav_service)
-                        3 -> it?.findNavController()?.navigate(R.id.nav_sale)
-                        4 -> it?.findNavController()?.navigate(R.id.nav_account_receivable)
-                        5 -> it?.findNavController()?.navigate(R.id.nav_graphic)
+                        2 -> it?.findNavController()?.navigate(R.id.nav_sale)
+                        3 -> it?.findNavController()?.navigate(R.id.nav_account_receivable)
+                        4 -> it?.findNavController()?.navigate(R.id.nav_graphic)
                     }
                 } else {
                     Toast.makeText(mContext, R.string.validation_connection,

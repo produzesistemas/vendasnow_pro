@@ -3,25 +3,19 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleServiceBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Service
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MoneyTextWatcher
-import java.text.NumberFormat
 import java.util.*
 
-class DialogSaleService(private var lst: List<Service>,
-                        val onClickAction: (SaleService) -> Unit)  : DialogFragment() {
+class DialogSaleService(val onClickAction: (SaleService) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewSaleServiceBinding
     private lateinit var saleService: SaleService
-    private lateinit var service: Service
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -37,32 +31,22 @@ class DialogSaleService(private var lst: List<Service>,
 
         val mLocale = Locale("pt", "BR")
         binding.editTextValueSale.addTextChangedListener(MoneyTextWatcher(binding.editTextValueSale, mLocale))
-        binding.editTextQuantity.addTextChangedListener(MoneyTextWatcher(binding.editTextQuantity, mLocale))
         binding.btnConfirm.setOnClickListener {
-            if ((binding.editTextQuantity.text.isEmpty()) ||
-                (binding.editTextQuantity.text.equals("0")) ||
-                (binding.editTextValueSale.text.isEmpty()) ||
-                (binding.editTextValueSale.text.equals("0"))
-            ){
+            if ((binding.editTextValueSale.text.isEmpty()) ||
+                (binding.editTextValueSale.text.equals("0"))){
                 Toast.makeText(activity, R.string.validation_quantity_and_value,
                     Toast.LENGTH_SHORT).show()
             } else {
                 saleService = SaleService()
+                saleService.descricao = binding.editTextDescription.text.toString()
                 var vl: String = binding.editTextValueSale.text.toString().trim { it <= ' ' }
                 vl = vl.trim { it <= ' ' }
                 vl = vl.replace(".", "")
                 vl = vl.replace(",", ".")
                 vl = vl.replace("\\s".toRegex(), "")
                 saleService.valueSale = vl.toDouble()
+                saleService.quantity = 1.00
 
-                var vlq: String = binding.editTextQuantity.text.toString().trim { it <= ' ' }
-                vlq = vlq.trim { it <= ' ' }
-                vlq = vlq.replace(".", "")
-                vlq = vlq.replace(",", ".")
-                vlq = vlq.replace("\\s".toRegex(), "")
-                saleService.quantity = vlq.toDouble()
-
-                saleService.service = service
                 dismiss()
                 onClickAction(saleService)
             }
@@ -70,23 +54,23 @@ class DialogSaleService(private var lst: List<Service>,
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
-        val adapter: ArrayAdapter<Service>? = context?.let { ArrayAdapter<Service>(it, android.R.layout.simple_spinner_dropdown_item, lst) }
-        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerService.adapter = adapter
-        binding.spinnerService.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long) {
-                service = Service()
-                service = binding.spinnerService.selectedItem as Service
-                var strSaleValue = NumberFormat.getCurrencyInstance(mLocale).format(service.value)
-                strSaleValue = strSaleValue.replace("R$", "")
-                strSaleValue = strSaleValue.trim()
-                binding.editTextValueSale.setText(strSaleValue)
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                // your code here
-            }
-        }
+//        val adapter: ArrayAdapter<Service>? = context?.let { ArrayAdapter<Service>(it, android.R.layout.simple_spinner_dropdown_item, lst) }
+//        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        binding.spinnerService.adapter = adapter
+//        binding.spinnerService.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long) {
+//                service = Service()
+//                service = binding.spinnerService.selectedItem as Service
+//                var strSaleValue = NumberFormat.getCurrencyInstance(mLocale).format(service.value)
+//                strSaleValue = strSaleValue.replace("R$", "")
+//                strSaleValue = strSaleValue.trim()
+//                binding.editTextValueSale.setText(strSaleValue)
+//            }
+//
+//            override fun onNothingSelected(parentView: AdapterView<*>?) {
+//                // your code here
+//            }
+//        }
         return binding.root
     }
 
