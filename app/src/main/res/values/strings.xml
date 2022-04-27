@@ -23,10 +23,11 @@
     <string name="sair_do_app">Sair do app</string>
     <string name="logout">Desconectar do app</string>
     <string name="login_google">Login com Google</string>
-    <string name="login_facebook">Login com Facebook</string>
+    <string name="login_email">Login com e-mail</string>
     <string name="msg_error_authentication_failure">Autenticação falhou!</string>
     <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
 
+    <string name="hint_email">Informe o email</string>
     <string name="hint_new_client">Informe o nome do Cliente</string>
     <string name="hint_new_telephone">Informe o Telefone</string>
     <string name="hint_quantity">Informe a quantidade</string>
@@ -37,9 +38,6 @@
 
     <string name="hint_search_view">Busque pelo nome</string>
     <string name="hint_search_view_sale">Busque pelo nome do cliente</string>
-
-    <string name="facebook_application_id">381078873806816</string>
-    <string name="fb_login_protocol_scheme">fb381078873806816</string>
 
     <string name="action_confirmar">Confirmar</string>
     <string name="action_cancelar">Cancelar</string>

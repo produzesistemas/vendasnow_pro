@@ -36,11 +36,9 @@ class DialogSaleProduct(private var lst: List<Product>,
         )
         val mLocale = Locale("pt", "BR")
         binding.editTextValueSale.addTextChangedListener(MoneyTextWatcher(binding.editTextValueSale, mLocale))
-        binding.editTextQuantity.addTextChangedListener(MoneyTextWatcher(binding.editTextQuantity, mLocale))
+        binding.textViewQuantity.text = "1"
         binding.btnConfirm.setOnClickListener {
-            if ((binding.editTextQuantity.text.isEmpty()) ||
-                    (binding.editTextQuantity.text.equals("0")) ||
-                (binding.editTextValueSale.text.isEmpty()) ||
+            if ((binding.editTextValueSale.text.isEmpty()) ||
                 (binding.editTextValueSale.text.equals("0"))
                     ){
                 Toast.makeText(activity, R.string.validation_quantity_and_value,
@@ -53,13 +51,7 @@ class DialogSaleProduct(private var lst: List<Product>,
                 vl = vl.replace(",", ".")
                 vl = vl.replace("\\s".toRegex(), "")
                 saleProduct.valueSale = vl.toDouble()
-
-                var vlq: String = binding.editTextQuantity.text.toString().trim { it <= ' ' }
-                vlq = vlq.trim { it <= ' ' }
-                vlq = vlq.replace(".", "")
-                vlq = vlq.replace(",", ".")
-                vlq = vlq.replace("\\s".toRegex(), "")
-                saleProduct.quantity = vlq.toDouble()
+                saleProduct.quantity = binding.textViewQuantity.text.toString().toDouble()
                 saleProduct.product = product
                 dismiss()
                 onClickAction(saleProduct)
@@ -85,6 +77,23 @@ class DialogSaleProduct(private var lst: List<Product>,
                 // your code here
             }
         }
+
+        binding.btnRemove.setOnClickListener {
+            var d = binding.textViewQuantity.text.toString().toDouble()
+            if (d >= 1.00) {
+                d -= 1
+                binding.textViewQuantity.text = d.toInt().toString()
+            }
+        }
+
+        binding.btnAdd.setOnClickListener {
+            var d = binding.textViewQuantity.text.toString().toDouble()
+            if (d >= 1.0) {
+                d += 1
+                binding.textViewQuantity.text = d.toInt().toString()
+            }
+        }
+
         return binding.root
     }
 
