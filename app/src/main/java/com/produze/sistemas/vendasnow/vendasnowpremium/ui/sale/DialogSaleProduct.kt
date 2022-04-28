@@ -80,7 +80,7 @@ class DialogSaleProduct(private var lst: List<Product>,
 
         binding.btnRemove.setOnClickListener {
             var d = binding.textViewQuantity.text.toString().toDouble()
-            if (d >= 1.00) {
+            if (d > 1.00) {
                 d -= 1
                 binding.textViewQuantity.text = d.toInt().toString()
             }
