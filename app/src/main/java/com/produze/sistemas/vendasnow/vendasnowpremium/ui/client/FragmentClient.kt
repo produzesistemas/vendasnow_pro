@@ -29,6 +29,11 @@ import androidx.annotation.NonNull
 import android.app.SearchManager
 
 import androidx.core.view.MenuItemCompat
+import android.content.ActivityNotFoundException
+
+import android.content.Intent
+import android.net.Uri
+
 
 class FragmentClient : Fragment() {
 
@@ -38,6 +43,7 @@ class FragmentClient : Fragment() {
     private lateinit var adapterClient: AdapterClient
     private lateinit var viewModelMain: ViewModelMain
     private var mSearchItem: MenuItem? = null
+    private var mHelp: MenuItem? = null
     private var sv: SearchView? = null
 
     override fun onCreateView(
@@ -160,7 +166,31 @@ class FragmentClient : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        val id = item!!.itemId
+        //handle item clicks
+        if (id == R.id.action_help){
+            //do your action here, im just showing toast
+            this.watchYoutubeVideo("zEJ9zLWU8sg")
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
+    private fun watchYoutubeVideo(id: String) {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
+        )
+        try {
+            startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            startActivity(webIntent)
+        }
+    }
 
 }
+
+
 

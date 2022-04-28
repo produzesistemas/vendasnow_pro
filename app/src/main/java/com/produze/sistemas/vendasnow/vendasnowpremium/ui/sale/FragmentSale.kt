@@ -1,6 +1,9 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -168,5 +171,28 @@ class FragmentSale : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        val id = item!!.itemId
+        //handle item clicks
+        if (id == R.id.action_help){
+            //do your action here, im just showing toast
+            this.watchYoutubeVideo("zEJ9zLWU8sg")
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun watchYoutubeVideo(id: String) {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
+        )
+        try {
+            startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            startActivity(webIntent)
+        }
+    }
 
 }
