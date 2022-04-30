@@ -98,14 +98,14 @@ class MainActivity : AppCompatActivity() {
                 Picasso.get().load(user.photoUrl).into(profileImage);
             }
 
-//            startNotification()
+            startNotification()
 
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModelMain.title.observe(this, Observer {
                 mTitle.setText(it)
             })
 
-            createWorkRequest("Funciona", 30)
+//            createWorkRequest("Funciona", 30)
 
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }

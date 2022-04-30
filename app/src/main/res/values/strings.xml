@@ -100,6 +100,11 @@
     <string name="validation_sale_products_services">Adicione ao menos um produto ou um serviço para a venda</string>
     <string name="validation_connection">Dispositivo sem internet.</string>
 
+    <string name="movie_client">bROElv6NCGM</string>
+    <string name="movie_product">N11KBDlBIfs</string>
+    <string name="movie_sale">cCkYnxzR7WU</string>
+    <string name="movie_account">GWEVYgSnfuU</string>
+
     <string-array name="ArrayPayment">
         <item>1,Dinheiro</item>
         <item>2,Cartão de Crédito</item>

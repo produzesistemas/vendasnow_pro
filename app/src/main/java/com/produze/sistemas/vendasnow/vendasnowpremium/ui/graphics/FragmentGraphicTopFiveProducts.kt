@@ -39,6 +39,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     private lateinit var calendar: GregorianCalendar
     private lateinit var viewModel: ViewModelSale
     var mChart: PieChart? = null
+    private var legend: Legend? = null
     private lateinit var viewModelMain: ViewModelMain
 
     override fun onCreateView(
@@ -70,6 +71,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
 
 
         mChart = binding.chart
+        legend = binding.chart.legend
         calendar = GregorianCalendar()
         load(calendar)
 
@@ -96,7 +98,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     }
 
 
-    fun loadGraph(sales: List<Sale>) {
+    private fun loadGraph(sales: List<Sale>) {
         var entries: ArrayList<PieEntry> = ArrayList()
         var lst: MutableList<List<SaleProduct>> = sales.map { it.saleProducts }.toMutableList()
         val flattened: List<SaleProduct> = lst.flatten()
@@ -138,21 +140,11 @@ class FragmentGraphicTopFiveProducts : Fragment(){
         mChart?.description?.isEnabled = false
         mChart?.setNoDataText("Nenhuma venda encontrada.")
         mChart?.setEntryLabelTextSize(14f)
-        mChart?.setEntryLabelColor(Color.TRANSPARENT)
-        mChart?.setExtraOffsets(5f, 2f, 5f, 15f)
+        mChart?.setExtraOffsets(5f, 2f, 5f, 2f)
+            mChart?.legend?.isEnabled = false
+        mChart?.setEntryLabelColor(Color.BLACK);
+        mChart?.setEntryLabelTextSize(10f);
 
-        val l: Legend? = mChart?.legend
-        if (l != null) {
-            l.orientation = Legend.LegendOrientation.VERTICAL
-            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            l.setDrawInside(false)
-            l.form = Legend.LegendForm.CIRCLE
-            l.yEntrySpace = 0f
-            l.yOffset = 15f
-            l.isWordWrapEnabled = true
-            l.calculatedLineSizes
-       }
     }
 
     private fun load(calendar: Calendar) {

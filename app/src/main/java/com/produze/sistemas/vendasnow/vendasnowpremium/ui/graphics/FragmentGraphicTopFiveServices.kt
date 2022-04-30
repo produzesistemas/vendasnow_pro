@@ -112,10 +112,6 @@ class FragmentGraphicTopFiveServices : Fragment(){
             }
 
             salesByMonth.forEach{
-//                it.saleProducts.forEach {
-//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-//                }
-
                 it.saleServices.forEach {
                     total += (it.valueSale.times(it.quantity))?.toFloat()!!
                 }
@@ -181,7 +177,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
 
         lifecycleScope.launch {
-            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
+            viewModel.getAllByYear(calendar.get(Calendar.YEAR)).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
