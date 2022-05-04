@@ -155,25 +155,25 @@ class MainActivity : AppCompatActivity() {
         val c = GregorianCalendar()
         NotificationUtils().setAlarmManager(c, this)
     }
-
-    private fun createWorkRequest(message: String,timeDelayInSeconds: Long  ) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(false)
-            .build()
-
-
-
-        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.MINUTES)
-            .setConstraints(constraints)
-            .setInputData(workDataOf(
-                "title" to "Reminder",
-                "message" to message,
-            )
-            )
-            .build()
-
-        WorkManager.getInstance(this).enqueue(myWorkRequest)
-    }
+//
+//    private fun createWorkRequest(message: String,timeDelayInSeconds: Long  ) {
+//        val constraints = Constraints.Builder()
+//            .setRequiredNetworkType(NetworkType.CONNECTED)
+//            .setRequiresBatteryNotLow(false)
+//            .build()
+//
+//
+//
+//        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.MINUTES)
+//            .setConstraints(constraints)
+//            .setInputData(workDataOf(
+//                "title" to "Reminder",
+//                "message" to message,
+//            )
+//            )
+//            .build()
+//
+//        WorkManager.getInstance(this).enqueue(myWorkRequest)
+//    }
 
 }

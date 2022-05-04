@@ -57,7 +57,7 @@ class NotificationUtils {
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            1000 * 60 * 3,
+            1000 * 60 * 12,
             pendingIntent
         )
 
