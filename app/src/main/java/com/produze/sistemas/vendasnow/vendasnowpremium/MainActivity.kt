@@ -138,42 +138,8 @@ class MainActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        val permissionResults = mutableMapOf<String, Int>()
-//        permissions.forEachIndexed { i, permission ->
-//            permissionResults[permission] = grantResults[i]
-//        }
-//        afterPermissionFunc(permissionResults)
-//    }
-
     private fun startNotification() {
-        val c = GregorianCalendar()
-        NotificationUtils().setAlarmManager(c, this)
+        NotificationUtils().setAlarmManager(this)
     }
-//
-//    private fun createWorkRequest(message: String,timeDelayInSeconds: Long  ) {
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.CONNECTED)
-//            .setRequiresBatteryNotLow(false)
-//            .build()
-//
-//
-//
-//        val myWorkRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.MINUTES)
-//            .setConstraints(constraints)
-//            .setInputData(workDataOf(
-//                "title" to "Reminder",
-//                "message" to message,
-//            )
-//            )
-//            .build()
-//
-//        WorkManager.getInstance(this).enqueue(myWorkRequest)
-//    }
 
 }
