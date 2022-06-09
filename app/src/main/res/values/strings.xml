@@ -28,6 +28,7 @@
     <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
 
     <string name="hint_email">Informe o email</string>
+    <string name="hint_secret">Informe a senha</string>
     <string name="hint_new_client">Informe o nome do Cliente</string>
     <string name="hint_new_telephone">Informe o Telefone</string>
     <string name="hint_quantity">Informe a quantidade</string>
