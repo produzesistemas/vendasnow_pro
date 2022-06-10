@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,5 +96,13 @@ object MainUtils {
             }
         }
         return false
+    }
+
+    fun snack(view: View, message: String, duration: Int) {
+        val snackbar: Snackbar = view?.let {
+            Snackbar
+                .make(it, message, duration)
+        }!!
+        snackbar.show()
     }
 }

@@ -14,9 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.actionCodeSettings
 import com.google.firebase.ktx.Firebase
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 
 
 class LoginActivity : AppCompatActivity(){
@@ -47,10 +49,14 @@ class LoginActivity : AppCompatActivity(){
         textViewGoogle.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
         cardViewSignGoogle.setOnClickListener{
+            try {
             imageViewGoogle.visibility = View.GONE
             textViewGoogle.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             signInGoogle()
+                } catch (e: ApiException) {
+                    MainUtils.snack(it, e.message.toString(), Snackbar.LENGTH_LONG)
+                }
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -74,16 +80,11 @@ class LoginActivity : AppCompatActivity(){
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == 123) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.result
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account)
-                if (account != null) {
-                    firebaseAuthWithGoogle(account)
-                }
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
+            // Google Sign In was successful, authenticate with Firebase
+            val account = task.result
+            Log.d(TAG, "firebaseAuthWithGoogle:" + account)
+            if (account != null) {
+                firebaseAuthWithGoogle(account)
             }
         }
     }
