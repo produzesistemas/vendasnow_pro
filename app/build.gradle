@@ -41,7 +41,6 @@ android {
 
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
@@ -58,21 +57,13 @@ dependencies {
     implementation "com.google.firebase:firebase-auth-ktx:21.0.5"
     implementation "com.firebaseui:firebase-ui-auth:8.0.1"
     implementation 'com.google.firebase:firebase-auth:21.0.5'
-    // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-analytics'
-
-    // Declare the dependency for the Cloud Firestore library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-firestore-ktx'
-
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
     implementation "androidx.work:work-runtime-ktx:2.7.1"
-
 }

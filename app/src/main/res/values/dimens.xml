@@ -14,7 +14,7 @@
     <dimen name="height_card_panel">65dp</dimen>
     <dimen name="height_card_panel_small">45dp</dimen>
     <dimen name="margin_default">8dp</dimen>
-    <dimen name="margin_default_start_end">10dp</dimen>
+    <dimen name="margin_default_start_end">6dp</dimen>
     <dimen name="margin_default_searchView">15dp</dimen>
     <dimen name="margin_between_views">6dp</dimen>
     <dimen name="margin_7">7sp</dimen>

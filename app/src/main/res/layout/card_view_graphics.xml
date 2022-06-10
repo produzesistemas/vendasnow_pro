@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
         android:layout_marginBottom="@dimen/margin_default"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="@dimen/margin_default"
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true">
 
