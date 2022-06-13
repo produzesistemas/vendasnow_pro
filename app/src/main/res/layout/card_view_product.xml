@@ -5,7 +5,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="@dimen/margin_default"
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true"
         android:layout_marginStart="@dimen/margin_default_start_end"
