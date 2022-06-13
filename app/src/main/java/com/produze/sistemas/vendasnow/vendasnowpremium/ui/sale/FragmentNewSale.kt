@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
@@ -250,32 +251,40 @@ class FragmentNewSale : Fragment(){
         when (menuItem.itemId) {
             R.id.navigation_confirm -> {
                 if (binding.textViewSaleDate.text.isEmpty()) {
-                    Toast.makeText(
-                        activity, R.string.validation_sale_date,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    view?.let {
+                        MainUtils.snack(
+                            it,
+                            this.resources.getString(R.string.validation_sale_date),
+                            Snackbar.LENGTH_LONG)
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
 
                 if (binding.spinnerClient.selectedItem == null) {
-                    Toast.makeText(
-                        activity, R.string.validation_sale_client,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@OnNavigationItemSelectedListener true
+                    view?.let {
+                        MainUtils.snack(
+                            it,
+                            this.resources.getString(R.string.validation_sale_client),
+                            Snackbar.LENGTH_LONG)
+                    }
+                   return@OnNavigationItemSelectedListener true
                 }
                 if (binding.spinnerFormPayment.selectedItem == null) {
-                    Toast.makeText(
-                        activity, R.string.validation_sale_payment,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    view?.let {
+                        MainUtils.snack(
+                            it,
+                            this.resources.getString(R.string.validation_sale_payment),
+                            Snackbar.LENGTH_LONG)
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 if ((lst.size == 0) && (lstServices.size == 0)) {
-                    Toast.makeText(
-                        activity, R.string.validation_sale_products_services,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    view?.let {
+                        MainUtils.snack(
+                            it,
+                            this.resources.getString(R.string.validation_sale_products_services),
+                            Snackbar.LENGTH_LONG)
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 sale.client = binding.spinnerClient.selectedItem as Client
