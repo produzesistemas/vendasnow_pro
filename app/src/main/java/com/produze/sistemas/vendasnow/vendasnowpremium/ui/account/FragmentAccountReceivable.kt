@@ -148,7 +148,7 @@ class FragmentAccountReceivable : Fragment() {
         //handle item clicks
         if (id == R.id.action_help){
             //do your action here, im just showing toast
-            this.watchYoutubeVideo("GWEVYgSnfuU")
+            this.watchYoutubeVideo("9fH90LauX_Q")
         }
         return super.onOptionsItemSelected(item)
     }
