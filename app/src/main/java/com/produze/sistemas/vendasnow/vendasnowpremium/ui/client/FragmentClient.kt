@@ -172,7 +172,7 @@ class FragmentClient : Fragment() {
         //handle item clicks
         if (id == R.id.action_help){
             //do your action here, im just showing toast
-            this.watchYoutubeVideo("bROElv6NCGM")
+            this.watchYoutubeVideo("xYE65jd9byQ")
         }
         return super.onOptionsItemSelected(item)
     }

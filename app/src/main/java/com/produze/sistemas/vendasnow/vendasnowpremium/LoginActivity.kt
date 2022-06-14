@@ -81,6 +81,7 @@ class LoginActivity : AppCompatActivity(){
                 firebaseAuthWithGoogle(account)
             }
         }
+
     }
 
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {

@@ -5,10 +5,9 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -41,6 +40,7 @@ class FragmentGraphic : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true);
         val res = resources
         lstGraphics = ArrayList()
         val graphicTitles = res.getStringArray(R.array.Graphics)
@@ -60,5 +60,32 @@ class FragmentGraphic : Fragment() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_grafics, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        val id = item!!.itemId
+        //handle item clicks
+        if (id == R.id.action_help){
+            //do your action here, im just showing toast
+            this.watchYoutubeVideo("R4Ol7Vh7kaI")
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun watchYoutubeVideo(id: String) {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
+        )
+        try {
+            startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            startActivity(webIntent)
+        }
+    }
 }

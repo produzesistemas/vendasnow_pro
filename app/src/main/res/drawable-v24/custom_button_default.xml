@@ -4,6 +4,9 @@
     <!-- Here is the corner radius -->
     <corners android:radius="10dp" >
     </corners>
+    <size
+        android:width="120dp"
+        android:height="60dp" />
     <gradient
         android:endColor ="@color/blue"
         android:startColor="@color/blue"

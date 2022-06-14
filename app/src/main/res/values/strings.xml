@@ -24,6 +24,7 @@
     <string name="logout">Desconectar do app</string>
     <string name="login_google">Login com Google</string>
     <string name="login_email">Login com e-mail</string>
+    <string name="login_facebook">Login com Facebook</string>
     <string name="msg_error_authentication_failure">Autenticação falhou!</string>
     <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
 
@@ -78,7 +79,7 @@
     <string name="label_due_date">Data de vencimento: </string>
     <string name="label_situation">Situação: </string>
     <string name="label_sale_date_register">Venda registrada em:</string>
-    <string name="label_graphics_top_products">Top 5 produtos mais vendidos</string>
+    <string name="label_graphics_top_products">Top 5 produtos + vendidos</string>
     <string name="label_graphics_top_services">Serviços por mês e ano</string>
     <string name="label_graphics_invoices_year">Faturamento por mês e ano</string>
     <string name="label_graphics_profit_year">Lucros por mês e ano</string>
@@ -124,7 +125,7 @@
     </string-array>
 
     <string-array name="Graphics">
-        <item>Top 5 produtos mais vendidos</item>
+        <item>Top 5 produtos + vendidos</item>
         <item>Serviços por mês e ano</item>
         <item>Faturamento por mês e ano</item>
         <item>Lucros por mês e ano</item>
