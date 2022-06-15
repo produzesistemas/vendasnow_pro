@@ -32,7 +32,10 @@ class LoginActivity : AppCompatActivity(){
     private lateinit var imageViewGoogle: ImageView
     private lateinit var textViewGoogle: TextView
     private lateinit var progressBar: ProgressBar
-    private lateinit var cardViewSignRegister: CardView
+    private lateinit var progressBarRegister: ProgressBar
+    private lateinit var cardViewLogin: CardView
+    private lateinit var linearLayoutLogin: LinearLayout
+    private lateinit var linearLayoutRegister: LinearLayout
 //    private val TAG = "LoginActivity"
     private lateinit var editTextEmail: EditText
     private lateinit var editTextSecret: EditText
@@ -48,13 +51,19 @@ class LoginActivity : AppCompatActivity(){
 //        }
 
 //        cardViewSignGoogle = findViewById(R.id.cardViewSignGoogle);
-        cardViewSignRegister = findViewById(R.id.cardViewSignRegister);
-        imageViewGoogle = findViewById(R.id.imageViewGoogle);
-        textViewGoogle = findViewById(R.id.textViewGoogle);
-        progressBar = findViewById(R.id.progressBar);
+        cardViewLogin = findViewById(R.id.cardViewLogin)
+        linearLayoutLogin = findViewById(R.id.linearLayoutLogin)
+        linearLayoutRegister = findViewById(R.id.linearLayoutRegister)
+
+        imageViewGoogle = findViewById(R.id.imageViewGoogle)
+        textViewGoogle = findViewById(R.id.textViewGoogle)
+        progressBar = findViewById(R.id.progressBar)
+        progressBarRegister = findViewById(R.id.progressBarRegister)
+
         imageViewGoogle.visibility = View.VISIBLE
         textViewGoogle.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
+        linearLayoutRegister.visibility = View.GONE
 
 //        cardViewSignGoogle.setOnClickListener{
 //            try {
@@ -88,7 +97,7 @@ class LoginActivity : AppCompatActivity(){
         imageViewGoogle.visibility = View.VISIBLE
         textViewGoogle.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
-        cardViewSignRegister.setOnClickListener{
+        cardViewLogin.setOnClickListener{
 
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
 

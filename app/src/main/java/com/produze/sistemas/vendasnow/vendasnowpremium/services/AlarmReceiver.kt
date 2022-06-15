@@ -23,19 +23,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
         WorkManager.getInstance(contextBase).enqueue(
             OneTimeWorkRequest.from(ReminderWorker::class.java))
-
-
-//        val myWorkRequest = OneTimeWorkRequest  <ReminderWorker>(1, TimeUnit.DAYS)
-//            .setConstraints(constraints)
-//            .setInputData(
-//                workDataOf(
-//                "title" to "Reminder",
-//                "message" to message,
-//            )
-//            )
-//            .build()
-//
-//        WorkManager.getInstance(contextBase).enqueue(myWorkRequest)
     }
 
 }

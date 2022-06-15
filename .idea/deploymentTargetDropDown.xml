@@ -7,33 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-<<<<<<< HEAD
-            <value value="C:\Users\paulo.sergio\.android\avd\Pixel_API_30.avd" />
-=======
-<<<<<<< HEAD
-            <value value="C:\Users\espec\.android\avd\Nexus_One_API_30.avd" />
->>>>>>> 4c1269b1403e5204df1d0ba7fdde853ec7e2736e
-          </Key>
-        </deviceKey>
-      </Target>
-    </targetSelectedWithDropDown>
-<<<<<<< HEAD
-    <timeTargetWasSelectedWithDropDown value="2022-06-14T20:08:39.454642600Z" />
-=======
-    <timeTargetWasSelectedWithDropDown value="2022-06-10T11:48:59.823949Z" />
-=======
             <value value="C:\Users\paulo.sergio\.android\avd\Nexus_6P_API_32.avd" />
           </Key>
         </deviceKey>
       </Target>
-<<<<<<< HEAD
-    </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-06-11T13:42:50.234887Z" />
->>>>>>> 0747cb4940f4141ecae0104ed7404b062331ca8a
-=======
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-06-14T16:44:21.894251900Z" />
->>>>>>> origin/paulo.sergio
->>>>>>> 4c1269b1403e5204df1d0ba7fdde853ec7e2736e
+    <timeTargetWasSelectedWithDropDown value="2022-06-15T19:17:05.542553800Z" />
   </component>
 </project>

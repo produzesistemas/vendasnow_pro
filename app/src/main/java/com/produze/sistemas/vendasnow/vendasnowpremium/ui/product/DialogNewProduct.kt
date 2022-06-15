@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewProductBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MoneyTextWatcher
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -24,7 +26,8 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
                        val onClickAction: (Product) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewProductBinding
-
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -37,6 +40,11 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
                 false
         )
         val mLocale = Locale("pt", "BR")
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         binding.editTextValue.addTextChangedListener(MoneyTextWatcher(binding.editTextValue, mLocale))
         binding.editTextCostValue.addTextChangedListener(MoneyTextWatcher(binding.editTextCostValue, mLocale))
         binding.editTextDescription.setText(product.name)
@@ -93,28 +101,28 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
     }
 
     private fun insert(product: Product) {
-//        lifecycleScope.launch {
-//            viewModel.add(product).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        onClickAction(product)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModel.add(product, token.email).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is State.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+                        onClickAction(product)
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+                        Toast.makeText(activity, state.message,
+                                Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun update(product: Product) {

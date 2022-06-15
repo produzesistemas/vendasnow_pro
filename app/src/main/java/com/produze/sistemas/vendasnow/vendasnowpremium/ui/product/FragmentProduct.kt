@@ -17,8 +17,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentProductBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
@@ -35,6 +37,8 @@ class FragmentProduct : Fragment() {
     private lateinit var adapterProduct: AdapterProduct
     private var mSearchItem: MenuItem? = null
     private var sv: SearchView? = null
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -55,6 +59,11 @@ class FragmentProduct : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true);
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         viewModel = ViewModelProvider(this).get(ViewModelProduct::class.java)
         adapterProduct = AdapterProduct(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -112,29 +121,29 @@ class FragmentProduct : Fragment() {
     }
 
     private fun load() {
-//        lifecycleScope.launch {
-//            viewModel.getAll().collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-//                        binding.recyclerView.apply {
-//                            adapter = adapterProduct
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModel.getAll(token.email).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
+                        binding.recyclerView.apply {
+                            adapter = adapterProduct
+                            layoutManager = LinearLayoutManager(context)
+                        }
+                        binding.progressBar.visibility = View.GONE
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(activity, state.message,
+                                Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

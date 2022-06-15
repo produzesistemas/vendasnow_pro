@@ -22,7 +22,9 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAcco
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelAccountReceivable
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -42,9 +44,11 @@ class NotificationService : IntentService("NotificationService"){
     private lateinit var dueDate: String
     private lateinit var value: String
     private lateinit var idSale: String
-    private lateinit var auth: FirebaseAuth
+//    private lateinit var auth: FirebaseAuth
     var repository = RepositoryAccountReceivable()
     private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     @SuppressLint("NewApi")
     private fun createChannel() {
@@ -70,9 +74,10 @@ class NotificationService : IntentService("NotificationService"){
 
     override fun onHandleIntent(intent: Intent?) {
         createChannel()
-        auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        if (user != null) {
+//        auth = FirebaseAuth.getInstance()
+//        val user = auth.currentUser
+        token = datasource?.get()!!
+        if (token.email != null) {
 
             var timestamp: Long = 0
             if (intent != null && intent.extras != null) {
@@ -88,7 +93,7 @@ class NotificationService : IntentService("NotificationService"){
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, AccountReceivableDetailActivity::class.java)
-            val lst = user.email?.let { repository.getAllCurrentDay(calendar, it) } as MutableList<Sale>
+            val lst = token.email?.let { repository.getAllCurrentDay(calendar, it) } as MutableList<Sale>
             var dateStart = calendar.time
             val timeStampStart = Timestamp(dateStart.time)
             lst.forEach{ sale ->

@@ -18,9 +18,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAccountsReceivableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
@@ -45,6 +47,8 @@ class FragmentAccountReceivable : Fragment() {
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private var mSearchItem: MenuItem? = null
     private var sv: SearchView? = null
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +68,12 @@ class FragmentAccountReceivable : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
         adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
@@ -97,30 +106,30 @@ class FragmentAccountReceivable : Fragment() {
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-//        lifecycleScope.launch {
-//            viewModelAccountReceivable.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-//                        binding.recyclerView.apply {
-//                            adapter = adapterAccountReceivable
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                            Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModelAccountReceivable.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+                        binding.recyclerView.apply {
+                            adapter = adapterAccountReceivable
+                            layoutManager = LinearLayoutManager(context)
+                        }
+                        binding.progressBar.visibility = View.GONE
+                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(activity, state.message,
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -13,8 +13,10 @@ import androidx.work.WorkerParameters
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -28,21 +30,24 @@ import java.sql.Timestamp
 import java.util.*
 
 class ReminderWorker(val context: Context, val params: WorkerParameters) : CoroutineWorker(context, params){
-    var repository = RepositoryAccountReceivable()
+//    var repository = RepositoryAccountReceivable()
     private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
-    private lateinit var auth: FirebaseAuth
+//    private lateinit var auth: FirebaseAuth
+
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
+
     override suspend fun doWork(): Result {
-        auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        var entries: ArrayList<Sale> = ArrayList()
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
         withContext(Dispatchers.IO) {
 
-            if (user != null) {
+            if (token.email != null) {
                 var dateStart = calendar.time
                 val timeStampStart = Timestamp(dateStart.time)
                 var lst = FirebaseFirestore.getInstance()
                     .collection("sales")
-                    .whereEqualTo("createBy", user.email.toString())
+                    .whereEqualTo("createBy", token.email)
                     .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
                     .get().await().documents.map { doc ->
                         var obj = doc.toObject(Sale::class.java)
