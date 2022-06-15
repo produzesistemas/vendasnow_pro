@@ -17,11 +17,11 @@ class ViewModelClient : ViewModel() {
 
     var repository = RepositoryClient()
 
-    fun getAll() = repository.getAll()
+    fun getAll(email: String) = repository.getAll(email)
 
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 
-    fun add(client: Client) = repository.add(client)
+    fun add(client: Client, email: String) = repository.add(client, email)
 
     fun update(client: Client) = repository.update(client)
 

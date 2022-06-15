@@ -97,30 +97,30 @@ class FragmentAccountReceivable : Fragment() {
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-        lifecycleScope.launch {
-            viewModelAccountReceivable.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-                        binding.recyclerView.apply {
-                            adapter = adapterAccountReceivable
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                        binding.progressBar.visibility = View.GONE
-                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModelAccountReceivable.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+//                        binding.recyclerView.apply {
+//                            adapter = adapterAccountReceivable
+//                            layoutManager = LinearLayoutManager(context)
+//                        }
+//                        binding.progressBar.visibility = View.GONE
+//                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(activity, state.message,
+//                            Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

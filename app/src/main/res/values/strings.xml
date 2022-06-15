@@ -138,4 +138,6 @@
         <item>Contas a receber</item>
         <item>Gráficos</item>
     </string-array>
+
+    <string name="validation_login">Informe o usuário e senha!</string>
 </resources>

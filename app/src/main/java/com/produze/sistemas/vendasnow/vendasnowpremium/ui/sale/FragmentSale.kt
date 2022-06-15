@@ -126,30 +126,30 @@ class FragmentSale : Fragment() {
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-        lifecycleScope.launch {
-            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        adapterSale  = AdapterSale((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
-                        binding.recyclerView.apply {
-                            adapter = adapterSale
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                        binding.progressBar.visibility = View.GONE
-                        viewModel.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        adapterSale  = AdapterSale((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
+//                        binding.recyclerView.apply {
+//                            adapter = adapterSale
+//                            layoutManager = LinearLayoutManager(context)
+//                        }
+//                        binding.progressBar.visibility = View.GONE
+//                        viewModel.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(activity, state.message,
+//                                Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

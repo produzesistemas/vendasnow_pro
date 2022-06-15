@@ -93,28 +93,28 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
     }
 
     private fun insert(product: Product) {
-        lifecycleScope.launch {
-            viewModel.add(product).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        dismiss()
-                        onClickAction(product)
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        dismiss()
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.add(product).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//
+//                    is State.Success -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        dismiss()
+//                        onClickAction(product)
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        dismiss()
+//                        Toast.makeText(activity, state.message,
+//                                Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun update(product: Product) {

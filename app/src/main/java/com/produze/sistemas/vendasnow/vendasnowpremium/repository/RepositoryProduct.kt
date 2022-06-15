@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 
 class RepositoryProduct {
-    var user = FirebaseAuth.getInstance().currentUser
+//    var user = FirebaseAuth.getInstance().currentUser
 
-    fun getAll() = flow {
+    fun getAll(email: String) = flow {
         // Emit loading state
         emit(State.loading())
         var lst = FirebaseFirestore.getInstance()
                 .collection("products")
-                .whereEqualTo("createBy", user?.email.toString())
+                .whereEqualTo("createBy", email)
                 .get().await().documents.map { doc ->
                     var obj = doc.toObject(Product::class.java)
                     if (obj != null) {
@@ -38,8 +38,8 @@ class RepositoryProduct {
     }.flowOn(Dispatchers.IO)
 
 
-    fun add(product: Product) = flow<State<DocumentReference>> {
-        product.createBy = user?.email.toString()
+    fun add(product: Product, email: String) = flow<State<DocumentReference>> {
+        product.createBy = email
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()

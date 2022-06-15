@@ -25,7 +25,7 @@ class ViewModelAccountReceivable : ViewModel() {
         MutableLiveData<Sale>()
     }
 
-    fun getAllByMonthAndYear(year: Int, month: Int) = repository.getAllByMonthAndYear(year, month)
+    fun getAllByMonthAndYear(year: Int, month: Int, email: String) = repository.getAllByMonthAndYear(year, month, email)
 
     fun onItemButtonClick(sale: Sale) {
         itemButtonClickEvent.postValue(sale)

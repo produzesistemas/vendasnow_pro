@@ -33,6 +33,9 @@ import android.content.ActivityNotFoundException
 
 import android.content.Intent
 import android.net.Uri
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 
 
 class FragmentClient : Fragment() {
@@ -45,6 +48,8 @@ class FragmentClient : Fragment() {
     private var mSearchItem: MenuItem? = null
     private var mHelp: MenuItem? = null
     private var sv: SearchView? = null
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -65,6 +70,11 @@ class FragmentClient : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true);
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         viewModel = ViewModelProvider(this).get(ViewModelClient::class.java)
         adapterClient = AdapterClient(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -123,7 +133,7 @@ class FragmentClient : Fragment() {
 
     private fun load() {
         lifecycleScope.launch {
-            viewModel.getAll().collectLatest { state ->
+            viewModel.getAll(token.email).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE

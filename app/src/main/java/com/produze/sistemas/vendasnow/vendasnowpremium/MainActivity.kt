@@ -29,18 +29,20 @@ import java.util.*
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.work.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.ReminderWorker
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var auth: FirebaseAuth
+//    private lateinit var auth: FirebaseAuth
+private var datasource: DataSourceUser? = null
     private lateinit var viewModelMain: ViewModelMain
-    var requestPermissionsResultCallback: (() -> Unit)? = null
-
-    private val PERMISSION_REQUEST_CODE = 34
-    private lateinit var afterPermissionFunc: (Map<String, Int>) -> Unit
+//    var requestPermissionsResultCallback: (() -> Unit)? = null
+//
+//    private val PERMISSION_REQUEST_CODE = 34
+//    private lateinit var afterPermissionFunc: (Map<String, Int>) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,17 +87,30 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-            auth = FirebaseAuth.getInstance()
-            val user = auth.getCurrentUser()
-            if (user == null) {
-                startActivity(Intent(this, LoginActivity::class.java))
+//            auth = FirebaseAuth.getInstance()
+//            val user = auth.getCurrentUser()
+//            if (user == null) {
+//                startActivity(Intent(this, LoginActivity::class.java))
+//                finish()
+//            } else {
+//                val header: View = navView.getHeaderView(0)
+//                val textView: TextView = header.findViewById(R.id.textViewEmail)
+//                val profileImage: CircleImageView = header.findViewById(R.id.profile_image)
+//                textView.text = user.displayName
+//                Picasso.get().load(user.photoUrl).into(profileImage);
+//            }
+
+            datasource = DataSourceUser(this)
+            var token = datasource?.get()!!
+            if (token.token == "") {
+                changeActivity()
                 finish()
             } else {
                 val header: View = navView.getHeaderView(0)
                 val textView: TextView = header.findViewById(R.id.textViewEmail)
                 val profileImage: CircleImageView = header.findViewById(R.id.profile_image)
-                textView.text = user.displayName
-                Picasso.get().load(user.photoUrl).into(profileImage);
+                textView.text = token.email
+//                Picasso.get().load(user.photoUrl).into(profileImage);
             }
 
             startNotification()
@@ -128,8 +143,19 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+//    private fun signOut() {
+//        auth.signOut()
+//        onBackPressed()
+//        startActivity(Intent(this, LoginActivity::class.java))
+//    }
+
+    private fun changeActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
     private fun signOut() {
-        auth.signOut()
+        datasource?.deleteAll()
         onBackPressed()
         startActivity(Intent(this, LoginActivity::class.java))
     }

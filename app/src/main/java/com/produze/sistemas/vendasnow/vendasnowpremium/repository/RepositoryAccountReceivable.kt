@@ -1,11 +1,9 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -16,8 +14,8 @@ import java.sql.Timestamp
 import java.util.*
 
 class RepositoryAccountReceivable {
-    var user = FirebaseAuth.getInstance().currentUser
-    fun getAllByMonthAndYear(year: Int, month: Int) = flow {
+//    var user = FirebaseAuth.getInstance().currentUser
+    fun getAllByMonthAndYear(year: Int, month: Int, email: String) = flow {
         var entries: ArrayList<Sale> = ArrayList()
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
@@ -47,7 +45,7 @@ class RepositoryAccountReceivable {
 
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
-            .whereEqualTo("createBy", user?.email.toString())
+            .whereEqualTo("createBy", email)
             .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
             .get().await().documents.map { doc ->
                 var obj = doc.toObject(Sale::class.java)

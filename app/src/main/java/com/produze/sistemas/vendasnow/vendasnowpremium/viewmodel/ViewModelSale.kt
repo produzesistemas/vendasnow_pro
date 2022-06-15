@@ -25,9 +25,9 @@ class ViewModelSale : ViewModel() {
         MutableLiveData<Sale>()
     }
 
-    fun getAll() = repository.getAll()
-    fun getAllByMonthAndYear(year: Int, month: Int) = repository.getAllByMonthAndYear(year, month)
-    fun getAllByYear(year: Int) = repository.getAllByYear(year)
+    fun getAll(email: String) = repository.getAll(email)
+    fun getAllByMonthAndYear(year: Int, month: Int, email: String) = repository.getAllByMonthAndYear(year, month, email)
+    fun getAllByYear(year: Int, email: String) = repository.getAllByYear(year, email)
     fun getById(id: String) = repository.getById(id)
 
     fun delete(sale: Sale) = repository.delete(sale)
@@ -91,7 +91,7 @@ class ViewModelSale : ViewModel() {
         return total
     }
 
-    fun add(sale: Sale) = repository.add(sale)
+    fun add(sale: Sale, email: String) = repository.add(sale, email)
 
     fun getTotalByFilter(sales: List<Sale>) {
         var total: Double = 0.00

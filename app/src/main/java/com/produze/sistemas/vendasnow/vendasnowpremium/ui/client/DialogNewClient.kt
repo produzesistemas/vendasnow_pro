@@ -9,8 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewClientBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.Mask
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
@@ -23,7 +25,8 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                       val onClickAction: (Client) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewClientBinding
-
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -35,6 +38,12 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                 container,
                 false
         )
+
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
 
         binding.editTextTelefone.addTextChangedListener(Mask.insert("(##)#####-####", binding.editTextTelefone))
         binding.editTextNome.setText(client.name)
@@ -68,7 +77,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
 
     private fun insert(client: Client) {
     lifecycleScope.launch {
-        viewModel.add(client).collectLatest { state ->
+        viewModel.add(client, token.email).collectLatest { state ->
             when (state) {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE

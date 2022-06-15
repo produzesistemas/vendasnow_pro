@@ -16,8 +16,8 @@ class ViewModelProduct : ViewModel() {
     }
 
     var repository = RepositoryProduct()
-    fun getAll() = repository.getAll()
-    fun add(product: Product) = repository.add(product)
+    fun getAll(email: String) = repository.getAll(email)
+    fun add(product: Product, email: String) = repository.add(product, email)
     fun update(product: Product) = repository.update(product)
     fun delete(product: Product) = repository.delete(product)
 
