@@ -94,17 +94,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="@dimen/margin_default"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp">
 
             <LinearLayout
-                style="@style/GoogleLoginButton"
+                style="@style/ButtonBlue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_dark"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp">
 
@@ -147,12 +145,90 @@
 
         </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        style="@style/ButtonGrayLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/margin_7"
+                            android:text="@string/signup"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/signupregister"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewForgotPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        style="@style/ButtonGrayLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/margin_7"
+                            android:text="@string/forgotpassword"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayoutRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout

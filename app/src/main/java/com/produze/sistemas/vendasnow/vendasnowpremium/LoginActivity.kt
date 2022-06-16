@@ -39,6 +39,8 @@ class LoginActivity : AppCompatActivity(){
 //    private val TAG = "LoginActivity"
     private lateinit var editTextEmail: EditText
     private lateinit var editTextSecret: EditText
+    private lateinit var editTextEmailRegister: EditText
+    private lateinit var editTextSecretRegister: EditText
     private var datasource: DataSourceUser? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,12 @@ class LoginActivity : AppCompatActivity(){
         textViewGoogle = findViewById(R.id.textViewGoogle)
         progressBar = findViewById(R.id.progressBar)
         progressBarRegister = findViewById(R.id.progressBarRegister)
+
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextSecret = findViewById(R.id.editTextSecret);
+
+        editTextEmailRegister = findViewById(R.id.editTextEmailRegister);
+        editTextSecretRegister = findViewById(R.id.editTextSecretRegister);
 
         imageViewGoogle.visibility = View.VISIBLE
         textViewGoogle.visibility = View.VISIBLE
@@ -86,8 +94,7 @@ class LoginActivity : AppCompatActivity(){
 //
 //        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextSecret = findViewById(R.id.editTextSecret);
+
         datasource = DataSourceUser(this)
         var token = datasource?.get()!!
         if (token.token != "") {

@@ -24,6 +24,9 @@
     <string name="logout">Desconectar do app</string>
     <string name="login_google">Login com Google</string>
     <string name="login_email">Login com e-mail</string>
+    <string name="signup">Não tem uma conta?</string>
+    <string name="signupregister">Registre-se</string>
+    <string name="forgotpassword">Esqueci a senha</string>
     <string name="login_facebook">Login com Facebook</string>
     <string name="msg_error_authentication_failure">Autenticação falhou!</string>
     <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
