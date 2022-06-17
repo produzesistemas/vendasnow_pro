@@ -2,8 +2,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication
 
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.UserBody
-import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,33 +17,8 @@ interface ApiInterface {
 
     @Headers("Content-Type:application/json")
     @POST("account/registerVendasNow")
-    fun registerUser(@Body loginUser: LoginUser): retrofit2.Call<ResponseBody>
+    fun registerUser(@Body loginUser: LoginUser): retrofit2.Call<String>
 }
-
-//interface ServiceClient {
-//    @GET("client/getAll")
-//    fun getAllClient(@Header("Authorization") token: String): retrofit2.Call<List<Client>>
-//}
-
-//class ApiClient {
-//    private lateinit var apiService: ServiceClient
-//    private val BASE_URL: String = "https://produzesistemas.com.br/api/"
-//    fun getApiService(): ServiceClient {
-//
-//        // Initialize ApiService if not initialized yet
-//        if (!::apiService.isInitialized) {
-//            val retrofit = Retrofit.Builder()
-//                .baseUrl(BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//
-//            apiService = retrofit.create(ServiceClient::class.java)
-//        }
-//
-//        return apiService
-//    }
-//
-//}
 
 class RetrofitInstance {
     companion object {

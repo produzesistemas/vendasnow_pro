@@ -195,8 +195,8 @@ class LoginActivity : AppCompatActivity(){
 
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         val loginUser = LoginUser(email, secret)
-        retIn.registerUser(loginUser).enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+        retIn.registerUser(loginUser).enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
                 Toast.makeText(
                     this@LoginActivity,
                     t.message,
@@ -207,12 +207,12 @@ class LoginActivity : AppCompatActivity(){
                 binding.progressBarRegister.visibility = View.GONE
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
                 if (response.code() == 200) {
                     binding.imageViewRegister.visibility = View.VISIBLE
                     binding.textViewRegister.visibility = View.VISIBLE
                     binding.progressBarRegister.visibility = View.GONE
-                    MainUtils.snack(view, response.body()!!.string(), Snackbar.LENGTH_LONG)
+                    MainUtils.snack(view, response.body()!!, Snackbar.LENGTH_LONG)
                 }
                 if (response.code() == 400) {
                     MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
