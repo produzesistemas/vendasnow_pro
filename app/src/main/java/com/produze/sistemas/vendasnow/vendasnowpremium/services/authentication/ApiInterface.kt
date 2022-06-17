@@ -19,9 +19,7 @@ interface ApiInterface {
 
     @Headers("Content-Type:application/json")
     @POST("account/registerVendasNow")
-    fun registerUser(
-        @Body info: UserBody
-    ): retrofit2.Call<ResponseBody>
+    fun registerUser(@Body loginUser: LoginUser): retrofit2.Call<ResponseBody>
 }
 
 //interface ServiceClient {

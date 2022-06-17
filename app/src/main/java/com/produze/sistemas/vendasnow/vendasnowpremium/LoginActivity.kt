@@ -15,100 +15,36 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.ActivityLoginBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity(){
-//    private lateinit var auth: FirebaseAuth
-//    private lateinit var googleSignInClient: GoogleSignInClient
-//    private val reqCode:Int=123
-//    private lateinit var cardViewSignGoogle: CardView
-    private lateinit var imageViewGoogle: ImageView
-    private lateinit var textViewGoogle: TextView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var progressBarRegister: ProgressBar
-    private lateinit var cardViewLogin: CardView
-    private lateinit var linearLayoutLogin: LinearLayout
-    private lateinit var linearLayoutRegister: LinearLayout
-//    private val TAG = "LoginActivity"
-    private lateinit var editTextEmail: EditText
-    private lateinit var editTextSecret: EditText
-    private lateinit var editTextEmailRegister: EditText
-    private lateinit var editTextSecretRegister: EditText
     private var datasource: DataSourceUser? = null
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
-//        auth = FirebaseAuth.getInstance()
-//        if (auth.currentUser != null) {
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
-
-//        cardViewSignGoogle = findViewById(R.id.cardViewSignGoogle);
-        cardViewLogin = findViewById(R.id.cardViewLogin)
-        linearLayoutLogin = findViewById(R.id.linearLayoutLogin)
-        linearLayoutRegister = findViewById(R.id.linearLayoutRegister)
-
-        imageViewGoogle = findViewById(R.id.imageViewGoogle)
-        textViewGoogle = findViewById(R.id.textViewGoogle)
-        progressBar = findViewById(R.id.progressBar)
-        progressBarRegister = findViewById(R.id.progressBarRegister)
-
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextSecret = findViewById(R.id.editTextSecret);
-
-        editTextEmailRegister = findViewById(R.id.editTextEmailRegister);
-        editTextSecretRegister = findViewById(R.id.editTextSecretRegister);
-
-        imageViewGoogle.visibility = View.VISIBLE
-        textViewGoogle.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
-        linearLayoutRegister.visibility = View.GONE
-
-//        cardViewSignGoogle.setOnClickListener{
-//            try {
-//            imageViewGoogle.visibility = View.GONE
-//            textViewGoogle.visibility = View.GONE
-//            progressBar.visibility = View.VISIBLE
-//            signInGoogle()
-//                } catch (e: ApiException) {
-//                imageViewGoogle.visibility = View.VISIBLE
-//                textViewGoogle.visibility = View.VISIBLE
-//                progressBar.visibility = View.GONE
-//                    MainUtils.snack(it, e.message.toString(), Snackbar.LENGTH_LONG)
-//                }
-//        }
-
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build()
-//
-//        googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         datasource = DataSourceUser(this)
         var token = datasource?.get()!!
         if (token.token != "") {
             changeActivity()
             finish()
         }
-        imageViewGoogle.visibility = View.VISIBLE
-        textViewGoogle.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
-        cardViewLogin.setOnClickListener{
+        binding.cardViewLogin.setOnClickListener{
 
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
 
-                if ((editTextEmail.text.toString() == "") || (editTextSecret.text.toString() == "")) {
+                if ((binding.editTextEmail.text.toString() == "") || (binding.editTextSecret.text.toString() == "")) {
                     MainUtils.snack(
                         it,
                         this.resources.getString(R.string.validation_login),
@@ -116,10 +52,42 @@ class LoginActivity : AppCompatActivity(){
                     )
                 } else {
 
-                    imageViewGoogle.visibility = View.GONE
-                    textViewGoogle.visibility = View.GONE
-                    progressBar.visibility = View.VISIBLE
-                    onLogin(it, editTextEmail.text.toString(), editTextSecret.text.toString())
+                    binding.imageViewLogin.visibility = View.GONE
+                    binding.textViewLogin.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                    onLogin(it, binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
+                }
+            } else {
+                MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+            }
+        }
+
+        binding.cardViewSignUp.setOnClickListener{
+            binding.linearLayoutRegister.visibility = View.VISIBLE
+            binding.linearLayoutLogin.visibility = View.GONE
+           }
+
+        binding.cardViewBack.setOnClickListener{
+            binding.linearLayoutRegister.visibility = View.GONE
+            binding.linearLayoutLogin.visibility = View.VISIBLE
+        }
+
+        binding.cardViewRegister.setOnClickListener{
+
+            if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
+
+                if ((binding.editTextEmailRegister.text.toString() == "") || (binding.editTextSecretRegister.text.toString() == "")) {
+                    MainUtils.snack(
+                        it,
+                        this.resources.getString(R.string.validation_login),
+                        Snackbar.LENGTH_LONG
+                    )
+                } else {
+
+                    binding.imageViewRegister.visibility = View.GONE
+                    binding.textViewRegister.visibility = View.GONE
+                    binding.progressBarRegister.visibility = View.VISIBLE
+                    onRegister(it, binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
                 }
             } else {
                 MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
@@ -191,16 +159,16 @@ class LoginActivity : AppCompatActivity(){
                     t.message,
                     Toast.LENGTH_SHORT
                 ).show()
-                imageViewGoogle.visibility = View.VISIBLE
-                textViewGoogle.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
+                binding.imageViewLogin.visibility = View.VISIBLE
+                binding.textViewLogin.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 if (response.code() == 200) {
-                    imageViewGoogle.visibility = View.VISIBLE
-                    textViewGoogle.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
+                    binding.imageViewLogin.visibility = View.VISIBLE
+                    binding.textViewLogin.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
 
                     try {
                         var token = MutableLiveData<Token>()
@@ -214,9 +182,43 @@ class LoginActivity : AppCompatActivity(){
                 }
                 if (response.code() == 400) {
                     MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
-                    imageViewGoogle.visibility = View.VISIBLE
-                    textViewGoogle.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
+                    binding.imageViewLogin.visibility = View.VISIBLE
+                    binding.textViewLogin.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
+
+    }
+
+    private fun onRegister(view: View, email: String, secret: String){
+
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        val loginUser = LoginUser(email, secret)
+        retIn.registerUser(loginUser).enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    t.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.imageViewRegister.visibility = View.VISIBLE
+                binding.textViewRegister.visibility = View.VISIBLE
+                binding.progressBarRegister.visibility = View.GONE
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.code() == 200) {
+                    binding.imageViewRegister.visibility = View.VISIBLE
+                    binding.textViewRegister.visibility = View.VISIBLE
+                    binding.progressBarRegister.visibility = View.GONE
+                    MainUtils.snack(view, response.body()!!.string(), Snackbar.LENGTH_LONG)
+                }
+                if (response.code() == 400) {
+                    MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
+                    binding.imageViewRegister.visibility = View.VISIBLE
+                    binding.textViewRegister.visibility = View.VISIBLE
+                    binding.progressBarRegister.visibility = View.GONE
                 }
             }
         })

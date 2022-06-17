@@ -107,16 +107,16 @@
                 android:paddingBottom="15dp">
 
                 <ImageView
-                    android:id="@+id/imageViewGoogle"
+                    android:id="@+id/imageViewLogin"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="start"
                     android:layout_marginStart="6dp"
-                    android:src="@drawable/ic_baseline_how_to_reg_24"
+                    android:src="@drawable/ic_baseline_email_24"
                     app:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/textViewGoogle"
+                    android:id="@+id/textViewLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -302,6 +302,7 @@
                     android:paddingBottom="15dp">
 
                     <ImageView
+                        android:id="@+id/imageViewRegister"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="start"
@@ -310,10 +311,11 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/textViewRegister"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/login_email"
+                        android:text="@string/signupregister"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="16dp" />
@@ -338,67 +340,41 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    style="@style/ButtonGrayLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_7"
+                        android:text="@string/action_go_back"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
-
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/cardViewSignGoogle"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:clickable="true"-->
-<!--            android:focusable="true"-->
-<!--            app:cardCornerRadius="8dp"-->
-<!--            app:cardElevation="8dp">-->
-
-<!--            <LinearLayout-->
-<!--                style="@style/GoogleLoginButton"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@android:color/holo_blue_dark"-->
-<!--                android:paddingTop="15dp"-->
-<!--                android:paddingBottom="15dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageViewGoogle"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:layout_gravity="start"-->
-<!--                    android:layout_marginStart="6dp"-->
-<!--                    android:src="@drawable/logo_google"-->
-<!--                    app:tint="@color/white" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewGoogle"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:text="@string/login_google"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="16dp" />-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-<!--                    <ProgressBar-->
-<!--                        android:id="@+id/progressBar"-->
-<!--                        android:layout_width="24dp"-->
-<!--                        android:layout_height="24dp"-->
-<!--                        android:indeterminateTint="@color/white"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </LinearLayout>-->
-
-<!--        </androidx.cardview.widget.CardView>-->
-
 
     </LinearLayout>
 
