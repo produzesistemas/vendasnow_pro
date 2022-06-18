@@ -22,9 +22,11 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsTopFiveServicesBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
@@ -44,7 +46,8 @@ class FragmentGraphicTopFiveServices : Fragment(){
     private var total: Float = 0.0f
     private var totalGeral: Float = 0.0f
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
-
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -65,6 +68,11 @@ class FragmentGraphicTopFiveServices : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
@@ -177,7 +185,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
 
         lifecycleScope.launch {
-            viewModel.getAllByYear(calendar.get(Calendar.YEAR)).collectLatest { state ->
+            viewModel.getAllByYear(calendar.get(Calendar.YEAR), token.email).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE

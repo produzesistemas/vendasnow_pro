@@ -6,7 +6,7 @@
     </corners>
     <size
         android:width="120dp"
-        android:height="60dp" />
+        android:height="40dp" />
     <gradient
         android:endColor ="@color/blue"
         android:startColor="@color/blue"

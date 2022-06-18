@@ -2,7 +2,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.client
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -21,19 +20,14 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.produze.sistemas.vendasnow.vendasnowpremium.MainActivity
 import android.view.*
 import android.view.MenuInflater
-
-import androidx.annotation.NonNull
-import android.app.SearchManager
-
 import androidx.core.view.MenuItemCompat
 import android.content.ActivityNotFoundException
-
 import android.content.Intent
 import android.net.Uri
-
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 
 class FragmentClient : Fragment() {
 
@@ -43,8 +37,9 @@ class FragmentClient : Fragment() {
     private lateinit var adapterClient: AdapterClient
     private lateinit var viewModelMain: ViewModelMain
     private var mSearchItem: MenuItem? = null
-    private var mHelp: MenuItem? = null
     private var sv: SearchView? = null
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -65,6 +60,11 @@ class FragmentClient : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true);
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         viewModel = ViewModelProvider(this).get(ViewModelClient::class.java)
         adapterClient = AdapterClient(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -123,7 +123,7 @@ class FragmentClient : Fragment() {
 
     private fun load() {
         lifecycleScope.launch {
-            viewModel.getAll().collectLatest { state ->
+            viewModel.getAll(token.email).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -167,11 +167,8 @@ class FragmentClient : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle presses on the action bar menu items
         val id = item!!.itemId
-        //handle item clicks
         if (id == R.id.action_help){
-            //do your action here, im just showing toast
             this.watchYoutubeVideo("xYE65jd9byQ")
         }
         return super.onOptionsItemSelected(item)

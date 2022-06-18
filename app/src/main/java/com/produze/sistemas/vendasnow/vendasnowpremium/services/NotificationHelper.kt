@@ -17,7 +17,6 @@ import java.util.*
 
 class NotificationHelper(val context: Context, val sale: Sale) {
 
-    private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
     var df = SimpleDateFormat("dd/MM/yyyy")
     private fun createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

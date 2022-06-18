@@ -2,7 +2,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
@@ -12,17 +11,16 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
-import java.util.ArrayList
 
 class RepositoryClient {
-    var user = FirebaseAuth.getInstance().currentUser
+//    var user = FirebaseAuth.getInstance().currentUser
 
-    fun getAll() = flow {
+    fun getAll(email: String) = flow {
         // Emit loading state
         emit(State.loading())
         var lst = FirebaseFirestore.getInstance()
             .collection("clients")
-            .whereEqualTo("createBy", user?.email.toString())
+            .whereEqualTo("createBy", email)
             .get().await().documents.map { doc ->
                     var obj = doc.toObject(Client::class.java)
                     if (obj != null) {
@@ -39,8 +37,8 @@ class RepositoryClient {
     }.flowOn(Dispatchers.IO)
 
 
-    fun add(client: Client) = flow<State<DocumentReference>> {
-        client.createBy = user?.email.toString()
+    fun add(client: Client, email: String) = flow<State<DocumentReference>> {
+        client.createBy = email
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()

@@ -61,6 +61,14 @@
         <item name="android:background">@drawable/google_button</item>
     </style>
 
+    <style name="ButtonGrayLight">
+        <item name="android:background">@drawable/custom_button_gray_light</item>
+    </style>
+
+    <style name="ButtonBlue">
+        <item name="android:background">@drawable/custom_button_blue</item>
+    </style>
+
     <style name="SearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
         <item name="android:textSize">12sp</item>
     </style>

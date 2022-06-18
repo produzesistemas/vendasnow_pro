@@ -2,11 +2,8 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
@@ -19,14 +16,14 @@ import java.util.*
 
 
 class RepositorySale {
-    var user = FirebaseAuth.getInstance().currentUser
+//    var user = FirebaseAuth.getInstance().currentUser
 
-    fun getAll() = flow {
+    fun getAll(email: String) = flow {
         // Emit loading state
         emit(State.loading())
         var lst = FirebaseFirestore.getInstance()
                 .collection("sales")
-                .whereEqualTo("createBy", user?.email.toString())
+                .whereEqualTo("createBy", email)
                 .get().await().documents.map { doc ->
                     var obj = doc.toObject(Sale::class.java)
                     if (obj != null) {
@@ -42,8 +39,8 @@ class RepositorySale {
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
 
-    fun add(sale: Sale) = flow<State<DocumentReference>> {
-        sale.createBy = user?.email.toString()
+    fun add(sale: Sale, email: String) = flow<State<DocumentReference>> {
+        sale.createBy = email
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()
@@ -81,7 +78,7 @@ class RepositorySale {
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
 
-    fun getAllByMonthAndYear(year: Int, month: Int) = flow {
+    fun getAllByMonthAndYear(year: Int, month: Int, email: String) = flow {
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
         var dateStart = GregorianCalendar(year, month - 1, 1).time
@@ -110,7 +107,7 @@ class RepositorySale {
 
         var lst = FirebaseFirestore.getInstance()
             .collection("sales")
-            .whereEqualTo("createBy", user?.email.toString())
+            .whereEqualTo("createBy", email)
             .whereGreaterThanOrEqualTo("salesDate", timeStampStart)
             .whereLessThanOrEqualTo("salesDate", timeStampEnd)
             .get().await().documents.map { doc ->
@@ -132,7 +129,7 @@ class RepositorySale {
         emit(State.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
 
-    fun getAllByYear(year: Int) = flow {
+    fun getAllByYear(year: Int, email: String) = flow {
         val calStart = Calendar.getInstance()
         val calEnd = Calendar.getInstance()
         var dateStart = GregorianCalendar(year,  0, 1).time
@@ -164,7 +161,7 @@ class RepositorySale {
 
         var lst = FirebaseFirestore.getInstance()
                 .collection("sales")
-                .whereEqualTo("createBy", user?.email.toString())
+                .whereEqualTo("createBy", email)
                 .whereGreaterThanOrEqualTo("salesDate", timeStampStart).whereLessThanOrEqualTo("salesDate", timeStampEnd)
                 .get().await().documents.map { doc ->
                     var obj = doc.toObject(Sale::class.java)
