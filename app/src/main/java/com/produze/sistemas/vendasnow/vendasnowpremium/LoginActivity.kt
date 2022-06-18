@@ -94,6 +94,38 @@ class LoginActivity : AppCompatActivity(){
             }
         }
 
+        binding.cardViewForgotPassword.setOnClickListener{
+            binding.linearLayoutForgot.visibility = View.VISIBLE
+            binding.linearLayoutLogin.visibility = View.GONE
+        }
+
+        binding.cardViewForgot.setOnClickListener{
+
+            if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
+
+                if ((binding.editTextEmailForgot.text.toString() == "") || (binding.editTextSecretForgot.text.toString() == "")) {
+                    MainUtils.snack(
+                        it,
+                        this.resources.getString(R.string.validation_login),
+                        Snackbar.LENGTH_LONG
+                    )
+                } else {
+
+                    binding.imageViewForgot.visibility = View.GONE
+                    binding.textViewForgot.visibility = View.GONE
+                    binding.progressBarForgot.visibility = View.VISIBLE
+                    onForgot(it, binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
+                }
+            } else {
+                MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+            }
+        }
+
+        binding.cardViewBackForgot.setOnClickListener{
+            binding.linearLayoutForgot.visibility = View.GONE
+            binding.linearLayoutLogin.visibility = View.VISIBLE
+        }
+
     }
 
     override fun onStart() {
@@ -219,6 +251,36 @@ class LoginActivity : AppCompatActivity(){
                     binding.imageViewRegister.visibility = View.VISIBLE
                     binding.textViewRegister.visibility = View.VISIBLE
                     binding.progressBarRegister.visibility = View.GONE
+                }
+            }
+        })
+
+    }
+
+    private fun onForgot(view: View, email: String, secret: String){
+
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        val loginUser = LoginUser(email, secret)
+        retIn.forgotPassword(loginUser).enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                MainUtils.snack(view, t.message.toString(), Snackbar.LENGTH_LONG)
+                binding.imageViewForgot.visibility = View.VISIBLE
+                binding.textViewForgot.visibility = View.VISIBLE
+                binding.progressBarForgot.visibility = View.GONE
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.code() == 200) {
+                    binding.imageViewForgot.visibility = View.VISIBLE
+                    binding.textViewForgot.visibility = View.VISIBLE
+                    binding.progressBarForgot.visibility = View.GONE
+                    MainUtils.snack(view, response.body()!!, Snackbar.LENGTH_LONG)
+                }
+                if (response.code() == 400) {
+                    MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
+                    binding.imageViewForgot.visibility = View.VISIBLE
+                    binding.textViewForgot.visibility = View.VISIBLE
+                    binding.progressBarForgot.visibility = View.GONE
                 }
             }
         })

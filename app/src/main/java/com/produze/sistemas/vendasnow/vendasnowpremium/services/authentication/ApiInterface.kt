@@ -18,6 +18,10 @@ interface ApiInterface {
     @Headers("Content-Type:application/json")
     @POST("account/registerVendasNow")
     fun registerUser(@Body loginUser: LoginUser): retrofit2.Call<String>
+
+    @Headers("Content-Type:application/json")
+    @POST("account/recoverPasswordVendasNow")
+    fun forgotPassword(@Body loginUser: LoginUser): retrofit2.Call<String>
 }
 
 class RetrofitInstance {
