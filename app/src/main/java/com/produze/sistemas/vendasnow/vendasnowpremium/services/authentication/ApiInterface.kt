@@ -1,5 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication
 
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import okhttp3.OkHttpClient
@@ -22,6 +23,10 @@ interface ApiInterface {
     @Headers("Content-Type:application/json")
     @POST("account/recoverPasswordVendasNow")
     fun forgotPassword(@Body loginUser: LoginUser): retrofit2.Call<String>
+
+    @Headers("Content-Type:application/json")
+    @GET("client/getAll")
+    fun getAllClient(@Header("Authorization") token: String): retrofit2.Call<List<Client>>
 }
 
 class RetrofitInstance {

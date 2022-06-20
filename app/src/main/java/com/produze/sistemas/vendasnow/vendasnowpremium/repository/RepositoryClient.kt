@@ -1,44 +1,82 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
+import android.view.View
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class RepositoryClient {
 //    var user = FirebaseAuth.getInstance().currentUser
+var lst: List<Client?> = ArrayList()
+//    fun getAll(email: String) = flow {
+//        // Emit loading state
+//        emit(State.loading())
+//        var lst = FirebaseFirestore.getInstance()
+//            .collection("clients")
+//            .whereEqualTo("createBy", email)
+//            .get().await().documents.map { doc ->
+//                    var obj = doc.toObject(Client::class.java)
+//                    if (obj != null) {
+//                        obj.id = doc.id
+//                    }
+//                    obj
+//                }
+//
+//        // Emit success state with data
+//        emit(State.success(lst))
+//    }.catch {
+//        // If exception is thrown, emit failed state along with message.
+//        emit(State.failed(it.message.toString()))
+//    }.flowOn(Dispatchers.IO)
 
-    fun getAll(email: String) = flow {
-        // Emit loading state
-        emit(State.loading())
-        var lst = FirebaseFirestore.getInstance()
-            .collection("clients")
-            .whereEqualTo("createBy", email)
-            .get().await().documents.map { doc ->
-                    var obj = doc.toObject(Client::class.java)
-                    if (obj != null) {
-                        obj.id = doc.id
-                    }
-                    obj
+    suspend fun getAll(token: String) : List<Client> {
+
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
+        return suspendCoroutine { continuation ->
+            retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
+                override fun onFailure(call: Call<List<Client>>, t: Throwable) {
+
                 }
 
-        // Emit success state with data
-        emit(State.success(lst))
-    }.catch {
-        // If exception is thrown, emit failed state along with message.
-        emit(State.failed(it.message.toString()))
-    }.flowOn(Dispatchers.IO)
+                override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
+                    if (response.code() == 200) {
+                        response.body()?.let{
+                            continuation.resume(it)
+                        }
+//                            ?: continuation.resume(it)
+                    }
+                    if (response.code() == 400) {
+
+                    }
+                }
+            })
+
+        }
+    }
 
 
     fun add(client: Client, email: String) = flow<State<DocumentReference>> {
-        client.createBy = email
+//        client.createBy = email
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()
@@ -59,7 +97,7 @@ class RepositoryClient {
     fun delete(client: Client) = flow<State<Task<Void>>> {
         // Emit loading state
         emit(State.loading())
-        val returnDelete = FirebaseFirestore.getInstance().collection("clients").document(client.id)
+        val returnDelete = FirebaseFirestore.getInstance().collection("clients").document(client.id.toString())
                 .delete()
                 .addOnSuccessListener { Log.d("VendasNowPro", "DocumentSnapshot successfully deleted!") }
                 .addOnFailureListener { e -> Log.w("VendasNowPro", "Error deleting document", e) }
@@ -74,7 +112,7 @@ class RepositoryClient {
         // Emit loading state
         emit(State.loading())
         val postRef = FirebaseFirestore.getInstance()
-                .collection("clients").document(client.id).update("name" , client.name, "telephone", client.telephone)
+                .collection("clients").document(client.id.toString()).update("name" , client.name, "telephone", client.telephone)
                 .addOnSuccessListener { documentReference ->
 
                 }

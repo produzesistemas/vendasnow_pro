@@ -26,8 +26,12 @@ import androidx.core.view.MenuItemCompat
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.opengl.Visibility
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterProduct
+import kotlinx.coroutines.flow.collect
 
 class FragmentClient : Fragment() {
 
@@ -67,6 +71,7 @@ class FragmentClient : Fragment() {
         }
         viewModel = ViewModelProvider(this).get(ViewModelClient::class.java)
         adapterClient = AdapterClient(arrayListOf(), viewModel)
+
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val observer = Observer<Client> { client ->
@@ -95,12 +100,22 @@ class FragmentClient : Fragment() {
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
+        val observerClients = Observer<List<Client>> {
+            adapterClient  = AdapterClient(it, viewModel)
+            binding.recyclerView.apply {
+                adapter = adapterClient
+                layoutManager = LinearLayoutManager(context)
+            }
+            binding.progressBar.visibility = View.GONE
+        }
+        viewModel.clients.observe(viewLifecycleOwner, observerClients)
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_client))
 
         load()
+
         }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -122,29 +137,8 @@ class FragmentClient : Fragment() {
     }
 
     private fun load() {
-        lifecycleScope.launch {
-            viewModel.getAll(token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        adapterClient  = AdapterClient((state.data as MutableList<Client>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-                        binding.recyclerView.apply {
-                            adapter = adapterClient
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                        binding.progressBar.visibility = View.GONE
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.getAll(token.token)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -159,7 +153,7 @@ class FragmentClient : Fragment() {
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-                adapterClient.filter.filter(query)
+//                adapterClient.filter.filter(query)
                 return false
             }
         })

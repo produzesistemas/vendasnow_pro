@@ -27,7 +27,7 @@ class DataSourceUser constructor(context: Context){
             open()
             val values = ContentValues().apply {
                 put("email", user.email)
-                put("token", user.token)
+                put("token", "bearer " + user.token)
                 put("userName", user.userName)
                 put("role", user.role)
             }

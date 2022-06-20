@@ -1,8 +1,13 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryClient
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 
 class ViewModelClient : ViewModel() {
@@ -17,7 +22,21 @@ class ViewModelClient : ViewModel() {
 
     var repository = RepositoryClient()
 
-    fun getAll(email: String) = repository.getAll(email)
+    fun getAll(token: String) {
+        viewModelScope.launch {
+            try {
+                clients.postValue(repository.getAll(token))
+//                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.message?.let { Log.e("CarrierViewModel", it) }
+            }
+
+        }
+    }
+
+    val clients: MutableLiveData<List<Client>> by lazy {
+        MutableLiveData<List<Client>>()
+    }
 
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 

@@ -395,34 +395,34 @@ class FragmentNewSale : Fragment(){
 
     private fun loadClients() {
         lifecycleScope.launch {
-            viewModelClient.getAll(token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                    }
-                    is State.Success -> {
-                        val adapter: ArrayAdapter<Client>? = context?.let {
-                            ArrayAdapter<Client>(
-                                it,
-                                android.R.layout.simple_spinner_dropdown_item,
-                                (state.data as MutableList<Client>).sortedWith(
-                                    compareBy(
-                                        String.CASE_INSENSITIVE_ORDER,
-                                        { it.name })
-                                )
-                            )
-                        }
-                        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        binding.spinnerClient.adapter = adapter
-                    }
-
-                    is State.Failed -> {
-                        Toast.makeText(
-                            activity, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
+//            viewModelClient.getAll(token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                    }
+//                    is State.Success -> {
+//                        val adapter: ArrayAdapter<Client>? = context?.let {
+//                            ArrayAdapter<Client>(
+//                                it,
+//                                android.R.layout.simple_spinner_dropdown_item,
+//                                (state.data as MutableList<Client>).sortedWith(
+//                                    compareBy(
+//                                        String.CASE_INSENSITIVE_ORDER,
+//                                        { it.name })
+//                                )
+//                            )
+//                        }
+//                        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                        binding.spinnerClient.adapter = adapter
+//                    }
+//
+//                    is State.Failed -> {
+//                        Toast.makeText(
+//                            activity, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
         }
     }
     private fun loadFormPayments() {

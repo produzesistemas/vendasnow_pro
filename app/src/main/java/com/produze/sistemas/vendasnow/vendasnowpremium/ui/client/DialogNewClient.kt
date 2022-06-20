@@ -58,7 +58,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                 client.name = binding.editTextNome.text.toString()
                 client.telephone = binding.editTextTelefone.text.toString()
 
-                if (client.id.isEmpty())
+                if (client.id == 0)
                 { insert(client) } else {
                     binding.progressBar.visibility = View.VISIBLE
                     update(client)
