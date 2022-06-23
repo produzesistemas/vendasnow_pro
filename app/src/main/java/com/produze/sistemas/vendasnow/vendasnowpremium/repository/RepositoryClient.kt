@@ -1,17 +1,12 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
-import android.view.View
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -48,10 +43,8 @@ var lst: List<Client?> = ArrayList()
 //        emit(State.failed(it.message.toString()))
 //    }.flowOn(Dispatchers.IO)
 
-    suspend fun getAll(token: String) : List<Client> {
-
+    suspend fun getAll(token: String) : ResponseBody {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-
         return suspendCoroutine { continuation ->
             retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
                 override fun onFailure(call: Call<List<Client>>, t: Throwable) {
@@ -61,7 +54,36 @@ var lst: List<Client?> = ArrayList()
                 override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
                     if (response.code() == 200) {
                         response.body()?.let{
-                            continuation.resume(it)
+
+                            continuation.resume(ResponseBody("", 200, it))
+                        }
+//                            ?: continuation.resume(it)
+                    }
+                    if (response.code() == 400) {
+
+                    }
+                    if (response.code() == 401) {
+
+                    }
+                }
+            })
+
+        }
+    }
+
+    suspend fun add(client: Client, token: String) : ResponseBody {
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        return suspendCoroutine { continuation ->
+            retIn.saveClient(token, client).enqueue(object : Callback<Client> {
+                override fun onFailure(call: Call<Client>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<Client>, response: Response<Client>) {
+                    if (response.code() == 200) {
+
+                        response.body()?.let{
+                            continuation.resume(ResponseBody("", 200, arrayListOf()))
                         }
 //                            ?: continuation.resume(it)
                     }
@@ -74,25 +96,24 @@ var lst: List<Client?> = ArrayList()
         }
     }
 
-
-    fun add(client: Client, email: String) = flow<State<DocumentReference>> {
-//        client.createBy = email
-        // Emit loading state
-        emit(State.loading())
-        val postRef = FirebaseFirestore.getInstance()
-            .collection("clients").add(client)
-            .addOnSuccessListener { documentReference ->
-
-            }
-            .addOnFailureListener { e ->
-
-            }.await()
-        // Emit success state with post reference
-        emit(State.success(postRef))
-    }.catch {
-        // If exception is thrown, emit failed state along with message.
-        emit(State.failed(it.message.toString()))
-    }.flowOn(Dispatchers.IO)
+//    fun add(client: Client, email: String) = flow<State<DocumentReference>> {
+////        client.createBy = email
+//        // Emit loading state
+//        emit(State.loading())
+//        val postRef = FirebaseFirestore.getInstance()
+//            .collection("clients").add(client)
+//            .addOnSuccessListener { documentReference ->
+//
+//            }
+//            .addOnFailureListener { e ->
+//
+//            }.await()
+//        // Emit success state with post reference
+//        emit(State.success(postRef))
+//    }.catch {
+//        // If exception is thrown, emit failed state along with message.
+//        emit(State.failed(it.message.toString()))
+//    }.flowOn(Dispatchers.IO)
 
     fun delete(client: Client) = flow<State<Task<Void>>> {
         // Emit loading state

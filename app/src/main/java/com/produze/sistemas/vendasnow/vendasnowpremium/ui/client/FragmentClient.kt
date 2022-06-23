@@ -109,6 +109,7 @@ class FragmentClient : Fragment() {
             binding.progressBar.visibility = View.GONE
         }
         viewModel.clients.observe(viewLifecycleOwner, observerClients)
+
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")

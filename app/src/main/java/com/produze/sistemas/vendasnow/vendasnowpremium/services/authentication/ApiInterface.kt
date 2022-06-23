@@ -2,9 +2,9 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication
 
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +27,10 @@ interface ApiInterface {
     @Headers("Content-Type:application/json")
     @GET("client/getAll")
     fun getAllClient(@Header("Authorization") token: String): retrofit2.Call<List<Client>>
+
+    @Headers("Content-Type:application/json")
+    @POST("client/save")
+    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<Client>
 }
 
 class RetrofitInstance {

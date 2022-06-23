@@ -3,10 +3,8 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryClient
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -25,8 +23,7 @@ class ViewModelClient : ViewModel() {
     fun getAll(token: String) {
         viewModelScope.launch {
             try {
-                clients.postValue(repository.getAll(token))
-//                adapter.notifyDataSetChanged()
+                clients.postValue(repository.getAll(token).clients)
             } catch (e: Exception) {
                 e.message?.let { Log.e("CarrierViewModel", it) }
             }
@@ -38,9 +35,24 @@ class ViewModelClient : ViewModel() {
         MutableLiveData<List<Client>>()
     }
 
+    val responseBodyClient: MutableLiveData<ResponseBody> by lazy {
+        MutableLiveData<ResponseBody>()
+    }
+
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 
-    fun add(client: Client, email: String) = repository.add(client, email)
+//    fun add(client: Client, email: String) = repository.add(client, email)
+
+    fun add(client: Client, token: String) {
+        viewModelScope.launch {
+            try {
+                responseBodyClient.postValue(repository.add(client, token))
+            } catch (e: Exception) {
+                e.message?.let { Log.e("CarrierViewModel", it) }
+            }
+
+        }
+    }
 
     fun update(client: Client) = repository.update(client)
 
