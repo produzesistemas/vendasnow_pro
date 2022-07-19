@@ -69,23 +69,23 @@ class FragmentProduct : Fragment() {
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val observer = Observer<Product> { product ->
-            lifecycleScope.launch {
-                viewModel.delete(product).collectLatest { state ->
-                    when (state) {
-                        is State.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-                        is State.Success -> {
-                            load()
-                        }
-                        is State.Failed -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(activity, state.message,
-                                    Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
+//            lifecycleScope.launch {
+//                viewModel.delete(product).collectLatest { state ->
+//                    when (state) {
+//                        is State.Loading -> {
+//                            binding.progressBar.visibility = View.VISIBLE
+//                        }
+//                        is State.Success -> {
+//                            load()
+//                        }
+//                        is State.Failed -> {
+//                            binding.progressBar.visibility = View.GONE
+//                            Toast.makeText(activity, state.message,
+//                                    Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                }
+//            }
         }
         viewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
 
@@ -121,29 +121,29 @@ class FragmentProduct : Fragment() {
     }
 
     private fun load() {
-        lifecycleScope.launch {
-            viewModel.getAll(token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-                        binding.recyclerView.apply {
-                            adapter = adapterProduct
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                        binding.progressBar.visibility = View.GONE
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.getAll(token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
+//                        binding.recyclerView.apply {
+//                            adapter = adapterProduct
+//                            layoutManager = LinearLayoutManager(context)
+//                        }
+//                        binding.progressBar.visibility = View.GONE
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(activity, state.message,
+//                                Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

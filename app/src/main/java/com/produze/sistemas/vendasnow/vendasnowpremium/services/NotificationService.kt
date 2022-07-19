@@ -81,108 +81,32 @@ class NotificationService : IntentService("NotificationService"){
 
             var timestamp: Long = 0
             if (intent != null && intent.extras != null) {
-//            timestamp = intent.extras!!.getLong("timestamp")
-//            nameClient = intent.extras!!.getString("client").toString()
-//            payment = intent.extras!!.getString("payment").toString()
-//            dueDate = intent.extras!!.getString("dueDate").toString()
-//            value = intent.extras!!.getString("value").toString()
-//            idSale = intent.extras!!.getString("idSale").toString()
-//            mNotificationId = intent.extras!!.getInt("mNotificationId")
-//            mRequestCode = intent.extras!!.getInt("mRequestCode")
+
             }
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, AccountReceivableDetailActivity::class.java)
-            val lst = token.email?.let { repository.getAllCurrentDay(calendar, it) } as MutableList<Sale>
-            var dateStart = calendar.time
-            val timeStampStart = Timestamp(dateStart.time)
-            lst.forEach{ sale ->
-                val account = sale.accounts.first {
-                    it.dueDate!! == timeStampStart
-                }
-
-                mNotificationId = UUID.randomUUID().hashCode()
-                notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                val title = "Conta a receber"
-                notifyIntent.putExtra("title", title)
-
-
-                    val message = "Nome do cliente: ${sale.client?.name}" +
-                    " - " + "Forma de pagamento: ${sale.formPayment?.name}" +
-                    " - " + "Data de vencimento: ${account.dueDate}" +
-                    " - " + "Valor a receber: ${account.value}"
-
-                val stackBuilder = TaskStackBuilder.create(this)
-                stackBuilder.addNextIntentWithParentStack(notifyIntent)
-                val id = System.currentTimeMillis().toInt()
-                val stackIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_IMMUTABLE)
-                val res = this.resources
-                val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    mNotification = Notification.Builder(this, CHANNEL_ID)
-                        // Set the intent that will fire when the user taps the notification
-                        .setContentIntent(stackIntent)
-                        .setSmallIcon(R.drawable.ic_baseline_attach_money_24)
-                        .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                        .setAutoCancel(false)
-                        .setContentTitle(title)
-                        .setStyle(
-                            Notification.BigTextStyle()
-                                .bigText(message)
-                        )
-                        .setContentText(message).build()
-                } else {
-                    mNotification = Notification.Builder(this)
-                        // Set the intent that will fire when the user taps the notification
-                        .setContentIntent(stackIntent)
-                        .setSmallIcon(R.drawable.ic_baseline_attach_money_24)
-                        .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                        .setAutoCancel(false)
-                        .setPriority(Notification.PRIORITY_MAX)
-                        .setContentTitle(title)
-                        .setStyle(
-                            Notification.BigTextStyle()
-                                .bigText(message)
-                        )
-                        .setSound(uri)
-                        .setContentText(message).build()
-                }
-//                notificationManager =
-//                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.notify(mNotificationId, mNotification)
-            }
-
-            }
-
-
-//            for (i in 1..2) {
-//                val context = this.applicationContext
-//                var notificationManager: NotificationManager =
-//                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//                val notifyIntent = Intent(this, AccountReceivableDetailActivity::class.java)
+//            val lst = token.email?.let {
+//                repository.getAllCurrentDay(calendar, it)
+//            } as MutableList<Sale>
+//            var dateStart = calendar.time
+//            val timeStampStart = Timestamp(dateStart.time)
+//            lst.forEach{ sale ->
+//                val account = sale.accounts.first {
+//                    it.dueDate!! == timeStampStart
+//                }
 //
-//                val calendar = Calendar.getInstance()
-//            val message = "Nome do cliente: $nameClient" +
-//                    " - " + "Forma de pagamento: $payment" +
-//                    " - " + "Data de vencimento: $dueDate" +
-//                    " - " + "Valor a receber: $value"
-
-//                val message = UUID.randomUUID().hashCode().toString()
 //                mNotificationId = UUID.randomUUID().hashCode()
-
-//            notifyIntent.putExtra("message", message)
-//            notifyIntent.putExtra("notification", true)
-//            notifyIntent.putExtra("idSale", idSale)
-//            notifyIntent.putExtra("dueDate", dueDate)
-//            notifyIntent.putExtra("mNotificationId", mNotificationId)
-//            notifyIntent.putExtra("mRequestCode", mRequestCode)
 //                notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//
 //                val title = "Conta a receber"
 //                notifyIntent.putExtra("title", title)
-//            calendar.timeInMillis = timestamp
-
+//
+//
+//                    val message = "Nome do cliente: ${sale.client?.name}" +
+//                    " - " + "Forma de pagamento: ${sale.formPayment?.name}" +
+//                    " - " + "Data de vencimento: ${account.dueDate}" +
+//                    " - " + "Valor a receber: ${account.value}"
+//
 //                val stackBuilder = TaskStackBuilder.create(this)
 //                stackBuilder.addNextIntentWithParentStack(notifyIntent)
 //                val id = System.currentTimeMillis().toInt()
@@ -219,10 +143,13 @@ class NotificationService : IntentService("NotificationService"){
 //                        .setSound(uri)
 //                        .setContentText(message).build()
 //                }
-//                notificationManager =
-//                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 //                notificationManager.notify(mNotificationId, mNotification)
 //            }
+//
+            }
+
+
+
           }
 
         }

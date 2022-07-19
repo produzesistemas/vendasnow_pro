@@ -42,32 +42,32 @@ class ReminderWorker(val context: Context, val params: WorkerParameters) : Corou
         token = datasource?.get()!!
         withContext(Dispatchers.IO) {
 
-            if (token.email != null) {
-                var dateStart = calendar.time
-                val timeStampStart = Timestamp(dateStart.time)
-                var lst = FirebaseFirestore.getInstance()
-                    .collection("sales")
-                    .whereEqualTo("createBy", token.email)
-                    .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
-                    .get().await().documents.map { doc ->
-                        var obj = doc.toObject(Sale::class.java)
-                        if (obj != null) {
-                            obj.id = doc.id
-                        }
-                        obj
-                    }
-
-                lst.forEach { s ->
-                    if (s?.accounts?.filter{
-                        val calendarDueDate = Calendar.getInstance()
-                        calendarDueDate.time = it.dueDate
-                        calendarDueDate.time < calendar.time && it.status == 1
-                    }?.size!! > 0) {
-                            NotificationHelper(context, s).createNotification()
-                    }
-                }
-
-                }
+//            if (token.email != null) {
+//                var dateStart = calendar.time
+//                val timeStampStart = Timestamp(dateStart.time)
+//                var lst = FirebaseFirestore.getInstance()
+//                    .collection("sales")
+//                    .whereEqualTo("createBy", token.email)
+//                    .whereIn("formPaymentId", listOf(4, 7, 8, 9, 10))
+//                    .get().await().documents.map { doc ->
+//                        var obj = doc.toObject(Sale::class.java)
+//                        if (obj != null) {
+//                            obj.id = doc.id
+//                        }
+//                        obj
+//                    }
+//
+//                lst.forEach { s ->
+//                    if (s?.accounts?.filter{
+//                        val calendarDueDate = Calendar.getInstance()
+//                        calendarDueDate.time = it.dueDate
+//                        calendarDueDate.time < calendar.time && it.status == 1
+//                    }?.size!! > 0) {
+//                            NotificationHelper(context, s).createNotification()
+//                    }
+//                }
+//
+//                }
         }
         return Result.success()
     }

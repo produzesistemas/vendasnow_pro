@@ -444,78 +444,78 @@ class FragmentNewSale : Fragment(){
         binding.spinnerFormPayment.adapter = adapterFormPayment
     }
     private fun loadProducts() {
-        lifecycleScope.launch {
-            viewModelProduct.getAll(token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-
-                    }
-                    is State.Success -> {
-                        saleProduct = SaleProduct()
-                        val dialog = saleProduct?.let {
-                            DialogSaleProduct(
-                                (state.data as MutableList<Product>).sortedWith(
-                                    compareBy(
-                                        String.CASE_INSENSITIVE_ORDER,
-                                        { it.name })
-                                )
-                            ) {
-                                view?.let { view ->
-                                    lst.add(it)
-                                    binding.recyclerViewProducts.adapter = AdapterSaleProduct(
-                                        lst,
-                                        viewModelSaleProduct
-                                    )
-                                    viewModel.getTotalProducts(lst)
-                                    viewModel.getTotalSale(lstServices, lst)
-                                }
-                            }
-                        }
-                        dialog?.show(childFragmentManager, "dialog")
-                    }
-
-                    is State.Failed -> {
-                        Toast.makeText(
-                            activity, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModelProduct.getAll(token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//
+//                    }
+//                    is State.Success -> {
+//                        saleProduct = SaleProduct()
+//                        val dialog = saleProduct?.let {
+//                            DialogSaleProduct(
+//                                (state.data as MutableList<Product>).sortedWith(
+//                                    compareBy(
+//                                        String.CASE_INSENSITIVE_ORDER,
+//                                        { it.name })
+//                                )
+//                            ) {
+//                                view?.let { view ->
+//                                    lst.add(it)
+//                                    binding.recyclerViewProducts.adapter = AdapterSaleProduct(
+//                                        lst,
+//                                        viewModelSaleProduct
+//                                    )
+//                                    viewModel.getTotalProducts(lst)
+//                                    viewModel.getTotalSale(lstServices, lst)
+//                                }
+//                            }
+//                        }
+//                        dialog?.show(childFragmentManager, "dialog")
+//                    }
+//
+//                    is State.Failed -> {
+//                        Toast.makeText(
+//                            activity, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun insert(sale: Sale, view: View?) {
-        if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-        lifecycleScope.launch {
-            viewModel.add(sale, token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        val docReference = state.data
-                        sale.id = docReference.id
-//                        sendNotification(sale)
-                        binding.progressBar.visibility = View.GONE
-                        view?.findNavController()?.navigate(R.id.nav_sale)
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(
-                            activity, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
-        } else {
-            Toast.makeText(context, R.string.validation_connection,
-                Toast.LENGTH_SHORT).show()
-        }
+//        if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
+//        lifecycleScope.launch {
+//            viewModel.add(sale, token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//
+//                    is State.Success -> {
+//                        val docReference = state.data
+//                        sale.id = docReference.id
+////                        sendNotification(sale)
+//                        binding.progressBar.visibility = View.GONE
+//                        view?.findNavController()?.navigate(R.id.nav_sale)
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(
+//                            activity, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
+//        } else {
+//            Toast.makeText(context, R.string.validation_connection,
+//                Toast.LENGTH_SHORT).show()
+//        }
 
     }
 //    private fun sendNotification(saleToNotification: Sale) {

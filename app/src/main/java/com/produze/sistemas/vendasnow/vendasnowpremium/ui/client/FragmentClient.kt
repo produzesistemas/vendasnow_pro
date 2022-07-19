@@ -27,10 +27,14 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.opengl.Visibility
+import android.util.Log
+import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterProduct
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import kotlinx.coroutines.flow.collect
 
 class FragmentClient : Fragment() {
@@ -76,21 +80,21 @@ class FragmentClient : Fragment() {
 
         val observer = Observer<Client> { client ->
             lifecycleScope.launch {
-                viewModel.delete(client).collectLatest { state ->
-                    when (state) {
-                        is State.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-                        is State.Success -> {
-                            load()
-                        }
-                        is State.Failed -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(activity, state.message,
-                                    Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+//                viewModel.delete(client).collectLatest { state ->
+//                    when (state) {
+//                        is State.Loading -> {
+//                            binding.progressBar.visibility = View.VISIBLE
+//                        }
+//                        is State.Success -> {
+//                            load()
+//                        }
+//                        is State.Failed -> {
+//                            binding.progressBar.visibility = View.GONE
+//                            Toast.makeText(activity, state.message,
+//                                    Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                }
             }
         }
         viewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
@@ -100,13 +104,23 @@ class FragmentClient : Fragment() {
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
-        val observerClients = Observer<List<Client>> {
-            adapterClient  = AdapterClient(it, viewModel)
-            binding.recyclerView.apply {
-                adapter = adapterClient
-                layoutManager = LinearLayoutManager(context)
-            }
+        val observerClients = Observer<ResponseBody> {
             binding.progressBar.visibility = View.GONE
+            if (it.code == 200) {
+                adapterClient  = AdapterClient(it.clients, viewModel)
+                binding.recyclerView.apply {
+                    adapter = adapterClient
+                    layoutManager = LinearLayoutManager(context)
+                }
+            }
+
+            if (it.code == 401) {
+                view?.let {
+                        it1 -> MainUtils.snack(it1, this.resources.getString(R.string.msg_error_session_expired), Snackbar.LENGTH_LONG)
+                }
+            }
+
+
         }
         viewModel.clients.observe(viewLifecycleOwner, observerClients)
 
@@ -123,11 +137,19 @@ class FragmentClient : Fragment() {
         when (menuItem.itemId) {
             R.id.navigation_add -> {
                 client = Client()
-                        val dialog = client?.let {
-                            DialogNewClient(viewModel, it) {
-                                view?.let { view ->
-                                    load()
+                        val dialog = client?.let { it ->
+                            DialogNewClient(viewModel, it) { response ->
+                                if (response.code == 401) {
+                                    view?.let {
+                                            it1 -> MainUtils.snack(it1, this.resources.getString(R.string.msg_error_session_expired), Snackbar.LENGTH_LONG)
+                                    }
                                 }
+                                if (response.code == 200) {
+                                    view?.let {
+                                        load()
+                                    }
+                                }
+
                             }
                         }
                         dialog?.show(childFragmentManager, "dialog")
@@ -138,8 +160,19 @@ class FragmentClient : Fragment() {
     }
 
     private fun load() {
+        lifecycleScope.launch {
+            try {
+            viewModel.getAll(token.token)
+            } catch (e: Exception) {
+                e.message?.let {
+                    if (it == "401") {
+
+                    }
+                }
+            }
+        }
         binding.progressBar.visibility = View.VISIBLE
-        viewModel.getAll(token.token)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

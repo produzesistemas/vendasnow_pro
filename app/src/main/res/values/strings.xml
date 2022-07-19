@@ -30,6 +30,7 @@
     <string name="recoverforgotpassword">Recuperar a senha</string>
     <string name="login_facebook">Login com Facebook</string>
     <string name="msg_error_authentication_failure">Autenticação falhou!</string>
+    <string name="msg_error_session_expired">Sessão expirada!</string>
     <string name="msg_error_email_exist_google">Esse endereço de email já foi utilizado para se conectar no app com o Google</string>
 
     <string name="hint_email">Informe o email</string>

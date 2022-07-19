@@ -1,5 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication
 
+import com.google.android.gms.tasks.Task
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
@@ -28,9 +29,13 @@ interface ApiInterface {
     @GET("client/getAll")
     fun getAllClient(@Header("Authorization") token: String): retrofit2.Call<List<Client>>
 
+//    @Headers("Content-Type:application/json")
+//    @POST("client/save")
+//    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<Void>
+
     @Headers("Content-Type:application/json")
     @POST("client/save")
-    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<Client>
+    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<ResponseBody>
 }
 
 class RetrofitInstance {
@@ -45,6 +50,9 @@ class RetrofitInstance {
         private val client: OkHttpClient = OkHttpClient.Builder().apply {
             this.addInterceptor(interceptor)
         }.build()
+
+
+
         fun getRetrofitInstance(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)

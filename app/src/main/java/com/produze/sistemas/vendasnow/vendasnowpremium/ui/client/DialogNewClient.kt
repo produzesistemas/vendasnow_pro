@@ -16,13 +16,14 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.Mask
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
 class DialogNewClient(private var viewModel: ViewModelClient, private val client: Client,
-                      val onClickAction: (Client) -> Unit)  : DialogFragment() {
+                      val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewClientBinding
     private var datasource: DataSourceUser? = null
@@ -72,35 +73,57 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             dismiss()
         }
 
-        val observerInsert = Observer<ResponseBody> {
-            if (it.code == 200) {
-                binding.progressBar.visibility = View.GONE
-                dismiss()
-//                onClickAction(product)
-            }
-            binding.progressBar.visibility = View.GONE
-        }
-        viewModel.responseBodyClient.observe(viewLifecycleOwner, observerInsert)
+//        val observerInsert = Observer<State<Void?>> {
+////            if (it. == 200) {
+////                binding.progressBar.visibility = View.GONE
+////                dismiss()
+////                it.client?.let { it1 -> onClickAction(it1) }
+////            }
+//            it.let {
+//                binding.progressBar.visibility = View.GONE
+//                dismiss()
+//                onClickAction()
+//            }
+//
+//        }
+//        viewModel.responseBodyClient.observe(viewLifecycleOwner, observerInsert)
 
         return binding.root
     }
 
     private fun insert(client: Client) {
-    lifecycleScope.launch {
-        binding.progressBar.visibility = View.VISIBLE
-        viewModel.add(client, token.token)
-        dismiss()
-        onClickAction(client)
+        lifecycleScope.launch {
+            viewModel.add(client, token.email).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is State.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+
+                        onClickAction(state.data)
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+                        Toast.makeText(activity, state.message,
+                                Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
+        }
     }
 
     private fun update(client: Client) {
         lifecycleScope.launch {
-            viewModel.update(client).collectLatest {
-//                binding.progressBar.visibility = View.GONE
-                        dismiss()
-                        onClickAction(client)
-            }
+//            viewModel.update(client).collectLatest {
+////                binding.progressBar.visibility = View.GONE
+////                        dismiss()
+////                        onClickAction(client)
+//            }
         }
     }
 

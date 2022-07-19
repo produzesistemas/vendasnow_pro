@@ -111,74 +111,69 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     }
 
     private fun load(id: String) {
-        lifecycleScope.launch {
-            viewModel.getById(id).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        mProgressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        mProgressBar.visibility = View.GONE
-                        val docReference = state.data
-                        saleDetail = state.data.toObject(Sale::class.java)!!
-                        saleDetail.id = docReference.id
-                        mTextViewClient.text = saleDetail.client?.name
-                        mTextViewPayment.text = saleDetail.formPayment?.name
-                        mTextViewSaleDate.text = df.format(saleDetail.salesDate)
-
-                        mRecyclerView.apply {
-                            adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
-                                val calendar = Calendar.getInstance()
-                                calendar.time = it.dueDate
-                                calendar.get(Calendar.DAY_OF_MONTH) == calendarDueDate.get(Calendar.DAY_OF_MONTH) &&
-                                calendar.get(Calendar.YEAR) == calendarDueDate.get(Calendar.YEAR) &&
-                                calendar.get(Calendar.MONTH) + 1 == calendarDueDate.get(Calendar.MONTH) + 1
-                            })
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                    }
-
-                    is State.Failed -> {
-                        mProgressBar.visibility = View.GONE
-                        Toast.makeText(
-                            applicationContext, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
-
-
-
-
-
+//        lifecycleScope.launch {
+//            viewModel.getById(id).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        mProgressBar.visibility = View.VISIBLE
+//                    }
+//
+//                    is State.Success -> {
+//                        mProgressBar.visibility = View.GONE
+//                        val docReference = state.data
+//                        saleDetail = state.data.toObject(Sale::class.java)!!
+//                        saleDetail.id = docReference.id
+//                        mTextViewClient.text = saleDetail.client?.name
+//                        mTextViewPayment.text = saleDetail.formPayment?.name
+//                        mTextViewSaleDate.text = df.format(saleDetail.salesDate)
+//
+//                        mRecyclerView.apply {
+//                            adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
+//                                val calendar = Calendar.getInstance()
+//                                calendar.time = it.dueDate
+//                                calendar.get(Calendar.DAY_OF_MONTH) == calendarDueDate.get(Calendar.DAY_OF_MONTH) &&
+//                                calendar.get(Calendar.YEAR) == calendarDueDate.get(Calendar.YEAR) &&
+//                                calendar.get(Calendar.MONTH) + 1 == calendarDueDate.get(Calendar.MONTH) + 1
+//                            })
+//                            layoutManager = LinearLayoutManager(context)
+//                        }
+//                    }
+//
+//                    is State.Failed -> {
+//                        mProgressBar.visibility = View.GONE
+//                        Toast.makeText(
+//                            applicationContext, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
     }
     private fun update(sale: Sale) {
-        lifecycleScope.launch {
-            viewModel.update(sale).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        mProgressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        cancelNotification(sale)
-                        mProgressBar.visibility = View.GONE
-                        finish()
-                    }
-
-                    is State.Failed -> {
-                        mProgressBar.visibility = View.GONE
-                        Toast.makeText(
-                            applicationContext, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.update(sale).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        mProgressBar.visibility = View.VISIBLE
+//                    }
+//
+//                    is State.Success -> {
+//                        cancelNotification(sale)
+//                        mProgressBar.visibility = View.GONE
+//                        finish()
+//                    }
+//
+//                    is State.Failed -> {
+//                        mProgressBar.visibility = View.GONE
+//                        Toast.makeText(
+//                            applicationContext, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
     }
 
 

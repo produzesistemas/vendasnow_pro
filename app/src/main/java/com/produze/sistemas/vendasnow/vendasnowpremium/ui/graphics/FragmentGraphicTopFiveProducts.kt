@@ -158,24 +158,24 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-        lifecycleScope.launch {
-            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-                        binding.progressBar.visibility = View.GONE
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
+//                        binding.progressBar.visibility = View.GONE
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(activity, state.message,
+//                                Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 }

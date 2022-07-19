@@ -124,27 +124,27 @@ class FragmentDetailAccountReceivable : Fragment(){
 
     }
     private fun update(sale: Sale, view: View?) {
-        lifecycleScope.launch {
-            viewModel.update(sale).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        view?.findNavController()?.navigate(R.id.nav_account_receivable)
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(
-                            activity, state.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.update(sale).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//
+//                    is State.Success -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        view?.findNavController()?.navigate(R.id.nav_account_receivable)
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(
+//                            activity, state.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
     }
 }

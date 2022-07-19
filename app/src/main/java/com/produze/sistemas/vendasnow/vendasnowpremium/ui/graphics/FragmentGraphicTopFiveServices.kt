@@ -184,24 +184,24 @@ class FragmentGraphicTopFiveServices : Fragment(){
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
 
-        lifecycleScope.launch {
-            viewModel.getAllByYear(calendar.get(Calendar.YEAR), token.email).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-                        binding.progressBar.visibility = View.GONE
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, state.message,
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.getAllByYear(calendar.get(Calendar.YEAR), token.email).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
+//                        binding.progressBar.visibility = View.GONE
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        Toast.makeText(activity, state.message,
+//                                Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
     }
 }
