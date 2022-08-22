@@ -28,27 +28,36 @@ class ViewModelClient : ViewModel() {
     var repository = RepositoryClient()
 
     fun getAll(token: String) {
+//        viewModelScope.launch {
+//            repository.getAll(token).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//
+//                    }
+//                    is State.Success -> {
+//                        clients.postValue(state.data)
+//                    }
+//
+//                    is State.Failed -> {
+//
+//                    }
+//                }
+//            }
+//
+//        }
         viewModelScope.launch {
-            repository.getAll(token).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-
-                    }
-                    is State.Success -> {
-                        clients.postValue(state.data)
-                    }
-
-                    is State.Failed -> {
-
-                    }
-                }
+            try {
+                clients.postValue(repository.getAll(token))
+//                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.message?.let { Log.e("CarrierViewModel", it) }
             }
 
         }
     }
 
-    val clients: MutableLiveData<ResponseBody> by lazy {
-        MutableLiveData<ResponseBody>()
+    val clients: MutableLiveData<List<Client>> by lazy {
+        MutableLiveData<List<Client>>()
     }
 
     val responseBodyClient: MutableLiveData<State<Void?>> by lazy {

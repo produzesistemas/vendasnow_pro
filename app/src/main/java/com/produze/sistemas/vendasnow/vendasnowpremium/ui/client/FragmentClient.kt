@@ -104,23 +104,23 @@ class FragmentClient : Fragment() {
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
-        val observerClients = Observer<ResponseBody> {
+//        val observerClients = Observer<List<Client>> {
+//            binding.progressBar.visibility = View.GONE
+//                adapterClient  = AdapterClient(it, viewModel)
+//                binding.recyclerView.apply {
+//                    adapter = adapterClient
+//                    layoutManager = LinearLayoutManager(context)
+//                }
+//        }
+//        viewModel.clients.observe(viewLifecycleOwner, observerClients)
+
+        val observerClients = Observer<List<Client>> {
+            adapterClient  = AdapterClient(it, viewModel)
+            binding.recyclerView.apply {
+                adapter = adapterClient
+                layoutManager = LinearLayoutManager(context)
+            }
             binding.progressBar.visibility = View.GONE
-            if (it.code == 200) {
-                adapterClient  = AdapterClient(it.clients, viewModel)
-                binding.recyclerView.apply {
-                    adapter = adapterClient
-                    layoutManager = LinearLayoutManager(context)
-                }
-            }
-
-            if (it.code == 401) {
-                view?.let {
-                        it1 -> MainUtils.snack(it1, this.resources.getString(R.string.msg_error_session_expired), Snackbar.LENGTH_LONG)
-                }
-            }
-
-
         }
         viewModel.clients.observe(viewLifecycleOwner, observerClients)
 
@@ -159,20 +159,25 @@ class FragmentClient : Fragment() {
         false
     }
 
+//    private fun load() {
+//        lifecycleScope.launch {
+//            try {
+//            viewModel.getAll(token.token)
+//            } catch (e: Exception) {
+//                e.message?.let {
+//                    if (it == "401") {
+//
+//                    }
+//                }
+//            }
+//        }
+//        binding.progressBar.visibility = View.VISIBLE
+//
+//    }
+
     private fun load() {
-        lifecycleScope.launch {
-            try {
-            viewModel.getAll(token.token)
-            } catch (e: Exception) {
-                e.message?.let {
-                    if (it == "401") {
-
-                    }
-                }
-            }
-        }
         binding.progressBar.visibility = View.VISIBLE
-
+        viewModel.getAll(token.token)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

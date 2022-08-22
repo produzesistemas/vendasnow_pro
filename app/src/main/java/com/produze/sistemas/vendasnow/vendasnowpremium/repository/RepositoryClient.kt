@@ -43,34 +43,57 @@ var lst: List<Client?> = ArrayList()
 //        emit(State.failed(it.message.toString()))
 //    }.flowOn(Dispatchers.IO)
 
-    fun getAll(token: String) = flow<State<ResponseBody>> {
-        var responseBody = ResponseBody("", 0)
+//    fun getAll(token: String) = flow<State<List<Client>>> {
+////        var responseBody = ResponseBody("", 0)
+//        var clients: List<Client> = ArrayList()
+//        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+////        return suspendCoroutine { continuation ->
+//            retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
+//                override fun onFailure(call: Call<List<Client>>, t: Throwable) {
+//
+//                }
+//
+//                override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
+//                    if (response.isSuccessful) {
+//                        if (response.code() == 200) {
+//                            clients = response.body()!!
+//
+//
+//                        }
+//                    } else {
+//
+//                        if (response.code() == 401) {
+//
+//                        }
+//                    }
+//                }
+//            })
+//
+////        }
+//        emit(State.success(data = clients))
+//    }
+
+    suspend fun getAll(token: String) : List<Client> {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-//        return suspendCoroutine { continuation ->
+        return suspendCoroutine { continuation ->
             retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
                 override fun onFailure(call: Call<List<Client>>, t: Throwable) {
 
                 }
 
                 override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
-                    if (response.isSuccessful) {
-                        if (response.code() == 200) {
-                            responseBody.code = 200
-                            responseBody.clients = response.body()!!
-
+                    if (response.code() == 200) {
+                        response.body()?.let{
+                            continuation.resume(it)
                         }
-                    } else {
+                    }
+                    if (response.code() == 400) {
 
-                        if (response.code() == 401) {
-                            responseBody.code = 401
-                            responseBody.message = "Sessão expirada"
-                        }
                     }
                 }
             })
 
-//        }
-        emit(State.success(data = responseBody))
+        }
     }
 
 //    suspend fun add(client: Client, token: String) {
