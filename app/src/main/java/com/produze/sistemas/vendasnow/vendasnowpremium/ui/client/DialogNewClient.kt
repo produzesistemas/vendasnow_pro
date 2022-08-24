@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 
 class DialogNewClient(private var viewModel: ViewModelClient, private val client: Client,
-                      val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
+                      val onClickAction: (Client) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewClientBinding
     private var datasource: DataSourceUser? = null
@@ -102,8 +102,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                     is State.Success -> {
                         binding.progressBar.visibility = View.GONE
                         dismiss()
-
-                        onClickAction(state.data)
+                        onClickAction(client)
                     }
 
                     is State.Failed -> {

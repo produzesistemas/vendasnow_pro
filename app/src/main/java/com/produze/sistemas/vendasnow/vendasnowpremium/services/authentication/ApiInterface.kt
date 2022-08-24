@@ -7,6 +7,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -33,15 +34,15 @@ interface ApiInterface {
 //    @POST("client/save")
 //    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<Void>
 
-    @Headers("Content-Type:application/json")
+//    @Headers("Content-Type:application/json")
     @POST("client/save")
-    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<ResponseBody>
+    fun saveClient(@Header("Authorization") token: String, @Body client: Client): Call<Void>
 }
 
 class RetrofitInstance {
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
-//        private const val BASE_URL: String = "https://192.168.1.3:44324/api/"
+//        private const val BASE_URL: String = "http://192.168.0.152:44324/api/"
 
         private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY

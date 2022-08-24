@@ -139,17 +139,9 @@ class FragmentClient : Fragment() {
                 client = Client()
                         val dialog = client?.let { it ->
                             DialogNewClient(viewModel, it) { response ->
-                                if (response.code == 401) {
-                                    view?.let {
-                                            it1 -> MainUtils.snack(it1, this.resources.getString(R.string.msg_error_session_expired), Snackbar.LENGTH_LONG)
-                                    }
-                                }
-                                if (response.code == 200) {
                                     view?.let {
                                         load()
                                     }
-                                }
-
                             }
                         }
                         dialog?.show(childFragmentManager, "dialog")

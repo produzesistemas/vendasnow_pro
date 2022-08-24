@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
@@ -98,16 +99,16 @@ var lst: List<Client?> = ArrayList()
 
 //    suspend fun add(client: Client, token: String) {
 //        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-//        return suspendCoroutine {
-//            retIn.saveClient(token, client).enqueue(object : Callback<Void> {
-//                override fun onFailure(call: Call<Void>, t: Throwable) {
+//        return suspendCoroutine { continuation ->
+//            retIn.saveClient(token, client).enqueue(object : Callback<String> {
+//                override fun onFailure(call: Call<String>, t: Throwable) {
 //
 //                }
 //
-//                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+//                override fun onResponse(call: Call<String>, response: Response<String>) {
 //                    if (response.code() == 200) {
 //                        response.body()?.let{
-////                            continuation.resume()
+//                            continuation.resumeWith()
 //                        }
 ////                            ?: continuation.resume(it)
 //                    }
@@ -121,35 +122,28 @@ var lst: List<Client?> = ArrayList()
 //    }
 
 
-    fun add(client: Client, token: String) = flow<State<ResponseBody>> {
-        var responseBody = ResponseBody("", 0)
+    fun add(client: Client, token: String) = flow<State<Client>> {
+        var clientResponse = Client()
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 //        return suspendCoroutine { continuation ->
         emit(State.loading())
-            retIn.saveClient(token, client).enqueue(object : Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            retIn.saveClient(token, client).enqueue(object : Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
 
                 }
 
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
                         if (response.code() == 200) {
-                            responseBody.code = 200
+//                            clientResponse = response.body()!!
 
                         }
                     } else {
 
-                    if (response.code() == 401) {
-                        responseBody.code = 401
-                        responseBody.message = "Sessão expirada"
                     }
-                    }
-
-
-
                 }
             })
-        emit(State.success(data = responseBody))
+        emit(State.success(clientResponse))
 //        }
     } .catch {
         // If exception is thrown, emit failed state along with message.
@@ -160,12 +154,8 @@ var lst: List<Client?> = ArrayList()
 //    fun delete(client: Client) = flow<State<Task<Void>>> {
 //        // Emit loading state
 //        emit(State.loading())
-//        val returnDelete = FirebaseFirestore.getInstance().collection("clients").document(client.id.toString())
-//                .delete()
-//                .addOnSuccessListener { Log.d("VendasNowPro", "DocumentSnapshot successfully deleted!") }
-//                .addOnFailureListener { e -> Log.w("VendasNowPro", "Error deleting document", e) }
-//        // Emit success state with post reference
-//        emit(State.success(returnDelete))
+//
+//        emit(State.success())
 //    }.catch {
 //        // If exception is thrown, emit failed state along with message.
 //        emit(State.failed(it.message.toString()))
