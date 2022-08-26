@@ -93,7 +93,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
 
     private fun insert(client: Client) {
         lifecycleScope.launch {
-            viewModel.add(client, token.email).collectLatest { state ->
+            viewModel.add(client, token.token).collectLatest { state ->
                 when (state) {
                     is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
