@@ -21,58 +21,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RepositoryClient {
-//    var user = FirebaseAuth.getInstance().currentUser
-var lst: List<Client?> = ArrayList()
-//    fun getAll(email: String) = flow {
-//        // Emit loading state
-//        emit(State.loading())
-//        var lst = FirebaseFirestore.getInstance()
-//            .collection("clients")
-//            .whereEqualTo("createBy", email)
-//            .get().await().documents.map { doc ->
-//                    var obj = doc.toObject(Client::class.java)
-//                    if (obj != null) {
-//                        obj.id = doc.id
-//                    }
-//                    obj
-//                }
-//
-//        // Emit success state with data
-//        emit(State.success(lst))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-
-//    fun getAll(token: String) = flow<State<List<Client>>> {
-////        var responseBody = ResponseBody("", 0)
-//        var clients: List<Client> = ArrayList()
-//        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-////        return suspendCoroutine { continuation ->
-//            retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
-//                override fun onFailure(call: Call<List<Client>>, t: Throwable) {
-//
-//                }
-//
-//                override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
-//                    if (response.isSuccessful) {
-//                        if (response.code() == 200) {
-//                            clients = response.body()!!
-//
-//
-//                        }
-//                    } else {
-//
-//                        if (response.code() == 401) {
-//
-//                        }
-//                    }
-//                }
-//            })
-//
-////        }
-//        emit(State.success(data = clients))
-//    }
 
     suspend fun getAll(token: String) : List<Client> {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
@@ -96,11 +44,18 @@ var lst: List<Client?> = ArrayList()
         }
     }
 
+fun insert(client: Client, token: String) = flow {
+        var responseBody = ResponseBody()
+        emit(State.loading())
+        add(client, token)
+        // Emit the list to the stream
+        emit(State.success(responseBody))
+    }.flowOn(Dispatchers.IO) // Use the IO thread for this Flow
+
     suspend fun add(client: Client, token: String) : ResponseBody {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         return suspendCoroutine { continuation ->
         var responseBody = ResponseBody()
-//        emit(State.loading())
             retIn.saveClient(token, client).enqueue(object : Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) {
 
@@ -108,24 +63,13 @@ var lst: List<Client?> = ArrayList()
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        if (response.code() == 200) {
-//                            clientResponse = response.body()!!
                             responseBody.code = 200
                             continuation.resume(responseBody)
                         }
-                    } else {
-
-                    }
                 }
             })
-//        emit(State.success(responseBody))
         }
     }
-//    .catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-
 
 //    fun delete(client: Client) = flow<State<Task<Void>>> {
 //        // Emit loading state

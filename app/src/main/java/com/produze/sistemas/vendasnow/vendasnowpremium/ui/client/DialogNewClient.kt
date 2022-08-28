@@ -57,9 +57,10 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             } else {
                 client.name = binding.editTextNome.text.toString()
                 client.telephone = binding.editTextTelefone.text.toString()
-
                 if (client.id == 0)
-                { insert(client) } else {
+                {
+                    insert(client)
+                } else {
                     binding.progressBar.visibility = View.VISIBLE
                     update(client)
                 }
@@ -74,16 +75,15 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
         }
 
         val observer = Observer<ResponseBody> {
-//            if (it. == 200) {
-//                binding.progressBar.visibility = View.GONE
-//                dismiss()
-//                it.client?.let { it1 -> onClickAction(it1) }
-//            }
-            it.let {
-                binding.progressBar.visibility = View.GONE
-                dismiss()
-                onClickAction(it)
+            lifecycleScope.launch {
+                it.let {
+                    binding.progressBar.visibility = View.GONE
+                    dismiss()
+                    onClickAction(it)
+                }
+
             }
+
 
         }
         viewModel.responseBodyClient.observe(viewLifecycleOwner, observer)
@@ -92,30 +92,34 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
     }
 
     private fun insert(client: Client) {
-//        lifecycleScope.launch {
-        binding.progressBar.visibility = View.VISIBLE
-        viewModel.add(client, token.token)
-//                .collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        onClickAction(client)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
+        lifecycleScope.launch {
+            binding.progressBar.visibility = View.VISIBLE
+            viewModel.add(client, token.token)
+                .collectLatest { state ->
+                    when (state) {
+                        is State.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
+                        is State.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            dismiss()
+                            var responseBody = ResponseBody()
+                            onClickAction(responseBody)
+                        }
+
+                        is State.Failed -> {
+                            binding.progressBar.visibility = View.GONE
+                            dismiss()
+                            Toast.makeText(
+                                activity, state.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 //            }
-//        }
+                }
+        }
     }
 
     private fun update(client: Client) {

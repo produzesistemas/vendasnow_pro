@@ -65,19 +65,9 @@ class ViewModelClient : ViewModel() {
 
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 
-    fun add(client: Client, token: String) {
-        viewModelScope.launch {
-            try {
-                responseBodyClient.postValue(repository.add(client, token))
-            } catch (e: Exception) {
-                e.message?.let { Log.e("CarrierViewModel", it) }
-            }
+    fun add(client: Client, token: String) = repository.insert(client, token)
 
-        }
-    }
-
-
-//    fun add(client: Client, token: String) = repository.add(client, token)
+//    suspend fun add(client: Client, token: String) = repository.add(client, token)
 //suspend fun getAll(email: String) = repository.getAll(email)
 //    fun add(client: Client, token: String) {
 //

@@ -104,18 +104,8 @@ class FragmentClient : Fragment() {
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
-//        val observerClients = Observer<List<Client>> {
-//            binding.progressBar.visibility = View.GONE
-//                adapterClient  = AdapterClient(it, viewModel)
-//                binding.recyclerView.apply {
-//                    adapter = adapterClient
-//                    layoutManager = LinearLayoutManager(context)
-//                }
-//        }
-//        viewModel.clients.observe(viewLifecycleOwner, observerClients)
-
-        val observerClients = Observer<List<Client>> {
-            adapterClient  = AdapterClient(it, viewModel)
+        val observerClients = Observer<List<Client>> { it ->
+            adapterClient  = AdapterClient(it.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
             binding.recyclerView.apply {
                 adapter = adapterClient
                 layoutManager = LinearLayoutManager(context)
@@ -150,22 +140,6 @@ class FragmentClient : Fragment() {
         }
         false
     }
-
-//    private fun load() {
-//        lifecycleScope.launch {
-//            try {
-//            viewModel.getAll(token.token)
-//            } catch (e: Exception) {
-//                e.message?.let {
-//                    if (it == "401") {
-//
-//                    }
-//                }
-//            }
-//        }
-//        binding.progressBar.visibility = View.VISIBLE
-//
-//    }
 
     private fun load() {
         binding.progressBar.visibility = View.VISIBLE
