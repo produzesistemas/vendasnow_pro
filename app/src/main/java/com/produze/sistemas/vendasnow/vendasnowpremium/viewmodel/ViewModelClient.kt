@@ -48,7 +48,6 @@ class ViewModelClient : ViewModel() {
         viewModelScope.launch {
             try {
                 clients.postValue(repository.getAll(token))
-//                adapter.notifyDataSetChanged()
             } catch (e: Exception) {
                 e.message?.let { Log.e("CarrierViewModel", it) }
             }
@@ -60,14 +59,26 @@ class ViewModelClient : ViewModel() {
         MutableLiveData<List<Client>>()
     }
 
-    val responseBodyClient: MutableLiveData<State<Void?>> by lazy {
-        MutableLiveData<State<Void?>>()
+    val responseBodyClient: MutableLiveData<ResponseBody> by lazy {
+        MutableLiveData<ResponseBody>()
     }
 
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 
-    fun add(client: Client, token: String) = repository.add(client, token)
+    fun add(client: Client, token: String) {
+        viewModelScope.launch {
+            try {
+                responseBodyClient.postValue(repository.add(client, token))
+            } catch (e: Exception) {
+                e.message?.let { Log.e("CarrierViewModel", it) }
+            }
 
+        }
+    }
+
+
+//    fun add(client: Client, token: String) = repository.add(client, token)
+//suspend fun getAll(email: String) = repository.getAll(email)
 //    fun add(client: Client, token: String) {
 //
 //        viewModelScope.launch {

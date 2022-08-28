@@ -93,40 +93,14 @@ var lst: List<Client?> = ArrayList()
                     }
                 }
             })
-
         }
     }
 
-//    suspend fun add(client: Client, token: String) {
-//        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-//        return suspendCoroutine { continuation ->
-//            retIn.saveClient(token, client).enqueue(object : Callback<String> {
-//                override fun onFailure(call: Call<String>, t: Throwable) {
-//
-//                }
-//
-//                override fun onResponse(call: Call<String>, response: Response<String>) {
-//                    if (response.code() == 200) {
-//                        response.body()?.let{
-//                            continuation.resumeWith()
-//                        }
-////                            ?: continuation.resume(it)
-//                    }
-//                    if (response.code() == 400) {
-//
-//                    }
-//                }
-//            })
-//
-//        }
-//    }
-
-
-    fun add(client: Client, token: String) = flow<State<Client>> {
-        var clientResponse = Client()
+    suspend fun add(client: Client, token: String) : ResponseBody {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-//        return suspendCoroutine { continuation ->
-        emit(State.loading())
+        return suspendCoroutine { continuation ->
+        var responseBody = ResponseBody()
+//        emit(State.loading())
             retIn.saveClient(token, client).enqueue(object : Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) {
 
@@ -136,19 +110,21 @@ var lst: List<Client?> = ArrayList()
                     if (response.isSuccessful) {
                         if (response.code() == 200) {
 //                            clientResponse = response.body()!!
-
+                            responseBody.code = 200
+                            continuation.resume(responseBody)
                         }
                     } else {
 
                     }
                 }
             })
-        emit(State.success(clientResponse))
-//        }
-    } .catch {
-        // If exception is thrown, emit failed state along with message.
-        emit(State.failed(it.message.toString()))
-    }.flowOn(Dispatchers.IO)
+//        emit(State.success(responseBody))
+        }
+    }
+//    .catch {
+//        // If exception is thrown, emit failed state along with message.
+//        emit(State.failed(it.message.toString()))
+//    }.flowOn(Dispatchers.IO)
 
 
 //    fun delete(client: Client) = flow<State<Task<Void>>> {
