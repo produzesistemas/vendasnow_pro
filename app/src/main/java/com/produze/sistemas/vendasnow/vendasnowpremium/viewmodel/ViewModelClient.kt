@@ -27,33 +27,33 @@ class ViewModelClient : ViewModel() {
 
     var repository = RepositoryClient()
 
-    fun getAll(token: String) {
+//    fun getAll(token: String) {
+////        viewModelScope.launch {
+////            repository.getAll(token).collectLatest { state ->
+////                when (state) {
+////                    is State.Loading -> {
+////
+////                    }
+////                    is State.Success -> {
+////                        clients.postValue(state.data)
+////                    }
+////
+////                    is State.Failed -> {
+////
+////                    }
+////                }
+////            }
+////
+////        }
 //        viewModelScope.launch {
-//            repository.getAll(token).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//
-//                    }
-//                    is State.Success -> {
-//                        clients.postValue(state.data)
-//                    }
-//
-//                    is State.Failed -> {
-//
-//                    }
-//                }
+//            try {
+//                clients.postValue(repository.getAll(token))
+//            } catch (e: Exception) {
+//                e.message?.let { Log.e("CarrierViewModel", it) }
 //            }
 //
 //        }
-        viewModelScope.launch {
-            try {
-                clients.postValue(repository.getAll(token))
-            } catch (e: Exception) {
-                e.message?.let { Log.e("CarrierViewModel", it) }
-            }
-
-        }
-    }
+//    }
 
     val clients: MutableLiveData<List<Client>> by lazy {
         MutableLiveData<List<Client>>()
@@ -65,8 +65,8 @@ class ViewModelClient : ViewModel() {
 
 //    val clients : Flow<State<List<Client?>>> = repository.getAll()
 
-    fun add(client: Client, token: String) = repository.insert(client, token)
-
+    fun save(client: Client, token: String) = repository.save(client, token)
+    fun getAll(email: String) = repository.getAll(email)
 //    suspend fun add(client: Client, token: String) = repository.add(client, token)
 //suspend fun getAll(email: String) = repository.getAll(email)
 //    fun add(client: Client, token: String) {

@@ -22,7 +22,15 @@ import kotlin.coroutines.suspendCoroutine
 
 class RepositoryClient {
 
-    suspend fun getAll(token: String) : List<Client> {
+    fun getAll(token: String) = flow {
+        emit(State.loading())
+        var response = get(token)
+        if (response.code == 200) { emit(State.success(response.clients)) }
+        if (response.code == 401) { emit(State.failed(401)) }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun get(token: String) : ResponseBody {
+        var responseBody = ResponseBody()
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         return suspendCoroutine { continuation ->
             retIn.getAllClient(token).enqueue(object : Callback<List<Client>> {
@@ -32,27 +40,33 @@ class RepositoryClient {
 
                 override fun onResponse(call: Call<List<Client>>, response: Response<List<Client>>) {
                     if (response.code() == 200) {
+                        responseBody.code = 200
                         response.body()?.let{
-                            continuation.resume(it)
+                            responseBody.clients = it
+                            continuation.resume(responseBody)
                         }
                     }
-                    if (response.code() == 400) {
-
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
                     }
                 }
             })
         }
     }
 
-fun insert(client: Client, token: String) = flow {
+fun save(client: Client, token: String) = flow {
         var responseBody = ResponseBody()
         emit(State.loading())
-        add(client, token)
+    var response = insertUpdate(client, token)
+    if (response.code == 200) { emit(State.success(response)) }
+    if (response.code == 401) { emit(State.failed(401)) }
+
         // Emit the list to the stream
         emit(State.success(responseBody))
-    }.flowOn(Dispatchers.IO) // Use the IO thread for this Flow
+    }.flowOn(Dispatchers.IO)
 
-    suspend fun add(client: Client, token: String) : ResponseBody {
+    private suspend fun insertUpdate(client: Client, token: String) : ResponseBody {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         return suspendCoroutine { continuation ->
         var responseBody = ResponseBody()
@@ -62,10 +76,15 @@ fun insert(client: Client, token: String) = flow {
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
+                    if (response.code() == 200) {
                             responseBody.code = 200
                             continuation.resume(responseBody)
                         }
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
+                    }
+
                 }
             })
         }

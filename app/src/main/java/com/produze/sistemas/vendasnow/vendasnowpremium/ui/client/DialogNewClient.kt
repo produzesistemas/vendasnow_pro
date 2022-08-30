@@ -28,6 +28,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
     private lateinit var binding: FragmentNewClientBinding
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    var responseBody = ResponseBody()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -57,13 +58,7 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             } else {
                 client.name = binding.editTextNome.text.toString()
                 client.telephone = binding.editTextTelefone.text.toString()
-                if (client.id == 0)
-                {
-                    insert(client)
-                } else {
-                    binding.progressBar.visibility = View.VISIBLE
-                    update(client)
-                }
+                save(client)
             }
             } else {
                 Toast.makeText(context, R.string.validation_connection,
@@ -74,27 +69,27 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             dismiss()
         }
 
-        val observer = Observer<ResponseBody> {
-            lifecycleScope.launch {
-                it.let {
-                    binding.progressBar.visibility = View.GONE
-                    dismiss()
-                    onClickAction(it)
-                }
-
-            }
-
-
-        }
-        viewModel.responseBodyClient.observe(viewLifecycleOwner, observer)
+//        val observer = Observer<ResponseBody> {
+//            lifecycleScope.launch {
+//                it.let {
+//                    binding.progressBar.visibility = View.GONE
+//                    dismiss()
+//                    onClickAction(it)
+//                }
+//
+//            }
+//
+//
+//        }
+//        viewModel.responseBodyClient.observe(viewLifecycleOwner, observer)
 
         return binding.root
     }
 
-    private fun insert(client: Client) {
+    private fun save(client: Client) {
         lifecycleScope.launch {
             binding.progressBar.visibility = View.VISIBLE
-            viewModel.add(client, token.token)
+            viewModel.save(client, token.token)
                 .collectLatest { state ->
                     when (state) {
                         is State.Loading -> {
@@ -104,17 +99,18 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                         is State.Success -> {
                             binding.progressBar.visibility = View.GONE
                             dismiss()
-                            var responseBody = ResponseBody()
+
                             onClickAction(responseBody)
                         }
 
                         is State.Failed -> {
                             binding.progressBar.visibility = View.GONE
                             dismiss()
-                            Toast.makeText(
-                                activity, state.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            onClickAction(responseBody)
+//                            Toast.makeText(
+//                                activity, state.message,
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         }
                     }
 //            }
@@ -122,15 +118,15 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
         }
     }
 
-    private fun update(client: Client) {
-        lifecycleScope.launch {
-//            viewModel.update(client).collectLatest {
-////                binding.progressBar.visibility = View.GONE
-////                        dismiss()
-////                        onClickAction(client)
-//            }
-        }
-    }
+//    private fun update(client: Client) {
+//        lifecycleScope.launch {
+////            viewModel.update(client).collectLatest {
+//////                binding.progressBar.visibility = View.GONE
+//////                        dismiss()
+//////                        onClickAction(client)
+////            }
+//        }
+//    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)

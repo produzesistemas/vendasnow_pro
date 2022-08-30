@@ -29,6 +29,7 @@ import android.net.Uri
 import android.opengl.Visibility
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
@@ -104,16 +105,6 @@ class FragmentClient : Fragment() {
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
-        val observerClients = Observer<List<Client>> { it ->
-            adapterClient  = AdapterClient(it.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-            binding.recyclerView.apply {
-                adapter = adapterClient
-                layoutManager = LinearLayoutManager(context)
-            }
-            binding.progressBar.visibility = View.GONE
-        }
-        viewModel.clients.observe(viewLifecycleOwner, observerClients)
-
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
@@ -142,8 +133,35 @@ class FragmentClient : Fragment() {
     }
 
     private fun load() {
-        binding.progressBar.visibility = View.VISIBLE
-        viewModel.getAll(token.token)
+        lifecycleScope.launch {
+            viewModel.getAll(token.token).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        adapterClient = AdapterClient(
+                            (state.data as MutableList<Client>).sortedWith(
+                                compareBy(
+                                    String.CASE_INSENSITIVE_ORDER,
+                                    { it.name })
+                            ), viewModel
+                        )
+                        binding.recyclerView.apply {
+                            adapter = adapterClient
+                            layoutManager = LinearLayoutManager(context)
+                        }
+                        binding.progressBar.visibility = View.GONE
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        datasource?.deleteAll()
+                        changeActivity()
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -183,6 +201,13 @@ class FragmentClient : Fragment() {
             startActivity(appIntent)
         } catch (ex: ActivityNotFoundException) {
             startActivity(webIntent)
+        }
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
         }
     }
 
