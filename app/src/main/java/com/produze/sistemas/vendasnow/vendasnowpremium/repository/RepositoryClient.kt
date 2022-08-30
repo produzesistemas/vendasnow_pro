@@ -90,33 +90,41 @@ fun save(client: Client, token: String) = flow {
         }
     }
 
-//    fun delete(client: Client) = flow<State<Task<Void>>> {
-//        // Emit loading state
-//        emit(State.loading())
-//
-//        emit(State.success())
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-//
-//    fun update(client: Client) = flow<State<Void?>> {
-//        // Emit loading state
-//        emit(State.loading())
-//        val postRef = FirebaseFirestore.getInstance()
-//                .collection("clients").document(client.id.toString()).update("name" , client.name, "telephone", client.telephone)
-//                .addOnSuccessListener { documentReference ->
-//
-//                }
-//                .addOnFailureListener { e ->
-//
-//                }.await()
-//        // Emit success state with post reference
-//        emit(State.success(postRef))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
+    fun delete(client: Client, token: String) = flow {
+        // Emit loading state
+        var responseBody = ResponseBody()
+        emit(State.loading())
+        var response = deleteClient(client, token)
+        if (response.code == 200) { emit(State.success(response)) }
+        if (response.code == 401) { emit(State.failed(401)) }
+        emit(State.success(responseBody))
+    }.flowOn(Dispatchers.IO)
+
+
+
+    private suspend fun deleteClient(client: Client, token: String) : ResponseBody {
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        return suspendCoroutine { continuation ->
+            var responseBody = ResponseBody()
+            retIn.deleteClient(token, client).enqueue(object : Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        responseBody.code = 200
+                        continuation.resume(responseBody)
+                    }
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
+                    }
+
+                }
+            })
+        }
+    }
 
 
 

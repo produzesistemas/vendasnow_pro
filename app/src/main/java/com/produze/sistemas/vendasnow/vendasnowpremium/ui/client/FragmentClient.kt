@@ -81,26 +81,26 @@ class FragmentClient : Fragment() {
 
         val observer = Observer<Client> { client ->
             lifecycleScope.launch {
-//                viewModel.delete(client).collectLatest { state ->
-//                    when (state) {
-//                        is State.Loading -> {
-//                            binding.progressBar.visibility = View.VISIBLE
-//                        }
-//                        is State.Success -> {
-//                            load()
-//                        }
-//                        is State.Failed -> {
-//                            binding.progressBar.visibility = View.GONE
-//                            Toast.makeText(activity, state.message,
-//                                    Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
+                viewModel.delete(client, token.token).collectLatest { state ->
+                    when (state) {
+                        is State.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+                        is State.Success -> {
+                            load()
+                        }
+                        is State.Failed -> {
+                            binding.progressBar.visibility = View.GONE
+                            datasource?.deleteAll()
+                            changeActivity()
+                        }
+                    }
+                }
             }
         }
         viewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
 
-        val observerEdit = Observer<Client> { client ->
+        val observerEdit = Observer<ResponseBody> { client ->
             load()
         }
         viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)

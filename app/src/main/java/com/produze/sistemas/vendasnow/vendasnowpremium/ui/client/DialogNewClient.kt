@@ -69,20 +69,6 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             dismiss()
         }
 
-//        val observer = Observer<ResponseBody> {
-//            lifecycleScope.launch {
-//                it.let {
-//                    binding.progressBar.visibility = View.GONE
-//                    dismiss()
-//                    onClickAction(it)
-//                }
-//
-//            }
-//
-//
-//        }
-//        viewModel.responseBodyClient.observe(viewLifecycleOwner, observer)
-
         return binding.root
     }
 
@@ -107,10 +93,6 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
                             binding.progressBar.visibility = View.GONE
                             dismiss()
                             onClickAction(responseBody)
-//                            Toast.makeText(
-//                                activity, state.message,
-//                                Toast.LENGTH_SHORT
-//                            ).show()
                         }
                     }
 //            }

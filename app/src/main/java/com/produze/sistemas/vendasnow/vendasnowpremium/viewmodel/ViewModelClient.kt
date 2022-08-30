@@ -21,39 +21,13 @@ class ViewModelClient : ViewModel() {
         MutableLiveData<Client>()
     }
 
-    val itemButtonClickEventEdit: MutableLiveData<Client> by lazy {
-        MutableLiveData<Client>()
+    val itemButtonClickEventEdit: MutableLiveData<ResponseBody> by lazy {
+        MutableLiveData<ResponseBody>()
     }
 
     var repository = RepositoryClient()
 
-//    fun getAll(token: String) {
-////        viewModelScope.launch {
-////            repository.getAll(token).collectLatest { state ->
-////                when (state) {
-////                    is State.Loading -> {
-////
-////                    }
-////                    is State.Success -> {
-////                        clients.postValue(state.data)
-////                    }
-////
-////                    is State.Failed -> {
-////
-////                    }
-////                }
-////            }
-////
-////        }
-//        viewModelScope.launch {
-//            try {
-//                clients.postValue(repository.getAll(token))
-//            } catch (e: Exception) {
-//                e.message?.let { Log.e("CarrierViewModel", it) }
-//            }
-//
-//        }
-//    }
+
 
     val clients: MutableLiveData<List<Client>> by lazy {
         MutableLiveData<List<Client>>()
@@ -67,40 +41,13 @@ class ViewModelClient : ViewModel() {
 
     fun save(client: Client, token: String) = repository.save(client, token)
     fun getAll(email: String) = repository.getAll(email)
-//    suspend fun add(client: Client, token: String) = repository.add(client, token)
-//suspend fun getAll(email: String) = repository.getAll(email)
-//    fun add(client: Client, token: String) {
-//
-//        viewModelScope.launch {
-//            try {
-//                responseBodyClient.postValue(repository.add(client, token))
-//            } catch (e: Exception) {
-//                e.message?.let { Log.e("CarrierViewModel", it) }
-//            }
-//        }
-//    }
-
-
-//        viewModelScope.launch {
-//            try {
-//                repository.add(client, token)
-//                responseBodyClient.postValue(ResponseBody("", 200, arrayListOf(), null))
-//            } catch (e: Exception) {
-//                responseBodyClient.postValue(ResponseBody("", 400, arrayListOf(), null))
-//            }
-//
-//        }
-//    }
-
-//    fun update(client: Client) = repository.update(client)
-//
-//    fun delete(client: Client) = repository.delete(client)
+    fun delete(client: Client, token: String) = repository.delete(client, token)
 
     fun onItemButtonClick(client: Client) {
         itemButtonClickEvent.postValue(client)
     }
 
-    fun onItemButtonClickEdit(client: Client) {
+    fun onItemButtonClickEdit(client: ResponseBody) {
         itemButtonClickEventEdit.postValue(client)
     }
 

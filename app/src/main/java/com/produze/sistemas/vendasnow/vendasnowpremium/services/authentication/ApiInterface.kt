@@ -31,13 +31,11 @@ interface ApiInterface {
     @GET("client/getAll")
     fun getAllClient(@Header("Authorization") token: String): retrofit2.Call<List<Client>>
 
-//    @Headers("Content-Type:application/json")
-//    @POST("client/save")
-//    fun saveClient(@Header("Authorization") token: String, @Body client: Client): retrofit2.Call<Void>
-
-//    @Headers("Content-Type:application/json")
     @POST("client/save")
     fun saveClient(@Header("Authorization") token: String, @Body client: Client): Call<Void>
+
+    @POST("client/delete")
+    fun deleteClient(@Header("Authorization") token: String, @Body client: Client): Call<Void>
 }
 
 class RetrofitInstance {
