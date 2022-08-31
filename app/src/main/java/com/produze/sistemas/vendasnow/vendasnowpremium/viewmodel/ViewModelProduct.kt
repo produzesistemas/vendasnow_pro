@@ -2,7 +2,9 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryProduct
 
 class ViewModelProduct : ViewModel() {
@@ -11,22 +13,21 @@ class ViewModelProduct : ViewModel() {
         MutableLiveData<Product>()
     }
 
-    val itemButtonClickEventEdit: MutableLiveData<Product> by lazy {
-        MutableLiveData<Product>()
+    val itemButtonClickEventEdit: MutableLiveData<ResponseBody> by lazy {
+        MutableLiveData<ResponseBody>()
     }
 
     var repository = RepositoryProduct()
-//    fun getAll(email: String) = repository.getAll(email)
-//    fun add(product: Product, email: String) = repository.add(product, email)
-//    fun update(product: Product) = repository.update(product)
-//    fun delete(product: Product) = repository.delete(product)
+    fun save(product: Product, token: String) = repository.save(product, token)
+    fun getAll(email: String) = repository.getAll(email)
+    fun delete(product: Product, token: String) = repository.delete(product, token)
 
-    fun onItemButtonClick(service: Product) {
-        itemButtonClickEvent.postValue(service)
+    fun onItemButtonClick(product: Product) {
+        itemButtonClickEvent.postValue(product)
     }
 
-    fun onItemButtonClickEdit(service: Product) {
-        itemButtonClickEventEdit.postValue(service)
+    fun onItemButtonClickEdit(responseBody: ResponseBody) {
+        itemButtonClickEventEdit.postValue(responseBody)
     }
 
 }

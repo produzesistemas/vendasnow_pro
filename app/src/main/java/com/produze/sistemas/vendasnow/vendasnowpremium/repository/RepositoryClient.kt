@@ -1,23 +1,17 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
-import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.internal.resumeCancellableWith
-import kotlinx.coroutines.tasks.await
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RepositoryClient {
@@ -55,7 +49,7 @@ class RepositoryClient {
         }
     }
 
-fun save(client: Client, token: String) = flow {
+    fun save(client: Client, token: String) = flow {
         var responseBody = ResponseBody()
         emit(State.loading())
     var response = insertUpdate(client, token)
@@ -99,8 +93,6 @@ fun save(client: Client, token: String) = flow {
         if (response.code == 401) { emit(State.failed(401)) }
         emit(State.success(responseBody))
     }.flowOn(Dispatchers.IO)
-
-
 
     private suspend fun deleteClient(client: Client, token: String) : ResponseBody {
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)

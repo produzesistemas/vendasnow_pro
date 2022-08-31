@@ -1,10 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication
 
 import com.google.android.gms.tasks.Task
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
@@ -36,12 +33,21 @@ interface ApiInterface {
 
     @POST("client/delete")
     fun deleteClient(@Header("Authorization") token: String, @Body client: Client): Call<Void>
+
+    @Headers("Content-Type:application/json")
+    @GET("product/getAll")
+    fun getAllProduct(@Header("Authorization") token: String): retrofit2.Call<List<Product>>
+
+    @POST("product/save")
+    fun saveProduct(@Header("Authorization") token: String, @Body product: Product): Call<Void>
+
+    @POST("product/delete")
+    fun deleteProduct(@Header("Authorization") token: String, @Body product: Product): Call<Void>
 }
 
 class RetrofitInstance {
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
-//        private const val BASE_URL: String = "http://192.168.0.152:44324/api/"
 
         private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY

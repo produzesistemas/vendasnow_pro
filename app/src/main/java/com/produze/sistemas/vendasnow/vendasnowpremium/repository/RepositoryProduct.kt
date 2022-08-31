@@ -1,92 +1,119 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
-import android.util.Log
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.tasks.await
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class RepositoryProduct {
-//    var user = FirebaseAuth.getInstance().currentUser
+    fun getAll(token: String) = flow {
+        emit(State.loading())
+        var response = get(token)
+        if (response.code == 200) { emit(State.success(response.products)) }
+        if (response.code == 401) { emit(State.failed(401)) }
+    }.flowOn(Dispatchers.IO)
 
-//    fun getAll(email: String) = flow {
-//        // Emit loading state
-////        emit(State.loading())
-////        var lst = FirebaseFirestore.getInstance()
-////                .collection("products")
-////                .whereEqualTo("createBy", email)
-////                .get().await().documents.map { doc ->
-////                    var obj = doc.toObject(Product::class.java)
-////                    if (obj != null) {
-////                        obj.id = doc.id
-////                    }
-////                    obj
-////                }
-////
-////        // Emit success state with data
-////        emit(State.success(lst))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-////        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-//
-//
-//    fun add(product: Product, email: String) = flow<State<DocumentReference>> {
-//        product.createBy = email
-//        // Emit loading state
-//        emit(State.loading())
-//        val postRef = FirebaseFirestore.getInstance()
-//                .collection("products").add(product)
-//                .addOnSuccessListener { documentReference ->
-//
-//                }
-//                .addOnFailureListener { e ->
-//
-//                }.await()
-//        // Emit success state with post reference
-//        emit(State.success(postRef))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-//
-//    fun delete(product: Product) = flow<State<Task<Void>>> {
-//        // Emit loading state
-//        emit(State.loading())
-//        val returnDelete = FirebaseFirestore.getInstance().collection("products").document(product.id)
-//                .delete()
-//                .addOnSuccessListener { Log.d("VendasNowPro", "DocumentSnapshot successfully deleted!") }
-//                .addOnFailureListener { e -> Log.w("VendasNowPro", "Error deleting document", e) }
-//        // Emit success state with post reference
-//        emit(State.success(returnDelete))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
-//
-//    fun update(product: Product) = flow<State<Void?>> {
-//        // Emit loading state
-//        emit(State.loading())
-//        val postRef = FirebaseFirestore.getInstance()
-//                .collection("products").document(product.id).update("name" ,
-//                        product.name, "value",
-//                        product.value, "costValue", product.costValue)
-//                .addOnSuccessListener { documentReference ->
-//
-//                }
-//                .addOnFailureListener { e ->
-//
-//                }.await()
-//        // Emit success state with post reference
-//        emit(State.success(postRef))
-//    }.catch {
-//        // If exception is thrown, emit failed state along with message.
-//        emit(State.failed(it.message.toString()))
-//    }.flowOn(Dispatchers.IO)
+    suspend fun get(token: String) : ResponseBody {
+        var responseBody = ResponseBody()
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        return suspendCoroutine { continuation ->
+            retIn.getAllProduct(token).enqueue(object : Callback<List<Product>> {
+                override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                    if (response.code() == 200) {
+                        responseBody.code = 200
+                        response.body()?.let{
+                            responseBody.products = it
+                            continuation.resume(responseBody)
+                        }
+                    }
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
+                    }
+                }
+            })
+        }
+    }
+
+    fun save(product: Product, token: String) = flow {
+        var responseBody = ResponseBody()
+        emit(State.loading())
+        var response = insertUpdate(product, token)
+        if (response.code == 200) { emit(State.success(response)) }
+        if (response.code == 401) { emit(State.failed(401)) }
+
+        // Emit the list to the stream
+        emit(State.success(responseBody))
+    }.flowOn(Dispatchers.IO)
+
+    private suspend fun insertUpdate(product: Product, token: String) : ResponseBody {
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        return suspendCoroutine { continuation ->
+            var responseBody = ResponseBody()
+            retIn.saveProduct(token, product).enqueue(object : Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        responseBody.code = 200
+                        continuation.resume(responseBody)
+                    }
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
+                    }
+
+                }
+            })
+        }
+    }
+
+    fun delete(product: Product, token: String) = flow {
+        // Emit loading state
+        var responseBody = ResponseBody()
+        emit(State.loading())
+        var response = deleteProduct(product, token)
+        if (response.code == 200) { emit(State.success(response)) }
+        if (response.code == 401) { emit(State.failed(401)) }
+        emit(State.success(responseBody))
+    }.flowOn(Dispatchers.IO)
+
+    private suspend fun deleteProduct(product: Product, token: String) : ResponseBody {
+        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        return suspendCoroutine { continuation ->
+            var responseBody = ResponseBody()
+            retIn.deleteProduct(token, product).enqueue(object : Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        responseBody.code = 200
+                        continuation.resume(responseBody)
+                    }
+                    if (response.code() == 401) {
+                        responseBody.code = 401
+                        continuation.resume(responseBody)
+                    }
+
+                }
+            })
+        }
+    }
 }

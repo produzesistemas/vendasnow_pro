@@ -11,6 +11,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewProductBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MoneyTextWatcher
@@ -23,11 +24,12 @@ import java.util.*
 
 
 class DialogNewProduct(private var viewModel: ViewModelProduct, private val product: Product,
-                       val onClickAction: (Product) -> Unit)  : DialogFragment() {
+                       val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewProductBinding
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    var responseBody = ResponseBody()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -80,14 +82,7 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
                 vlCost = vlCost.replace(",", ".")
                 vlCost = vlCost.replace("\\s".toRegex(), "")
                 product.costValue = vlCost.toDouble()
-
-                if (product.id.isEmpty())
-                {
-                    insert(product)
-                } else {
-                    binding.progressBar.visibility = View.VISIBLE
-                    update(product)
-                }
+                    save(product)
             }
             } else {
                 Toast.makeText(context, R.string.validation_connection,
@@ -100,38 +95,28 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
         return binding.root
     }
 
-    private fun insert(product: Product) {
-//        lifecycleScope.launch {
-//            viewModel.add(product, token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        onClickAction(product)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        dismiss()
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
-    }
+    private fun save(product: Product) {
+        lifecycleScope.launch {
+            viewModel.save(product, token.token).collectLatest { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
 
-    private fun update(product: Product) {
-//        lifecycleScope.launch {
-//            viewModel.update(product).collectLatest {
-//                dismiss()
-//                onClickAction(product)
-//            }
-//        }
+                    is State.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+                        onClickAction(responseBody)
+                    }
+
+                    is State.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        dismiss()
+                        onClickAction(responseBody)
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
