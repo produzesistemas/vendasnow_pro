@@ -35,14 +35,14 @@ class AdapterSaleService(private var lst: List<SaleService>, var viewModelSaleSe
     inner class RecyclerViewViewHolder(private val binding: CardViewSaleServiceBinding) :
             RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<SaleService>, position: Int) {
-            binding.textViewName.text = lst[position].descricao
+            binding.textViewName.text = lst[position].description
             binding.textViewValue.text = nFormat.format(lst[position].valueSale)
              binding.btnDelete.setOnClickListener {
                 saleService = lst[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
                 val dialog = saleService?.let {
                     it.let { it1 ->
-                        AlertDialogDelete(it1.descricao) {
+                        AlertDialogDelete(it1.description) {
                             viewModelSaleService.onItemButtonClick(saleService)
                         }
                     }

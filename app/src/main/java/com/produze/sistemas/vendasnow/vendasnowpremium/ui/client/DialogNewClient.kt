@@ -17,12 +17,13 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.Mask
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class DialogNewClient(private var viewModel: ViewModelClient, private val client: Client,
+class DialogNewClient(private var viewModel: ClientViewModel, private val client: Client,
                       val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
 
     private lateinit var binding: FragmentNewClientBinding
@@ -69,6 +70,25 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
             dismiss()
         }
 
+        viewModel.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.complete.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.GONE
+                dismiss()
+                onClickAction(responseBody)
+
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
         return binding.root
     }
 
@@ -76,27 +96,27 @@ class DialogNewClient(private var viewModel: ViewModelClient, private val client
         lifecycleScope.launch {
             binding.progressBar.visibility = View.VISIBLE
             viewModel.save(client, token.token)
-                .collectLatest { state ->
-                    when (state) {
-                        is State.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-
-                        is State.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            dismiss()
-
-                            onClickAction(responseBody)
-                        }
-
-                        is State.Failed -> {
-                            binding.progressBar.visibility = View.GONE
-                            dismiss()
-                            onClickAction(responseBody)
-                        }
-                    }
-//            }
-                }
+//                .collectLatest { state ->
+//                    when (state) {
+//                        is State.Loading -> {
+//                            binding.progressBar.visibility = View.VISIBLE
+//                        }
+//
+//                        is State.Success -> {
+//                            binding.progressBar.visibility = View.GONE
+//                            dismiss()
+//
+//                            onClickAction(responseBody)
+//                        }
+//
+//                        is State.Failed -> {
+//                            binding.progressBar.visibility = View.GONE
+//                            dismiss()
+//                            onClickAction(responseBody)
+//                        }
+//                    }
+////            }
+//                }
         }
     }
 

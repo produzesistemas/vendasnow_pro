@@ -51,7 +51,6 @@ class LoginActivity : AppCompatActivity(){
                         Snackbar.LENGTH_LONG
                     )
                 } else {
-
                     binding.imageViewLogin.visibility = View.GONE
                     binding.textViewLogin.visibility = View.GONE
                     binding.progressBar.visibility = View.VISIBLE

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
@@ -15,12 +14,11 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewClien
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.DialogNewClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
 import kotlin.collections.ArrayList
 
 
-class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelClient) :
+class AdapterClient(private var clients: List<Client>, var viewModel: ClientViewModel) :
         RecyclerView.Adapter<AdapterClient.RecyclerViewViewHolder>(), Filterable {
 
     private lateinit var client: Client
@@ -83,7 +81,7 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ViewModelC
     }
 
     override fun getItemCount(): Int {
-        return clientsFilter.size
+        return clients.size
     }
 
     override fun getFilter(): Filter {

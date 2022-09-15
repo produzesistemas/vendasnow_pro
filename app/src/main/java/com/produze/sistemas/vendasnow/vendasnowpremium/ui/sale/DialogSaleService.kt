@@ -38,7 +38,7 @@ class DialogSaleService(val onClickAction: (SaleService) -> Unit)  : DialogFragm
                     Toast.LENGTH_SHORT).show()
             } else {
                 saleService = SaleService()
-                saleService.descricao = binding.editTextDescription.text.toString()
+                saleService.description = binding.editTextDescription.text.toString()
                 var vl: String = binding.editTextValueSale.text.toString().trim { it <= ' ' }
                 vl = vl.trim { it <= ' ' }
                 vl = vl.replace(".", "")

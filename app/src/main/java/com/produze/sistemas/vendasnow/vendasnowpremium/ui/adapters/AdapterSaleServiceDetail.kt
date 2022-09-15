@@ -30,7 +30,7 @@ class AdapterSaleServiceDetail(private var lst: List<SaleService>) :
     inner class RecyclerViewViewHolder(private val binding: CardViewSaleServiceDetailBinding) :
             RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<SaleService>, position: Int) {
-            binding.textViewName.text = lst[position].descricao
+            binding.textViewName.text = lst[position].description
             binding.textViewValue.text = nFormat.format(lst[position].valueSale)
         }
     }

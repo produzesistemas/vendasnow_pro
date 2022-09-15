@@ -35,7 +35,7 @@ class NotificationHelper(val context: Context, val sale: Sale) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         intent.putExtra("notification", true)
-        intent.putExtra("idSale", sale.id)
+        intent.putExtra("idSale", sale.id.toString())
         intent.putExtra("dueDate", df.format(account!!.dueDate))
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntentWithParentStack(intent)
