@@ -21,6 +21,20 @@ class ClientRepository constructor(private val retrofitService: RetrofitService)
         }
     }
 
+    suspend fun getAll(token: String) : NetworkState<List<Client>> {
+        val response = retrofitService.getAllClient(token)
+        return if (response.isSuccessful) {
+            val responseBody = response.body()
+            if (responseBody != null) {
+                NetworkState.Success(responseBody)
+            } else {
+                NetworkState.Error(response)
+            }
+        } else {
+            NetworkState.Error(response)
+        }
+    }
+
     suspend fun delete(token: String, client: Client) : NetworkState<Void> {
         val response = retrofitService.deleteClient(token, client)
         return if (response.isSuccessful) {

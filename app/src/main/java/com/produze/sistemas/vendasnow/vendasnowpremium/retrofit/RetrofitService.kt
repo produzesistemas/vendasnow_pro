@@ -7,10 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 interface RetrofitService {
@@ -24,6 +21,10 @@ interface RetrofitService {
 
     @POST("client/delete")
     suspend fun deleteClient(@Header("Authorization") token: String, @Body client: Client): Response<Void>
+
+//    @Headers("Content-Type:application/json")
+    @GET("client/getAll")
+    suspend fun getAllClient(@Header("Authorization") token: String): Response<List<Client>>
 
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"

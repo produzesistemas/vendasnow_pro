@@ -16,20 +16,18 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.Mask
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class DialogNewClient(private var viewModel: ClientViewModel, private val client: Client,
-                      val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
-
+class DialogNewClient(
+    private var viewModel: ClientViewModel,
+    private val client: Client)  : DialogFragment() {
     private lateinit var binding: FragmentNewClientBinding
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
     var responseBody = ResponseBody()
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -78,14 +76,12 @@ class DialogNewClient(private var viewModel: ClientViewModel, private val client
             }
         })
 
+
+
         viewModel.complete.observe(this, Observer {
             if (it) {
-                binding.progressBar.visibility = View.GONE
                 dismiss()
-                onClickAction(responseBody)
-
-            } else {
-                binding.progressBar.visibility = View.GONE
+//                onClickAction(responseBody)
             }
         })
 
@@ -94,29 +90,8 @@ class DialogNewClient(private var viewModel: ClientViewModel, private val client
 
     private fun save(client: Client) {
         lifecycleScope.launch {
-            binding.progressBar.visibility = View.VISIBLE
+//            binding.progressBar.visibility = View.VISIBLE
             viewModel.save(client, token.token)
-//                .collectLatest { state ->
-//                    when (state) {
-//                        is State.Loading -> {
-//                            binding.progressBar.visibility = View.VISIBLE
-//                        }
-//
-//                        is State.Success -> {
-//                            binding.progressBar.visibility = View.GONE
-//                            dismiss()
-//
-//                            onClickAction(responseBody)
-//                        }
-//
-//                        is State.Failed -> {
-//                            binding.progressBar.visibility = View.GONE
-//                            dismiss()
-//                            onClickAction(responseBody)
-//                        }
-//                    }
-////            }
-//                }
         }
     }
 
@@ -133,6 +108,7 @@ class DialogNewClient(private var viewModel: ClientViewModel, private val client
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewModel.setCompleteFalse()
         return dialog
     }
 

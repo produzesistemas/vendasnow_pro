@@ -3,42 +3,29 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.client
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentClientBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import android.view.*
 import android.view.MenuInflater
 import androidx.core.view.MenuItemCompat
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.opengl.Visibility
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterProduct
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
-import kotlinx.coroutines.flow.collect
 
 class FragmentClient : Fragment() {
 
-//    private lateinit var viewModel: ViewModelClient
     private lateinit var clientViewModel: ClientViewModel
     private lateinit var binding: FragmentClientBinding
     private lateinit var client: Client
@@ -74,7 +61,6 @@ class FragmentClient : Fragment() {
         if (token.token == "") {
 
         }
-//        viewModel = ViewModelProvider(this).get(ViewModelClient::class.java)
         clientViewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
 
         adapterClient = AdapterClient(arrayListOf(), clientViewModel)
@@ -87,8 +73,8 @@ class FragmentClient : Fragment() {
         clientViewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
 
         val observerEdit = Observer<ResponseBody> {
-            filter.sizePage = 10
-            clientViewModel.getPagination(token.token, filter)
+//            filter.sizePage = 10
+//            clientViewModel.getPagination(token.token, filter)
 //            load()
         }
         clientViewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
@@ -97,8 +83,6 @@ class FragmentClient : Fragment() {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_client))
-
-//        load()
 
         clientViewModel.lst.observe(this) {
             adapterClient  = AdapterClient((it).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), clientViewModel)
@@ -121,63 +105,26 @@ class FragmentClient : Fragment() {
             }
         })
 
-//        binding.progressBar.visibility = View.VISIBLE
-        filter.sizePage = 10
-        clientViewModel.getPagination(token.token, filter)
+        clientViewModel.complete.observe(this, Observer {
+            if (it) {
+                clientViewModel.getAll(token.token)
+            }
+        })
 
+        clientViewModel.getAll(token.token)
         }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.navigation_add -> {
                 client = Client()
-                        val dialog = client?.let { it ->
-                            DialogNewClient(clientViewModel, it) { _ ->
-                                    view?.let {
-//                                        load()
-                                        filter.sizePage = adapterClient.itemCount + 10
-                                        clientViewModel.getPagination(token.token, filter)
-                                    }
-                            }
-                        }
+                        val dialog = DialogNewClient(clientViewModel, client)
                         dialog?.show(childFragmentManager, "dialog")
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
-
-//    private fun load() {
-//        lifecycleScope.launch {
-//            viewModel.getAll(token.token).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterClient = AdapterClient(
-//                            (state.data as MutableList<Client>).sortedWith(
-//                                compareBy(
-//                                    String.CASE_INSENSITIVE_ORDER,
-//                                    { it.name })
-//                            ), viewModel
-//                        )
-//                        binding.recyclerView.apply {
-//                            adapter = adapterClient
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        datasource?.deleteAll()
-//                        changeActivity()
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchview, menu)

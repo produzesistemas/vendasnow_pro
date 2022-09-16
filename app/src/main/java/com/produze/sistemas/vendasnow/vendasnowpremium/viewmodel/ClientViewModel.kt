@@ -37,11 +37,11 @@ class ClientViewModel constructor() : ViewModel() {
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
 
-    fun getPagination(token: String, filter: FilterDefault) {
+    fun getAll(token: String) {
         loading.value = true
         viewModelScope.launch {
             Log.d("Thread Inside", Thread.currentThread().name)
-            when (val response = clientRepository.getPagination(token, filter)) {
+            when (val response = clientRepository.getAll(token)) {
                 is NetworkState.Success -> {
                     lst.postValue(response.data!!)
                     loading.value = false
@@ -57,6 +57,10 @@ class ClientViewModel constructor() : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setCompleteFalse() {
+        complete.value = false
     }
 
     fun save(client: Client, token: String) {

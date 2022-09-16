@@ -69,12 +69,12 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ClientView
             binding.btnEdit.setOnClickListener {
                 client = clients[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-                val dialog = client?.let {
-                    DialogNewClient(viewModel, it) {
-                      viewModel.onItemButtonClickEdit(it)
-                    }
-                }
-                dialog?.show(manager, "dialog")
+//                val dialog = client?.let {
+//                    DialogNewClient(viewModel, it) {
+//                      viewModel.onItemButtonClickEdit(it)
+//                    }
+//                }
+//                dialog?.show(manager, "dialog")
             }
         }
 
