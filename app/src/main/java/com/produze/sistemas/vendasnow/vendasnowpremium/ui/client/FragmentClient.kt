@@ -19,9 +19,11 @@ import androidx.core.view.MenuItemCompat
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
 
 class FragmentClient : Fragment() {
@@ -67,8 +69,9 @@ class FragmentClient : Fragment() {
 
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        val observer = Observer<Client> { client ->
-                clientViewModel.delete(client, token.token)
+        val observer = Observer<Client> {
+//                clientViewModel.delete(client, token.token)
+            clientViewModel.getAll(token.token)
         }
         clientViewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
 
@@ -94,7 +97,7 @@ class FragmentClient : Fragment() {
         }
 
         clientViewModel.errorMessage.observe(this) {
-//            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            MainUtils.snack(view, it, Snackbar.LENGTH_LONG)
         }
 
         clientViewModel.loading.observe(this, Observer {

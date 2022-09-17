@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewClientBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.AlertDialogDeleteClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.DialogNewClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
@@ -52,18 +53,10 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ClientView
             binding.textViewTelephone.text = clients[position].telephone
             binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.blue))
             binding.btnDelete.setOnClickListener {
-
                 client = clients[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-                val dialog = client?.let {
-                    AlertDialogDelete(it.name) {
-                        viewModel.onItemButtonClick(client)
-                    }
-                }
+                val dialog = AlertDialogDeleteClient(viewModel, client)
                 dialog?.show(manager, "dialog")
-
-
-
             }
 
             binding.btnEdit.setOnClickListener {

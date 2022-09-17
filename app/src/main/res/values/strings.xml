@@ -106,6 +106,7 @@
     <string name="validation_no_requestCode">Conta a receber não encontrada!</string>
     <string name="validation_sale_products_services">Adicione ao menos um produto ou um serviço para a venda</string>
     <string name="validation_connection">Dispositivo sem internet.</string>
+    <string name="error_400">Falha na tentativa!</string>
     <string name="movie_client">bROElv6NCGM</string>
     <string name="movie_product">N11KBDlBIfs</string>
     <string name="movie_sale">cCkYnxzR7WU</string>

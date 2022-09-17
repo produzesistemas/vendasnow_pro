@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
@@ -91,14 +92,17 @@ class ClientViewModel constructor() : ViewModel() {
                 is NetworkState.Success -> {
                     complete.value = true
                     loading.value = false
+//                    itemButtonClickEvent.postValue(client)
                 }
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error())
-                    } else {
+                        _errorMessage.value = "Acesso Negado!"
+                    }
+
+                    if (response.response.code() == 400) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error)
+                        _errorMessage.value = "Falha na tentativa!"
                     }
                 }
             }

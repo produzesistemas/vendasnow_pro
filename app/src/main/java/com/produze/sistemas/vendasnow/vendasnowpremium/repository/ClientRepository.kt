@@ -35,12 +35,11 @@ class ClientRepository constructor(private val retrofitService: RetrofitService)
         }
     }
 
-    suspend fun delete(token: String, client: Client) : NetworkState<Void> {
+    suspend fun delete(token: String, client: Client) : NetworkState<Any> {
         val response = retrofitService.deleteClient(token, client)
         return if (response.isSuccessful) {
-            val responseBody = response.body()
-            if (responseBody != null) {
-                NetworkState.Success(responseBody)
+            if (response.code() == 200) {
+                NetworkState.Success(client)
             } else {
                 NetworkState.Error(response)
             }
@@ -52,10 +51,7 @@ class ClientRepository constructor(private val retrofitService: RetrofitService)
     suspend fun save(token: String, client: Client) : NetworkState<Any> {
         val response = retrofitService.saveClient(token, client)
         return if (response.isSuccessful) {
-
             if (response.code() == 200) {
-                val responseBody = response.body()
-
                 NetworkState.Success(client)
             } else {
                 NetworkState.Error(response)
