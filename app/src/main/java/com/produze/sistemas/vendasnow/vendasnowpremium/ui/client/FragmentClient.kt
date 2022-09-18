@@ -141,7 +141,7 @@ class FragmentClient : Fragment() {
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-//                adapterClient.filter.filter(query)
+                adapterClient.filter.filter(query)
                 return false
             }
         })

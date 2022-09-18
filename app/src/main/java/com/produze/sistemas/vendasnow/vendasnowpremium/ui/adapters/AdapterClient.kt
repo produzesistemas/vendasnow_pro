@@ -50,7 +50,6 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ClientView
 
         fun bind(clients: List<Client>, position: Int) {
             binding.textViewName.text = clients[position].name
-            binding.textViewTelephone.text = clients[position].telephone
             binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.blue))
             binding.btnDelete.setOnClickListener {
                 client = clients[position]
@@ -62,19 +61,15 @@ class AdapterClient(private var clients: List<Client>, var viewModel: ClientView
             binding.btnEdit.setOnClickListener {
                 client = clients[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-//                val dialog = client?.let {
-//                    DialogNewClient(viewModel, it) {
-//                      viewModel.onItemButtonClickEdit(it)
-//                    }
-//                }
-//                dialog?.show(manager, "dialog")
+                val dialog = DialogNewClient(viewModel, client)
+                dialog?.show(manager, "dialog")
             }
         }
 
     }
 
     override fun getItemCount(): Int {
-        return clients.size
+        return clientsFilter.size
     }
 
     override fun getFilter(): Filter {

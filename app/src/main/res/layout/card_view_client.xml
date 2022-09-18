@@ -42,16 +42,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_default">
 
-                    <TextView
-                        android:id="@+id/textViewTelephone"
-                        style="@style/TextStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_between_views"
-                        android:text="@string/menu_client"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <ImageButton
                         android:id="@+id/btnDelete"
                         android:layout_width="wrap_content"

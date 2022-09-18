@@ -48,7 +48,6 @@ class DialogNewClient(
 
         binding.editTextTelefone.addTextChangedListener(Mask.insert("(##)#####-####", binding.editTextTelefone))
         binding.editTextNome.setText(client.name)
-        binding.editTextTelefone.setText(client.telephone)
         binding.btnConfirm.setOnClickListener {
             if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             if (binding.editTextNome.text.isEmpty()) {
@@ -56,7 +55,6 @@ class DialogNewClient(
                         Toast.LENGTH_SHORT).show()
             } else {
                 client.name = binding.editTextNome.text.toString()
-                client.telephone = binding.editTextTelefone.text.toString()
                 save(client)
             }
             } else {
