@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
+import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentProductBinding
@@ -24,15 +23,14 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterProduct
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ProductViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelProduct
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FragmentProduct : Fragment() {
 
-    private lateinit var viewModel: ViewModelProduct
+    private lateinit var viewModel: ProductViewModel
     private lateinit var binding: FragmentProductBinding
     private lateinit var product: Product
     private lateinit var viewModelMain: ViewModelMain
@@ -66,55 +64,49 @@ class FragmentProduct : Fragment() {
         if (token.token == "") {
 
         }
-        viewModel = ViewModelProvider(this).get(ViewModelProduct::class.java)
+        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         adapterProduct = AdapterProduct(arrayListOf(), viewModel)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        val observer = Observer<Product> { product ->
-            lifecycleScope.launch {
-                viewModel.delete(product, token.token).collectLatest { state ->
-                    when (state) {
-                        is State.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-                        is State.Success -> {
-                            load()
-                        }
-                        is State.Failed -> {
-                            binding.progressBar.visibility = View.GONE
-                            datasource?.deleteAll()
-                            changeActivity()
-                        }
-                    }
-                }
-            }
-        }
-        viewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
-
-        val observerEdit = Observer<ResponseBody> { product ->
-            load()
-        }
-        viewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
 
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_product))
+        viewModel.lst.observe(this) {
+            adapterProduct  = AdapterProduct((it).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
+            binding.recyclerView.apply {
+                adapter = adapterProduct
+                layoutManager = LinearLayoutManager(context)
+            }
+            binding.progressBar.visibility = View.GONE
+        }
 
-        load()
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it, Snackbar.LENGTH_LONG)
+        }
+
+        viewModel.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.complete.observe(this, Observer {
+            if (it) {
+                viewModel.getAll(token.token)
+            }
+        })
+
+        viewModel.getAll(token.token)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.navigation_add -> {
                 product = Product()
-                val dialog = product?.let {
-                    DialogNewProduct(viewModel, it) {
-                        view?.let { view ->
-                            load()
-                        }
-                    }
-                }
+                val dialog = DialogNewProduct(viewModel, product)
                 dialog?.show(childFragmentManager, "dialog")
                 return@OnNavigationItemSelectedListener true
             }
@@ -122,31 +114,31 @@ class FragmentProduct : Fragment() {
         false
     }
 
-    private fun load() {
-        lifecycleScope.launch {
-            viewModel.getAll(token.token).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Success -> {
-                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-                        binding.recyclerView.apply {
-                            adapter = adapterProduct
-                            layoutManager = LinearLayoutManager(context)
-                        }
-                        binding.progressBar.visibility = View.GONE
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        datasource?.deleteAll()
-                        changeActivity()
-                    }
-                }
-            }
-        }
-    }
+//    private fun load() {
+//        lifecycleScope.launch {
+//            viewModel.getAll(token.token).collectLatest { state ->
+//                when (state) {
+//                    is State.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is State.Success -> {
+//                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
+//                        binding.recyclerView.apply {
+//                            adapter = adapterProduct
+//                            layoutManager = LinearLayoutManager(context)
+//                        }
+//                        binding.progressBar.visibility = View.GONE
+//                    }
+//
+//                    is State.Failed -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        datasource?.deleteAll()
+//                        changeActivity()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchview, menu)
@@ -193,13 +185,5 @@ class FragmentProduct : Fragment() {
             startActivity(webIntent)
         }
     }
-
-    private fun changeActivity() {
-        activity?.let{
-            val intent = Intent (it, LoginActivity::class.java)
-            it.startActivity(intent)
-        }
-    }
-
 }
 

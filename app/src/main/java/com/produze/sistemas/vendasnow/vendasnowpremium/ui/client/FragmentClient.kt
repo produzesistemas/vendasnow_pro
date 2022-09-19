@@ -69,19 +69,6 @@ class FragmentClient : Fragment() {
 
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        val observer = Observer<Client> {
-//                clientViewModel.delete(client, token.token)
-            clientViewModel.getAll(token.token)
-        }
-        clientViewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
-
-        val observerEdit = Observer<ResponseBody> {
-//            filter.sizePage = 10
-//            clientViewModel.getPagination(token.token, filter)
-//            load()
-        }
-        clientViewModel.itemButtonClickEventEdit.observe(viewLifecycleOwner, observerEdit)
-
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
@@ -166,13 +153,6 @@ class FragmentClient : Fragment() {
             startActivity(appIntent)
         } catch (ex: ActivityNotFoundException) {
             startActivity(webIntent)
-        }
-    }
-
-    private fun changeActivity() {
-        activity?.let{
-            val intent = Intent (it, LoginActivity::class.java)
-            it.startActivity(intent)
         }
     }
 

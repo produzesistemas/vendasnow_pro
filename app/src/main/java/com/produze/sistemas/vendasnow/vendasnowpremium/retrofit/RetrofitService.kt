@@ -2,6 +2,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.retrofit
 import com.google.gson.GsonBuilder
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -22,9 +23,18 @@ interface RetrofitService {
     @POST("client/delete")
     suspend fun deleteClient(@Header("Authorization") token: String, @Body client: Client): Response<Void>
 
-//    @Headers("Content-Type:application/json")
     @GET("client/getAll")
     suspend fun getAllClient(@Header("Authorization") token: String): Response<List<Client>>
+
+    @POST("product/save")
+    suspend fun saveProduct(@Header("Authorization") token: String, @Body product: Product): Response<Void>
+
+    @POST("product/delete")
+    suspend fun deleteProduct(@Header("Authorization") token: String, @Body product: Product): Response<Void>
+
+    @GET("product/getAll")
+    suspend fun getAllProduct(@Header("Authorization") token: String): Response<List<Product>>
+
 
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"

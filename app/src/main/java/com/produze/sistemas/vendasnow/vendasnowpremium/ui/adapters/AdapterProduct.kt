@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewProductBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.product.DialogNewProduct
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelProduct
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.product.ProductAlertDialogDelete
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ProductViewModel
 import java.text.NumberFormat
 import java.util.*
 
-class AdapterProduct(private val lst: List<Product>, var viewModel: ViewModelProduct) :
+class AdapterProduct(private val lst: List<Product>, var viewModel: ProductViewModel) :
         RecyclerView.Adapter<AdapterProduct.RecyclerViewViewHolder>(), Filterable {
 
     private lateinit var product: Product
@@ -51,22 +51,14 @@ class AdapterProduct(private val lst: List<Product>, var viewModel: ViewModelPro
             binding.btnDelete.setOnClickListener {
                 product = lst[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-                val dialog = product?.let {
-                    AlertDialogDelete(it.name) {
-                        viewModel.onItemButtonClick(product)
-                    }
-                }
+                val dialog = ProductAlertDialogDelete(viewModel, product)
                 dialog?.show(manager, "dialog")
             }
 
             binding.btnEdit.setOnClickListener {
                 product = lst[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-                val dialog = product?.let {
-                    DialogNewProduct(viewModel, it) {
-                        viewModel.onItemButtonClickEdit(it)
-                    }
-                }
+                val dialog = DialogNewProduct(viewModel, product)
                 dialog?.show(manager, "dialog")
             }
         }

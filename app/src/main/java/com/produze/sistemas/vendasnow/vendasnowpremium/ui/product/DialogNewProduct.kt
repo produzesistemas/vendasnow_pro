@@ -15,17 +15,14 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MoneyTextWatcher
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelProduct
-import kotlinx.coroutines.flow.collectLatest
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
 
-class DialogNewProduct(private var viewModel: ViewModelProduct, private val product: Product,
-                       val onClickAction: (ResponseBody) -> Unit)  : DialogFragment() {
-
+class DialogNewProduct(private var viewModel: ProductViewModel,
+                       private val product: Product)  : DialogFragment() {
     private lateinit var binding: FragmentNewProductBinding
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
@@ -92,36 +89,36 @@ class DialogNewProduct(private var viewModel: ViewModelProduct, private val prod
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
+
+        viewModel.loading.observe(this, {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.complete.observe(this, {
+            if (it) {
+                dismiss()
+            }
+        })
+
+
+
         return binding.root
     }
 
     private fun save(product: Product) {
         lifecycleScope.launch {
-            viewModel.save(product, token.token).collectLatest { state ->
-                when (state) {
-                    is State.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        dismiss()
-                        onClickAction(responseBody)
-                    }
-
-                    is State.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        dismiss()
-                        onClickAction(responseBody)
-                    }
-                }
-            }
+            viewModel.save(product, token.token)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewModel.setCompleteFalse()
         return dialog
     }
 
