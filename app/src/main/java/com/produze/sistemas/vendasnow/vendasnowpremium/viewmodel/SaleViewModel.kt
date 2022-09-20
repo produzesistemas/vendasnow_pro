@@ -11,8 +11,8 @@ import java.util.logging.Filter
 
 class SaleViewModel constructor() : ViewModel() {
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String>
+    private val _errorMessage = MutableLiveData<ResponseBody>()
+    val errorMessage: LiveData<ResponseBody>
         get() = _errorMessage
 
     private val _totalProducts = MutableLiveData<Double>()
@@ -22,6 +22,7 @@ class SaleViewModel constructor() : ViewModel() {
 
     private val retrofitService = RetrofitService.getInstance()
     private val saleRepository = SaleRepository(retrofitService)
+    private var responseBody: ResponseBody = ResponseBody()
 
 //    val itemButtonClickEvent: MutableLiveData<Sale> by lazy {
 //        MutableLiveData<Sale>()
@@ -34,33 +35,8 @@ class SaleViewModel constructor() : ViewModel() {
     val lst = MutableLiveData<List<Sale>>()
     var job: Job? = null
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError("Exception handled: ${throwable.localizedMessage}")
-    }
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
-
-    fun getAll(token: String) {
-        loading.value = true
-        viewModelScope.launch {
-            Log.d("Thread Inside", Thread.currentThread().name)
-            when (val response = saleRepository.getAll(token)) {
-                is NetworkState.Success -> {
-                    lst.postValue(response.data!!)
-                    loading.value = false
-                }
-                is NetworkState.Error -> {
-                    if (response.response.code() == 401) {
-                        loading.value = false
-                        //movieList.postValue(NetworkState.Error())
-                    } else {
-                        loading.value = false
-                        //movieList.postValue(NetworkState.Error)
-                    }
-                }
-            }
-        }
-    }
 
     fun getAllByMonthAndYear(filter: FilterDefault, token: String) {
         loading.value = true
@@ -74,10 +50,12 @@ class SaleViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error())
-                    } else {
+                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
+                    }
+
+                    if (response.response.code() == 400) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error)
+                        onError("Falha na tentativa.", 400)
                     }
                 }
             }
@@ -121,12 +99,16 @@ class SaleViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        _errorMessage.value = "Acesso Negado!"
+                        responseBody.code = 401
+                        responseBody.message = "Acesso Negado!"
+                        _errorMessage.postValue(responseBody)
                     }
 
                     if (response.response.code() == 400) {
                         loading.value = false
-                        _errorMessage.value = "Falha na tentativa!"
+                        responseBody.code = 401
+                        responseBody.message = "Falha na tentativa!"
+                        _errorMessage.postValue(responseBody)
                     }
                 }
             }
@@ -141,8 +123,10 @@ class SaleViewModel constructor() : ViewModel() {
 //        itemButtonClickEventEdit.postValue(client)
 //    }
 
-    private fun onError(message: String) {
-        _errorMessage.value = message
+    private fun onError(message: String, code: Int) {
+        responseBody.code = code
+        responseBody.message = message
+        _errorMessage.postValue(responseBody)
         loading.value = false
     }
 

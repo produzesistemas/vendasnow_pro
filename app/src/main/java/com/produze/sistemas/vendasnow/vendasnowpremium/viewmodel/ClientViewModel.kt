@@ -14,13 +14,13 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.retrofit.RetrofitService
 import kotlinx.coroutines.*
 class ClientViewModel constructor() : ViewModel() {
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String>
+    private val _errorMessage = MutableLiveData<ResponseBody>()
+    val errorMessage: LiveData<ResponseBody>
         get() = _errorMessage
 
     private val retrofitService = RetrofitService.getInstance()
     private val clientRepository = ClientRepository(retrofitService)
-
+    private var responseBody: ResponseBody = ResponseBody()
     val itemButtonClickEvent: MutableLiveData<Client> by lazy {
         MutableLiveData<Client>()
     }
@@ -32,9 +32,6 @@ class ClientViewModel constructor() : ViewModel() {
     val lst = MutableLiveData<List<Client>>()
     var job: Job? = null
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError("Exception handled: ${throwable.localizedMessage}")
-    }
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
 
@@ -50,10 +47,12 @@ class ClientViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error())
-                    } else {
+                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
+                    }
+
+                    if (response.response.code() == 400) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error)
+                        onError("Falha na tentativa.", 400)
                     }
                 }
             }
@@ -75,10 +74,12 @@ class ClientViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error())
-                    } else {
+                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
+                    }
+
+                    if (response.response.code() == 400) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error)
+                        onError("Falha na tentativa.", 400)
                     }
                 }
             }
@@ -97,12 +98,12 @@ class ClientViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        _errorMessage.value = "Acesso Negado!"
+                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
                     }
 
                     if (response.response.code() == 400) {
                         loading.value = false
-                        _errorMessage.value = "Falha na tentativa!"
+                        onError("Falha na tentativa.", 400)
                     }
                 }
             }
@@ -117,8 +118,10 @@ class ClientViewModel constructor() : ViewModel() {
         itemButtonClickEventEdit.postValue(client)
     }
 
-    private fun onError(message: String) {
-        _errorMessage.value = message
+    private fun onError(message: String, code: Int) {
+        responseBody.code = code
+        responseBody.message = message
+        _errorMessage.postValue(responseBody)
         loading.value = false
     }
 

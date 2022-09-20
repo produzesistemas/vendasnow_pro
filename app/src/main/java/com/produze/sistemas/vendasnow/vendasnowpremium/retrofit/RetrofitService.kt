@@ -45,7 +45,7 @@ interface RetrofitService {
     @GET("sale/getAll")
     suspend fun getAllSale(@Header("Authorization") token: String): Response<List<Sale>>
 
-    @GET("sale/getAllByMonthAndYear")
+    @POST("sale/getAllByMonthAndYear")
     suspend fun getAllByMonthAndYear(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Sale>>
 
 

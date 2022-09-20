@@ -21,6 +21,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
@@ -250,6 +251,22 @@ class FragmentNewSale : Fragment(){
             }
         }
 
+        viewModelClient.lst.observe(this) { clients ->
+            val adapter: ArrayAdapter<Client>? = context?.let { context ->
+                ArrayAdapter<Client>(
+                                context,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                (clients as MutableList<Client>).sortedWith(
+                                    compareBy(
+                                        String.CASE_INSENSITIVE_ORDER,
+                                        { it.name })
+                                )
+                            )
+                        }
+                        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.spinnerClient.adapter = adapter
+        }
+
         loadClients()
         loadFormPayments()
     }
@@ -395,34 +412,7 @@ class FragmentNewSale : Fragment(){
 
     private fun loadClients() {
         lifecycleScope.launch {
-//            viewModelClient.getAll(token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                    }
-//                    is State.Success -> {
-//                        val adapter: ArrayAdapter<Client>? = context?.let {
-//                            ArrayAdapter<Client>(
-//                                it,
-//                                android.R.layout.simple_spinner_dropdown_item,
-//                                (state.data as MutableList<Client>).sortedWith(
-//                                    compareBy(
-//                                        String.CASE_INSENSITIVE_ORDER,
-//                                        { it.name })
-//                                )
-//                            )
-//                        }
-//                        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//                        binding.spinnerClient.adapter = adapter
-//                    }
-//
-//                    is State.Failed -> {
-//                        Toast.makeText(
-//                            activity, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
+            viewModelClient.getAll(token.token)
         }
     }
     private fun loadFormPayments() {

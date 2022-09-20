@@ -84,7 +84,10 @@ class FragmentClient : Fragment() {
         }
 
         clientViewModel.errorMessage.observe(this) {
-            MainUtils.snack(view, it, Snackbar.LENGTH_LONG)
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
         }
 
         clientViewModel.loading.observe(this, Observer {
@@ -153,6 +156,14 @@ class FragmentClient : Fragment() {
             startActivity(appIntent)
         } catch (ex: ActivityNotFoundException) {
             startActivity(webIntent)
+        }
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
         }
     }
 
