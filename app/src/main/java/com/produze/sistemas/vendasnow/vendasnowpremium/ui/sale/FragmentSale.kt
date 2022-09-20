@@ -13,29 +13,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSaleBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
 class FragmentSale : Fragment() {
     private val viewModelDetailSale: ViewModelDetailSale by activityViewModels()
-    private lateinit var viewModel: ViewModelSale
-    private lateinit var viewModelClient: ViewModelClient
-    private lateinit var viewModelProductService: ViewModelProduct
+    private lateinit var viewModel: SaleViewModel
+    private lateinit var viewModelClient: ClientViewModel
+    private lateinit var viewModelProductService: ProductViewModel
     private lateinit var binding: FragmentSaleBinding
     private lateinit var viewModelMain: ViewModelMain
     private lateinit var adapterSale: AdapterSale
@@ -45,6 +42,7 @@ class FragmentSale : Fragment() {
     private var sv: SearchView? = null
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private lateinit var filter: FilterDefault
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -70,34 +68,12 @@ class FragmentSale : Fragment() {
         if (token.token == "") {
 
         }
-        viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
+        viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
         adapterSale = AdapterSale(arrayListOf(), viewModel, viewModelDetailSale)
-        viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
-        viewModelProductService = ViewModelProvider(this).get(ViewModelProduct::class.java)
+        viewModelClient = ViewModelProvider(this).get(ClientViewModel::class.java)
+        viewModelProductService = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        val observer = Observer<Sale> { sale ->
-//            lifecycleScope.launch {
-//                viewModel.delete(sale).collectLatest { state ->
-//                    when (state) {
-//                        is State.Loading -> {
-//                            binding.progressBar.visibility = View.VISIBLE
-//                        }
-//                        is State.Success -> {
-//                            calendar = GregorianCalendar()
-//                            load(calendar)
-//                        }
-//                        is State.Failed -> {
-//                            binding.progressBar.visibility = View.GONE
-//                            Toast.makeText(activity, state.message,
-//                                    Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//            }
-        }
-        viewModel.itemButtonClickEvent.observe(viewLifecycleOwner, observer)
 
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
@@ -108,18 +84,46 @@ class FragmentSale : Fragment() {
             binding.textViewTotalSale.text = nFormat.format(it)
         })
 
-        calendar = GregorianCalendar()
-        load(calendar)
+        viewModel.lst.observe(this) {
+            adapterSale  = AdapterSale((it).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
+                        binding.recyclerView.apply {
+                            adapter = adapterSale
+                            layoutManager = LinearLayoutManager(context)
+                        }
+            binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it, Snackbar.LENGTH_LONG)
+        }
+
+        viewModel.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.complete.observe(this, Observer {
+            if (it) {
+                calendar = GregorianCalendar()
+                loadSales(calendar)
+            }
+        })
 
         binding.btnBack.setOnClickListener {
             calendar.add(Calendar.MONTH, -1);
-            load(calendar)
+            loadSales(calendar)
         }
 
         binding.btnGo.setOnClickListener {
             calendar.add(Calendar.MONTH, 1);
-            load(calendar)
+            loadSales(calendar)
         }
+
+        calendar = GregorianCalendar()
+        loadSales(calendar)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -132,33 +136,12 @@ class FragmentSale : Fragment() {
         false
     }
 
-    private fun load(calendar: Calendar) {
+    private fun loadSales(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-//        lifecycleScope.launch {
-//            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterSale  = AdapterSale((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
-//                        binding.recyclerView.apply {
-//                            adapter = adapterSale
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                        viewModel.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        filter.month = calendar.get(Calendar.MONTH) + 1
+        filter.year = calendar.get(Calendar.YEAR)
+        viewModel.getAllByMonthAndYear(filter, token.token)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

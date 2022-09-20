@@ -72,6 +72,7 @@ class FragmentProduct : Fragment() {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_product))
+
         viewModel.lst.observe(this) {
             adapterProduct  = AdapterProduct((it).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
             binding.recyclerView.apply {
@@ -114,31 +115,6 @@ class FragmentProduct : Fragment() {
         false
     }
 
-//    private fun load() {
-//        lifecycleScope.launch {
-//            viewModel.getAll(token.token).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterProduct  = AdapterProduct((state.data as MutableList<Product>).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), viewModel)
-//                        binding.recyclerView.apply {
-//                            adapter = adapterProduct
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        datasource?.deleteAll()
-//                        changeActivity()
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchview, menu)

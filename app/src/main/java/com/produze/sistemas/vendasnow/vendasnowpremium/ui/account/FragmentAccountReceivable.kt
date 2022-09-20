@@ -38,8 +38,8 @@ class FragmentAccountReceivable : Fragment() {
     private lateinit var viewModelAccountReceivable: ViewModelAccountReceivable
     private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
     private lateinit var viewModelDetailSale: ViewModelDetailSale
-    private lateinit var viewModelClient: ViewModelClient
-    private lateinit var viewModelProductService: ViewModelProduct
+    private lateinit var viewModelClient: ClientViewModel
+    private lateinit var viewModelProductService: ProductViewModel
     private lateinit var binding: FragmentAccountsReceivableBinding
     private lateinit var viewModelMain: ViewModelMain
     private lateinit var adapterAccountReceivable: AdapterAccountReceivable
@@ -77,8 +77,8 @@ class FragmentAccountReceivable : Fragment() {
         viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
         adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-        viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
-        viewModelProductService = ViewModelProvider(this).get(ViewModelProduct::class.java)
+        viewModelClient = ViewModelProvider(this).get(ClientViewModel::class.java)
+        viewModelProductService = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)

@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -34,6 +35,18 @@ interface RetrofitService {
 
     @GET("product/getAll")
     suspend fun getAllProduct(@Header("Authorization") token: String): Response<List<Product>>
+
+    @POST("sale/save")
+    suspend fun saveSale(@Header("Authorization") token: String, @Body sale: Sale): Response<Void>
+
+    @POST("sale/delete")
+    suspend fun deleteSale(@Header("Authorization") token: String, @Body sale: Sale): Response<Void>
+
+    @GET("sale/getAll")
+    suspend fun getAllSale(@Header("Authorization") token: String): Response<List<Sale>>
+
+    @GET("sale/getAllByMonthAndYear")
+    suspend fun getAllByMonthAndYear(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Sale>>
 
 
     companion object {

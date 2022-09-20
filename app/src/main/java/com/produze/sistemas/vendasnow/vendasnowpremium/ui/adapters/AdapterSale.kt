@@ -22,8 +22,13 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.AlertDialogDeleteClient
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale.SaleAlertDialogDelete
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 
-class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var viewModelDetailSale: ViewModelDetailSale) :
+class AdapterSale(private val lst: List<Sale>,
+                  var viewModel: SaleViewModel,
+                  var viewModelDetailSale: ViewModelDetailSale) :
         RecyclerView.Adapter<AdapterSale.RecyclerViewViewHolder>(), Filterable {
 
     private lateinit var sale: Sale
@@ -60,13 +65,7 @@ class AdapterSale(private val lst: List<Sale>, var viewModel: ViewModelSale, var
             binding.btnDelete.setOnClickListener {
                 sale = lst[position]
                 val manager: FragmentManager = (itemView.context as AppCompatActivity).supportFragmentManager
-                val dialog = sale?.let {
-                    it.client?.let { it1 ->
-                        AlertDialogDelete(it1.name) {
-                            viewModel.onItemButtonClick(sale)
-                        }
-                    }
-                }
+                val dialog = SaleAlertDialogDelete(viewModel, sale)
                 dialog?.show(manager, "dialog")
             }
             binding.cardViewSale.setOnClickListener {

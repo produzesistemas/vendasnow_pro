@@ -36,8 +36,8 @@ import kotlin.collections.ArrayList
 
 class FragmentNewSale : Fragment(){
     private lateinit var viewModel: ViewModelSale
-    private lateinit var viewModelClient: ViewModelClient
-    private lateinit var viewModelProduct: ViewModelProduct
+    private lateinit var viewModelClient: ClientViewModel
+    private lateinit var viewModelProduct: ProductViewModel
     private lateinit var viewModelSaleProduct: ViewModelSaleProduct
     private lateinit var viewModelSaleService: ViewModelSaleService
     private lateinit var binding: FragmentNewSaleBinding
@@ -81,8 +81,8 @@ class FragmentNewSale : Fragment(){
 
         }
         viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
-        viewModelClient = ViewModelProvider(this).get(ViewModelClient::class.java)
-        viewModelProduct = ViewModelProvider(this).get(ViewModelProduct::class.java)
+        viewModelClient = ViewModelProvider(this).get(ClientViewModel::class.java)
+        viewModelProduct = ViewModelProvider(this).get(ProductViewModel::class.java)
         viewModelSaleProduct = ViewModelProvider(this).get(ViewModelSaleProduct::class.java)
         viewModelSaleService = ViewModelProvider(this).get(ViewModelSaleService::class.java)
         binding.progressBar.visibility = View.GONE;
