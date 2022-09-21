@@ -2,6 +2,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
@@ -36,7 +38,7 @@ import kotlin.collections.ArrayList
 
 
 class FragmentNewSale : Fragment(){
-    private lateinit var viewModel: ViewModelSale
+    private lateinit var viewModel: SaleViewModel
     private lateinit var viewModelClient: ClientViewModel
     private lateinit var viewModelProduct: ProductViewModel
     private lateinit var viewModelSaleProduct: ViewModelSaleProduct
@@ -81,7 +83,7 @@ class FragmentNewSale : Fragment(){
         if (token.token == "") {
 
         }
-        viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
+        viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
         viewModelClient = ViewModelProvider(this).get(ClientViewModel::class.java)
         viewModelProduct = ViewModelProvider(this).get(ProductViewModel::class.java)
         viewModelSaleProduct = ViewModelProvider(this).get(ViewModelSaleProduct::class.java)
@@ -267,6 +269,57 @@ class FragmentNewSale : Fragment(){
                         binding.spinnerClient.adapter = adapter
         }
 
+        viewModelProduct.lst.observe(this) { products ->
+            if (products.isEmpty()) {
+                MainUtils.snack(view, activity!!.resources.getString(R.string.validation_new_sale_product), Snackbar.LENGTH_LONG)
+            } else {
+                saleProduct = SaleProduct()
+                val dialog = saleProduct?.let {
+                    DialogSaleProduct(
+                        (products as MutableList<Product>).sortedWith(
+                            compareBy(
+                                String.CASE_INSENSITIVE_ORDER,
+                                { it.name })
+                        )
+                    ) {
+                        view?.let { view ->
+                            lst.add(it)
+                            binding.recyclerViewProducts.adapter = AdapterSaleProduct(
+                                lst,
+                                viewModelSaleProduct
+                            )
+                            viewModel.getTotalProducts(lst)
+                            viewModel.getTotalSale(lstServices, lst)
+                        }
+                    }
+                }
+                dialog?.show(childFragmentManager, "dialog")
+            }
+
+        }
+
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModel.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.complete.observe(this, Observer {
+            if (it) {
+                view?.findNavController()?.navigate(R.id.nav_sale)
+            }
+        })
+
         loadClients()
         loadFormPayments()
     }
@@ -311,8 +364,9 @@ class FragmentNewSale : Fragment(){
                     }
                     return@OnNavigationItemSelectedListener true
                 }
-                sale.client = binding.spinnerClient.selectedItem as Client
-                sale.formPayment = formPayment
+                client = binding.spinnerClient.selectedItem as Client
+                sale.clientId = client.id
+//                sale.formPayment = formPayment
                 sale.formPaymentId = formPayment.id.toInt()
                 sale.saleProducts = lst
                 sale.saleServices = lstServices
@@ -324,8 +378,8 @@ class FragmentNewSale : Fragment(){
                 cal.add(Calendar.HOUR_OF_DAY, 10)
                 sale.salesDate = cal.time
 
-                when (sale.formPayment!!.id) {
-                    "4" -> {
+                when (sale.formPaymentId) {
+                    4 -> {
                         var account = Account()
                         account.status = 1
                         val c = GregorianCalendar()
@@ -340,7 +394,7 @@ class FragmentNewSale : Fragment(){
                         accounts.add(account)
                         sale.accounts = accounts
                     }
-                    "7" -> {
+                    7 -> {
                         var account = Account()
                         account.status = 1
                         val c = GregorianCalendar()
@@ -352,7 +406,7 @@ class FragmentNewSale : Fragment(){
                         accounts.add(account)
                         sale.accounts = accounts
                     }
-                    "8" -> {
+                    8 -> {
                         for (i in 1..2) {
                             var account = Account()
                             account.status = 1
@@ -367,7 +421,7 @@ class FragmentNewSale : Fragment(){
                         }
 
                     }
-                    "9" -> {
+                    9 -> {
                         for (i in 1..3) {
                             var account = Account()
                             account.status = 1
@@ -381,7 +435,7 @@ class FragmentNewSale : Fragment(){
                             sale.accounts = accounts
                         }
                     }
-                    "10" -> {
+                    10 -> {
                         for (i in 1..4) {
                             var account = Account()
                             account.status = 1
@@ -434,78 +488,21 @@ class FragmentNewSale : Fragment(){
         binding.spinnerFormPayment.adapter = adapterFormPayment
     }
     private fun loadProducts() {
-//        lifecycleScope.launch {
-//            viewModelProduct.getAll(token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//
-//                    }
-//                    is State.Success -> {
-//                        saleProduct = SaleProduct()
-//                        val dialog = saleProduct?.let {
-//                            DialogSaleProduct(
-//                                (state.data as MutableList<Product>).sortedWith(
-//                                    compareBy(
-//                                        String.CASE_INSENSITIVE_ORDER,
-//                                        { it.name })
-//                                )
-//                            ) {
-//                                view?.let { view ->
-//                                    lst.add(it)
-//                                    binding.recyclerViewProducts.adapter = AdapterSaleProduct(
-//                                        lst,
-//                                        viewModelSaleProduct
-//                                    )
-//                                    viewModel.getTotalProducts(lst)
-//                                    viewModel.getTotalSale(lstServices, lst)
-//                                }
-//                            }
-//                        }
-//                        dialog?.show(childFragmentManager, "dialog")
-//                    }
-//
-//                    is State.Failed -> {
-//                        Toast.makeText(
-//                            activity, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModelProduct.getAll(token.token)
+        }
     }
 
     private fun insert(sale: Sale, view: View?) {
-//        if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-//        lifecycleScope.launch {
-//            viewModel.add(sale, token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        val docReference = state.data
-//                        sale.id = docReference.id
-////                        sendNotification(sale)
-//                        binding.progressBar.visibility = View.GONE
-//                        view?.findNavController()?.navigate(R.id.nav_sale)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(
-//                            activity, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
-//        } else {
-//            Toast.makeText(context, R.string.validation_connection,
-//                Toast.LENGTH_SHORT).show()
-//        }
+        if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
+        lifecycleScope.launch {
+            viewModel.save(sale, token.token)
+        }
+        } else {
+            if (view != null) {
+                MainUtils.snack(view, activity!!.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+            }
+        }
 
     }
 //    private fun sendNotification(saleToNotification: Sale) {
@@ -545,7 +542,13 @@ class FragmentNewSale : Fragment(){
 //        }
 //    }
 
-
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
+        }
+    }
 
 
     }

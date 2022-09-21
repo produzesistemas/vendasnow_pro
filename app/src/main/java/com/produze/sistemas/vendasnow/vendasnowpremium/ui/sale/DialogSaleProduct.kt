@@ -52,7 +52,7 @@ class DialogSaleProduct(private var lst: List<Product>,
                 vl = vl.replace("\\s".toRegex(), "")
                 saleProduct.valueSale = vl.toDouble()
                 saleProduct.quantity = binding.textViewQuantity.text.toString().toDouble()
-                saleProduct.product = product
+                saleProduct.productId = product.id
                 dismiss()
                 onClickAction(saleProduct)
             }

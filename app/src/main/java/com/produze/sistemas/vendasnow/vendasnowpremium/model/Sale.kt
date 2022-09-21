@@ -5,6 +5,7 @@ import kotlin.collections.ArrayList
 
 data class Sale(
         var id: Int = 0,
+        var clientId: Int = 0,
         var obs: String = "",
         var createDate: Date? = null,
         var salesDate: Date? = null,
@@ -14,6 +15,6 @@ data class Sale(
         var saleServices: List<SaleService> = ArrayList(),
         var accounts: List<Account> = ArrayList(),
         var formPaymentId: Int){
-    constructor():this(0,"",null,null, null, null, emptyList(), emptyList(), emptyList(),0)
+    constructor():this(0, 0, "",null,null, null, null, emptyList(), emptyList(), emptyList(),0)
 
 }
