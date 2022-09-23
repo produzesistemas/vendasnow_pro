@@ -12,17 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.components.AlertDialogDelete
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.client.AlertDialogDeleteClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale.SaleAlertDialogDelete
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 
@@ -57,10 +52,10 @@ class AdapterSale(private val lst: List<Sale>,
             RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Sale>, position: Int) {
 
-            val dt = lst[position].salesDate?.let { it }
+            val dt = lst[position].saleDate?.let { it }
             binding.textViewSalesDate.text = df.format(dt)
             binding.textViewClient.text = lst[position].client?.name
-            binding.textViewPayment.text = lst[position].formPayment?.name
+            binding.textViewPayment.text = lst[position].paymentCondition?.name
             binding.viewDetail.setBackgroundColor(itemView.getResources().getColor(R.color.green))
             binding.btnDelete.setOnClickListener {
                 sale = lst[position]
@@ -76,7 +71,7 @@ class AdapterSale(private val lst: List<Sale>,
                 }
             }
 
-            binding.textViewTotal.text = nFormat.format(getTotalSale(lst[position].saleServices.toMutableList(), lst[position].saleProducts.toMutableList()))
+            binding.textViewTotal.text = nFormat.format(getTotalSale(lst[position].saleService.toMutableList(), lst[position].saleProduct.toMutableList()))
 
         }
 

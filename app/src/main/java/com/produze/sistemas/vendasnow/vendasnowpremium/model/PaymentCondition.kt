@@ -2,7 +2,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.model
 
 import com.google.firebase.firestore.Exclude
 
-data class FormPayment (
+data class PaymentCondition (
         var name: String = "",
         @get:Exclude var id: String = "") {
     constructor():this("","")

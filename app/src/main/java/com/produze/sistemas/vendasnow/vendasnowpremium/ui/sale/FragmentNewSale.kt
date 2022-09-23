@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -16,20 +15,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Timestamp
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
-import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -48,9 +42,9 @@ class FragmentNewSale : Fragment(){
     private lateinit var saleProduct: SaleProduct
     private lateinit var saleService: SaleService
     private lateinit var client: Client
-    private lateinit var formPayment: FormPayment
+    private lateinit var paymentCondition: PaymentCondition
     private var datePickerDialog: DatePickerDialog? = null
-    private var formsPayment: MutableList<FormPayment> = ArrayList()
+    private var formsPaymentCondition: MutableList<PaymentCondition> = ArrayList()
     val lst = mutableListOf<SaleProduct>()
     val accounts = mutableListOf<Account>()
     val lstServices = mutableListOf<SaleService>()
@@ -168,7 +162,7 @@ class FragmentNewSale : Fragment(){
                 position: Int,
                 id: Long
             ) {
-                formPayment = binding.spinnerFormPayment.selectedItem as FormPayment
+                paymentCondition = binding.spinnerFormPayment.selectedItem as PaymentCondition
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -366,19 +360,18 @@ class FragmentNewSale : Fragment(){
                 }
                 client = binding.spinnerClient.selectedItem as Client
                 sale.clientId = client.id
-//                sale.formPayment = formPayment
-                sale.formPaymentId = formPayment.id.toInt()
-                sale.saleProducts = lst
-                sale.saleServices = lstServices
+                sale.paymentConditionId = paymentCondition.id.toInt()
+                sale.saleProduct = lst
+                sale.saleService = lstServices
                 val date =
                     SimpleDateFormat("dd/MM/yyyy").parse(binding.textViewSaleDate.text.toString())
 
                 val cal = GregorianCalendar()
                 cal.time = date
                 cal.add(Calendar.HOUR_OF_DAY, 10)
-                sale.salesDate = cal.time
+                sale.saleDate = cal.time
 
-                when (sale.formPaymentId) {
+                when (sale.paymentConditionId) {
                     4 -> {
                         var account = Account()
                         account.status = 1
@@ -388,7 +381,7 @@ class FragmentNewSale : Fragment(){
                         c.add(Calendar.HOUR_OF_DAY, 10)
 
                         account.dueDate = c.time
-                        account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+                        account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList())
                         account.uniqueIDNotification = UUID.randomUUID().hashCode()
                         account.mRequestCode = UUID.randomUUID().hashCode()
                         accounts.add(account)
@@ -402,7 +395,7 @@ class FragmentNewSale : Fragment(){
                         c.add(Calendar.MONTH, 1)
                         c.add(Calendar.HOUR_OF_DAY, 10)
                         account.dueDate = c.time
-                        account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
+                        account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList())
                         accounts.add(account)
                         sale.accounts = accounts
                     }
@@ -415,7 +408,7 @@ class FragmentNewSale : Fragment(){
                             c.add(Calendar.MONTH, i)
                             c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
-                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 2
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 2
                             accounts.add(account)
                             sale.accounts = accounts
                         }
@@ -430,7 +423,7 @@ class FragmentNewSale : Fragment(){
                             c.add(Calendar.MONTH, i)
                             c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
-                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 3
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 3
                             accounts.add(account)
                             sale.accounts = accounts
                         }
@@ -444,7 +437,7 @@ class FragmentNewSale : Fragment(){
                             c.add(Calendar.MONTH, i)
                             c.add(Calendar.HOUR_OF_DAY, 10)
                             account.dueDate = c.time
-                            account.value = viewModel.getTotalSaleToAccount(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList()) / 4
+                            account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 4
                             accounts.add(account)
                             sale.accounts = accounts
                         }
@@ -474,18 +467,18 @@ class FragmentNewSale : Fragment(){
         val forms = res.getStringArray(R.array.ArrayPayment)
         forms.forEach {
             val s = it.split(",")
-            val form = FormPayment()
+            val form = PaymentCondition()
             form.id = s[0]
             form.name = s[1]
-            formsPayment.add(form)
+            formsPaymentCondition.add(form)
         }
-        val adapterFormPayment: ArrayAdapter<FormPayment>? = context?.let { ArrayAdapter<FormPayment>(
+        val adapterPaymentCondition: ArrayAdapter<PaymentCondition>? = context?.let { ArrayAdapter<PaymentCondition>(
             it,
             android.R.layout.simple_spinner_dropdown_item,
-            formsPayment
+            formsPaymentCondition
         ) }
-        adapterFormPayment?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerFormPayment.adapter = adapterFormPayment
+        adapterPaymentCondition?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerFormPayment.adapter = adapterPaymentCondition
     }
     private fun loadProducts() {
         lifecycleScope.launch {

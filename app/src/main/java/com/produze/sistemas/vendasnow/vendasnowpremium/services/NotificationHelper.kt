@@ -3,7 +3,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.services
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -44,7 +43,7 @@ class NotificationHelper(val context: Context, val sale: Sale) {
         val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         val mTitle = "Conta a receber"
         val mMessage = "Nome do cliente: ${sale.client?.name}" +
-                " - " + "Forma de pagamento: ${sale.formPayment?.name}" +
+                " - " + "Forma de pagamento: ${sale.paymentCondition?.name}" +
                 " - " + "Data de vencimento: ${df.format(account.dueDate)}" +
                 " - " + "Valor a receber: ${nFormat.format(account!!.value)}"
         val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

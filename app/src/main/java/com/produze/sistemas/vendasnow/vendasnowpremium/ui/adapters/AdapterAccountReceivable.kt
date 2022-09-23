@@ -1,6 +1,5 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters
 
-import android.R.attr
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,10 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewAccountReceivableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelAccountReceivable
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,10 +48,10 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Sale>, position: Int) {
 
-            val dt = lst[position].salesDate?.let { it }
+            val dt = lst[position].saleDate?.let { it }
             binding.textViewSalesDate.text = df.format(dt)
             binding.textViewClient.text = lst[position].client?.name
-            binding.textViewPayment.text = lst[position].formPayment?.name
+            binding.textViewPayment.text = lst[position].paymentCondition?.name
             binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
 
             binding.cardViewSale.setOnClickListener {

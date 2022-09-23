@@ -86,7 +86,7 @@ class FragmentSale : Fragment() {
         })
 
         viewModel.lst.observe(this) {
-            adapterSale  = AdapterSale((it).sortedWith(compareBy { it.salesDate }), viewModel, viewModelDetailSale)
+            adapterSale  = AdapterSale(it, viewModel, viewModelDetailSale)
                         binding.recyclerView.apply {
                             adapter = adapterSale
                             layoutManager = LinearLayoutManager(context)

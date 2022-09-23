@@ -1,12 +1,10 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.account
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,17 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentDetailAccountReceivableBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivableDetail
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -107,10 +100,10 @@ class FragmentDetailAccountReceivable : Fragment(){
 
     private fun load() {
         binding.textViewClient.text = saleDetail.client?.name
-        binding.textViewPayment.text = saleDetail.formPayment?.name
-        binding.textViewSaleDate.text = df.format(saleDetail.salesDate)
+        binding.textViewPayment.text = saleDetail.paymentCondition?.name
+        binding.textViewSaleDate.text = df.format(saleDetail.saleDate)
 
-        viewModelDetailSale.getTotalSale(saleDetail.saleServices.toMutableList(), saleDetail.saleProducts.toMutableList())
+        viewModelDetailSale.getTotalSale(saleDetail.saleService.toMutableList(), saleDetail.saleProduct.toMutableList())
 
             binding.recyclerView.apply {
                 adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {

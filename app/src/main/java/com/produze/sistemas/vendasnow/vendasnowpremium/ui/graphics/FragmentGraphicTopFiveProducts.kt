@@ -108,7 +108,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
 
     private fun loadGraph(sales: List<Sale>) {
         var entries: ArrayList<PieEntry> = ArrayList()
-        var lst: MutableList<List<SaleProduct>> = sales.map { it.saleProducts }.toMutableList()
+        var lst: MutableList<List<SaleProduct>> = sales.map { it.saleProduct }.toMutableList()
         val flattened: List<SaleProduct> = lst.flatten()
         flattened.forEach{
             entries.add(PieEntry(it.quantity.toFloat(), it.product?.name))

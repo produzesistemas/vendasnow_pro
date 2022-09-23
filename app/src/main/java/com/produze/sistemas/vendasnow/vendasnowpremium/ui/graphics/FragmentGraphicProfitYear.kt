@@ -111,32 +111,32 @@ class FragmentGraphicProfitYear : Fragment(){
     fun loadGraph(sales: List<Sale>) {
         totalGeral = 0.0f
         var entries: ArrayList<BarEntry> = ArrayList()
-        for (mes in 12 downTo 1 step 1) {
-            var salesByMonth = sales.filter {
-                var m = it.salesDate?.month
-                if (m != null) {
-                    m += 1
-                }
-                m == mes
-            }
-
-            salesByMonth.forEach{
-//                it.saleProducts.forEach {
-                    total += viewModelDetailSale.getTotalProfitByMonth(it.saleProducts.toMutableList()).toFloat()!!
+//        for (mes in 12 downTo 1 step 1) {
+//            var salesByMonth = sales.filter {
+//                var m = it.salesDate?.month
+//                if (m != null) {
+//                    m += 1
 //                }
-
-//                it.saleServices.forEach {
-//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-//                }
-            }
-
-            if (total > 0) {
-                entries.add(BarEntry(mes.toFloat() - 1, total))
-                totalGeral += total
-                total = 0.0f
-            }
-
-        }
+//                m == mes
+//            }
+//
+//            salesByMonth.forEach{
+////                it.saleProducts.forEach {
+//                    total += viewModelDetailSale.getTotalProfitByMonth(it.saleProducts.toMutableList()).toFloat()!!
+////                }
+//
+////                it.saleServices.forEach {
+////                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
+////                }
+//            }
+//
+//            if (total > 0) {
+//                entries.add(BarEntry(mes.toFloat() - 1, total))
+//                totalGeral += total
+//                total = 0.0f
+//            }
+//
+//        }
 
         binding.textViewTotal.text = nFormat.format(totalGeral)
         totalGeral = 0.0f

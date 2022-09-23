@@ -1,7 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.sale
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -92,32 +91,32 @@ class FragmentDetailSale : Fragment(){
 
     private fun load(sale: Sale) {
         binding.textViewClient.text = sale.client?.name
-        binding.textViewPayment.text = sale.formPayment?.name
-        binding.textViewSaleDate.text = df.format(sale.salesDate)
-        if (sale.saleProducts.isEmpty()) {
+        binding.textViewPayment.text = sale.paymentCondition?.name
+        binding.textViewSaleDate.text = df.format(sale.saleDate)
+        if (sale.saleProduct.isEmpty()) {
             binding.appBarLayoutProducts.visibility = View.GONE
             binding.recyclerViewProducts.visibility = View.GONE
             binding.linearLayoutTotalProducts.visibility = View.GONE
         } else {
             binding.recyclerViewProducts.apply {
-                adapter = AdapterSaleProductDetail(sale.saleProducts)
+                adapter = AdapterSaleProductDetail(sale.saleProduct)
                 layoutManager = LinearLayoutManager(context)
             }
-            viewModelDetailSale.getTotalProducts(sale.saleProducts.toMutableList())
+            viewModelDetailSale.getTotalProducts(sale.saleProduct.toMutableList())
         }
-        if (sale.saleServices.isEmpty()) {
+        if (sale.saleService.isEmpty()) {
             binding.appBarLayoutServices.visibility = View.GONE
             binding.recyclerViewServices.visibility = View.GONE
             binding.linearLayoutTotalServices.visibility = View.GONE
         } else {
             binding.recyclerViewServices.apply {
-                adapter = AdapterSaleServiceDetail(sale.saleServices)
+                adapter = AdapterSaleServiceDetail(sale.saleService)
                 layoutManager = LinearLayoutManager(context)
             }
-            viewModelDetailSale.getTotalServices(sale.saleServices.toMutableList())
+            viewModelDetailSale.getTotalServices(sale.saleService.toMutableList())
         }
-        viewModelDetailSale.getTotalSale(sale.saleServices.toMutableList(), sale.saleProducts.toMutableList())
-        viewModelDetailSale.getTotalProfit(sale.saleProducts.toMutableList())
+        viewModelDetailSale.getTotalSale(sale.saleService.toMutableList(), sale.saleProduct.toMutableList())
+        viewModelDetailSale.getTotalProfit(sale.saleProduct.toMutableList())
     }
 
 }

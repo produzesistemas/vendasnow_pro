@@ -36,6 +36,7 @@ interface RetrofitService {
     @GET("product/getAll")
     suspend fun getAllProduct(@Header("Authorization") token: String): Response<List<Product>>
 
+    @Headers("Content-Type:application/json")
     @POST("sale/save")
     suspend fun saveSale(@Header("Authorization") token: String, @Body sale: Sale): Response<Void>
 

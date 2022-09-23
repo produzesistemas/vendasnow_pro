@@ -204,11 +204,11 @@ class SaleViewModel constructor() : ViewModel() {
     fun getTotalByFilter(sales: List<Sale>) {
         var total: Double = 0.00
         sales.forEach{
-            it.saleProducts.forEach {
+            it.saleProduct.forEach {
                 total += (it.valueSale.times(it.quantity))?.toFloat()!!
             }
 
-            it.saleServices.forEach {
+            it.saleService.forEach {
                 total += (it.valueSale.times(it.quantity))?.toFloat()!!
             }
         }

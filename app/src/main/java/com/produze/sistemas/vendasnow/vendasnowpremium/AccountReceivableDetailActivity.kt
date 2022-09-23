@@ -192,7 +192,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     }
 
     private fun cancelNotification(saleToNotification: Sale) {
-        when (saleToNotification.formPaymentId) {
+        when (saleToNotification.paymentConditionId) {
             4,7 -> {
                 var accountToNotification: Account = saleToNotification.accounts.first()
                 if (accountToNotification.status === 2) {

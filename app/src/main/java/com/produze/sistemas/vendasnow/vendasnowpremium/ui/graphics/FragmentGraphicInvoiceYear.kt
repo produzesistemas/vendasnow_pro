@@ -105,32 +105,33 @@ class FragmentGraphicInvoiceYear : Fragment(){
     private fun loadGraph(sales: List<Sale>) {
         totalGeral = 0.0f
         var entries: ArrayList<BarEntry> = ArrayList()
-        for (mes in 12 downTo 1 step 1) {
-            var salesByMonth = sales.filter {
-                var m = it.salesDate?.month
-                if (m != null) {
-                    m += 1
-                }
-                m == mes
-            }
-
-            salesByMonth.forEach{
-                it.saleProducts.forEach {
-                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-                }
-
-                it.saleServices.forEach {
-                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-                }
-            }
-
-            if (total > 0) {
-                entries.add(BarEntry(mes.toFloat() - 1, total))
-                totalGeral += total
-                total = 0.0f
-            }
-
-        }
+//        for (mes in 12 downTo 1 step 1) {
+//            var salesByMonth = sales.filter {
+//
+//                var m = it.salesDate?.month
+//                if (m != null) {
+//                    m += 1
+//                }
+//                m == mes
+//            }
+//
+//            salesByMonth.forEach{
+//                it.saleProducts.forEach {
+//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
+//                }
+//
+//                it.saleServices.forEach {
+//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
+//                }
+//            }
+//
+//            if (total > 0) {
+//                entries.add(BarEntry(mes.toFloat() - 1, total))
+//                totalGeral += total
+//                total = 0.0f
+//            }
+//
+//        }
 
         binding.textViewTotal.text = nFormat.format(totalGeral)
         totalGeral = 0.0f
