@@ -49,6 +49,8 @@ interface RetrofitService {
     @POST("sale/getAllByMonthAndYear")
     suspend fun getAllByMonthAndYear(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Sale>>
 
+    @GET("sale/{id}")
+    suspend fun getSaleById(@Header("Authorization") token: String, @Path("id") id:Int): Response<Sale>
 
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"

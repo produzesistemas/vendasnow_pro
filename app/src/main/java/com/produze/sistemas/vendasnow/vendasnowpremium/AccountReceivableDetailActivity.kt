@@ -10,30 +10,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentDetailAccountReceivableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivableDetail
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
-import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,12 +28,12 @@ import android.app.NotificationManager
 import android.content.Context
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
-import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 
 class AccountReceivableDetailActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable
-    private lateinit var viewModel: ViewModelSale
+    private lateinit var viewModel: SaleViewModel
     private lateinit var binding: FragmentDetailAccountReceivableBinding
     var df = SimpleDateFormat("dd/MM/yyyy")
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
@@ -85,7 +69,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 finish()
             }
 
-            viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
+            viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
             viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
 
             val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)

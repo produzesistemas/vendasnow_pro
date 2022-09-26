@@ -17,17 +17,17 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentDetailAccountReceivableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivableDetail
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentDetailAccountReceivable : Fragment(){
     private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
-    private lateinit var viewModel: ViewModelSale
+    private lateinit var viewModel: SaleViewModel
     private lateinit var binding: FragmentDetailAccountReceivableBinding
     private val viewModelDetailSale: ViewModelDetailSale by activityViewModels()
     var df = SimpleDateFormat("dd/MM/yyyy")
@@ -61,7 +61,7 @@ class FragmentDetailAccountReceivable : Fragment(){
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_accounts_receivable))
-        viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
+        viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         binding.progressBar.visibility = View.GONE
         viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Sale> { item ->

@@ -1,21 +1,16 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.graphics
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -25,14 +20,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsTopFiveServicesBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleService
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelSale
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
@@ -40,7 +31,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
 
     private lateinit var binding: FragmentGraphicsTopFiveServicesBinding
     private lateinit var calendar: GregorianCalendar
-    private lateinit var viewModel: ViewModelSale
+    private lateinit var viewModel: SaleViewModel
     var mChart: BarChart? = null
     private lateinit var viewModelMain: ViewModelMain
     private var total: Float = 0.0f
@@ -73,7 +64,7 @@ class FragmentGraphicTopFiveServices : Fragment(){
         if (token.token == "") {
 
         }
-        viewModel = ViewModelProvider(this).get(ViewModelSale::class.java)
+        viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
