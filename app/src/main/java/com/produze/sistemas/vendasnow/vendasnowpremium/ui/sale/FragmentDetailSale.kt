@@ -91,7 +91,7 @@ class FragmentDetailSale : Fragment(){
 
     private fun load(sale: Sale) {
         binding.textViewClient.text = sale.client?.name
-        binding.textViewPayment.text = sale.paymentCondition?.name
+        binding.textViewPayment.text = sale.paymentCondition?.description
         binding.textViewSaleDate.text = df.format(sale.saleDate)
         if (sale.saleProduct.isEmpty()) {
             binding.appBarLayoutProducts.visibility = View.GONE

@@ -46,6 +46,7 @@ class SaleViewModel constructor() : ViewModel() {
                 is NetworkState.Success -> {
                     lst.postValue(response.data!!)
                     loading.value = false
+                    getTotalByFilter(response.data!!)
                 }
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {

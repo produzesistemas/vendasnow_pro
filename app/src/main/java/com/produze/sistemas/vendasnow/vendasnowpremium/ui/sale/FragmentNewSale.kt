@@ -360,7 +360,7 @@ class FragmentNewSale : Fragment(){
                 }
                 client = binding.spinnerClient.selectedItem as Client
                 sale.clientId = client.id
-                sale.paymentConditionId = paymentCondition.id.toInt()
+                sale.paymentConditionId = paymentCondition.id
                 sale.saleProduct = lst
                 sale.saleService = lstServices
                 val date =
@@ -468,8 +468,8 @@ class FragmentNewSale : Fragment(){
         forms.forEach {
             val s = it.split(",")
             val form = PaymentCondition()
-            form.id = s[0]
-            form.name = s[1]
+            form.id = s[0].toInt()
+            form.description = s[1]
             formsPaymentCondition.add(form)
         }
         val adapterPaymentCondition: ArrayAdapter<PaymentCondition>? = context?.let { ArrayAdapter<PaymentCondition>(

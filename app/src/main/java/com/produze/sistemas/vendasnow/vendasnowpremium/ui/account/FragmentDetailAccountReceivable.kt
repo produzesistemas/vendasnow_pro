@@ -100,7 +100,7 @@ class FragmentDetailAccountReceivable : Fragment(){
 
     private fun load() {
         binding.textViewClient.text = saleDetail.client?.name
-        binding.textViewPayment.text = saleDetail.paymentCondition?.name
+        binding.textViewPayment.text = saleDetail.paymentCondition?.description
         binding.textViewSaleDate.text = df.format(saleDetail.saleDate)
 
         viewModelDetailSale.getTotalSale(saleDetail.saleService.toMutableList(), saleDetail.saleProduct.toMutableList())

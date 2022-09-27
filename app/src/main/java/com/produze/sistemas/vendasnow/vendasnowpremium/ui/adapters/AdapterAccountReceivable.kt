@@ -51,7 +51,7 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
             val dt = lst[position].saleDate?.let { it }
             binding.textViewSalesDate.text = df.format(dt)
             binding.textViewClient.text = lst[position].client?.name
-            binding.textViewPayment.text = lst[position].paymentCondition?.name
+            binding.textViewPayment.text = lst[position].paymentCondition?.description
             binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
 
             binding.cardViewSale.setOnClickListener {

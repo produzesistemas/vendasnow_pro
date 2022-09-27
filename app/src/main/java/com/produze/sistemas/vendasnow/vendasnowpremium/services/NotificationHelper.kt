@@ -43,7 +43,7 @@ class NotificationHelper(val context: Context, val sale: Sale) {
         val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         val mTitle = "Conta a receber"
         val mMessage = "Nome do cliente: ${sale.client?.name}" +
-                " - " + "Forma de pagamento: ${sale.paymentCondition?.name}" +
+                " - " + "Forma de pagamento: ${sale.paymentCondition?.description}" +
                 " - " + "Data de vencimento: ${df.format(account.dueDate)}" +
                 " - " + "Valor a receber: ${nFormat.format(account!!.value)}"
         val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
