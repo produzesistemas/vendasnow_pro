@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.account
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,31 +12,36 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentDetailAccountReceivableBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivableDetail
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailSale
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentDetailAccountReceivable : Fragment(){
     private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
+    private lateinit var viewModelAccountReceivable: AccountReceivableViewModel
+
     private lateinit var viewModel: SaleViewModel
     private lateinit var binding: FragmentDetailAccountReceivableBinding
     private val viewModelDetailSale: ViewModelDetailSale by activityViewModels()
     var df = SimpleDateFormat("dd/MM/yyyy")
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
-    private var saleDetail: Sale = Sale()
+    private var accountDetail: Account = Account()
     private var year: Int = 0
     private var month: Int = 0
+    private var datasource: DataSourceUser? = null
+    private lateinit var token: Token
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,15 +63,22 @@ class FragmentDetailAccountReceivable : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        datasource = context?.let { DataSourceUser(it) }
+        token = datasource?.get()!!
+        if (token.token == "") {
+
+        }
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_accounts_receivable))
         viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
+        viewModelAccountReceivable = ViewModelProvider(this).get(AccountReceivableViewModel::class.java)
+
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         binding.progressBar.visibility = View.GONE
-        viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Sale> { item ->
-            saleDetail = item
+        viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Account> { item ->
+            accountDetail = item
         })
 
         viewModelDetailAccountReceivable.selectedYear.observe(viewLifecycleOwner, Observer<Int> { item ->
@@ -81,13 +94,35 @@ class FragmentDetailAccountReceivable : Fragment(){
             binding.textViewTotalSale.text = nFormat.format(it)
         })
 
+        viewModelAccountReceivable.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModelAccountReceivable.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModelAccountReceivable.complete.observe(this, Observer {
+            if (it) {
+                        view?.findNavController()?.navigate(R.id.nav_account_receivable)
+            }
+        })
+
     }
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.navigation_confirm -> {
-                update(saleDetail, view)
+                update(accountDetail, view)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_cancel -> {
@@ -99,45 +134,34 @@ class FragmentDetailAccountReceivable : Fragment(){
     }
 
     private fun load() {
-        binding.textViewClient.text = saleDetail.client?.name
-        binding.textViewPayment.text = saleDetail.paymentCondition?.description
-        binding.textViewSaleDate.text = df.format(saleDetail.saleDate)
+        binding.textViewClient.text = accountDetail.sale?.client?.name
+        binding.textViewPayment.text = accountDetail.sale?.paymentCondition?.description
+        binding.textViewSaleDate.text = df.format(accountDetail.sale?.saleDate)
 
-        viewModelDetailSale.getTotalSale(saleDetail.saleService.toMutableList(), saleDetail.saleProduct.toMutableList())
+//        viewModelDetailSale.getTotalSale(saleDetail.saleService.toMutableList(), saleDetail.saleProduct.toMutableList())
 
-            binding.recyclerView.apply {
-                adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
-                val calendar = Calendar.getInstance()
-                calendar.time = it.dueDate
-                    calendar.get(Calendar.YEAR) == year &&
-                    calendar.get(Calendar.MONTH) + 1 == month
-                    })
-                layoutManager = LinearLayoutManager(context)
-            }
+//            binding.recyclerView.apply {
+//                adapter = AdapterAccountReceivableDetail(saleDetail.account.filter {
+//                val calendar = Calendar.getInstance()
+//                calendar.time = it.dueDate
+//                    calendar.get(Calendar.YEAR) == year &&
+//                    calendar.get(Calendar.MONTH) + 1 == month
+//                    })
+//                layoutManager = LinearLayoutManager(context)
+//            }
 
     }
-    private fun update(sale: Sale, view: View?) {
-//        lifecycleScope.launch {
-//            viewModel.update(sale).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        view?.findNavController()?.navigate(R.id.nav_account_receivable)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(
-//                            activity, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
+    private fun update(account: Account, view: View?) {
+        lifecycleScope.launch {
+            viewModelAccountReceivable.save(account, token.token)
+        }
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
+        }
     }
 }

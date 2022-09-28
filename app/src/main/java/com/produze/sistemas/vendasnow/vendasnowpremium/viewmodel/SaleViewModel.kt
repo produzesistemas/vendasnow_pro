@@ -2,12 +2,10 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
-import com.produze.sistemas.vendasnow.vendasnowpremium.repository.ProductRepository
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.SaleRepository
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.NetworkState
 import com.produze.sistemas.vendasnow.vendasnowpremium.retrofit.RetrofitService
 import kotlinx.coroutines.*
-import java.util.logging.Filter
 
 class SaleViewModel constructor() : ViewModel() {
 

@@ -1,9 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.retrofit
 import com.google.gson.GsonBuilder
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -51,6 +48,13 @@ interface RetrofitService {
 
     @GET("sale/{id}")
     suspend fun getSaleById(@Header("Authorization") token: String, @Path("id") id:Int): Response<Sale>
+
+    @POST("saleAccount/getAllByMonthAndYear")
+    suspend fun getAllAccountByMonthAndYear(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Account>>
+
+    @Headers("Content-Type:application/json")
+    @POST("saleAccount/save")
+    suspend fun saveAccount(@Header("Authorization") token: String, @Body account: Account): Response<Void>
 
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"

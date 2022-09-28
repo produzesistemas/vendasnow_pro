@@ -330,7 +330,6 @@ class FragmentNewSale : Fragment(){
                     }
                     return@OnNavigationItemSelectedListener true
                 }
-
                 if (binding.spinnerClient.selectedItem == null) {
                     view?.let {
                         MainUtils.snack(
@@ -385,7 +384,7 @@ class FragmentNewSale : Fragment(){
                         account.uniqueIDNotification = UUID.randomUUID().hashCode()
                         account.mRequestCode = UUID.randomUUID().hashCode()
                         accounts.add(account)
-                        sale.accounts = accounts
+                        sale.account = accounts
                     }
                     7 -> {
                         var account = Account()
@@ -397,7 +396,7 @@ class FragmentNewSale : Fragment(){
                         account.dueDate = c.time
                         account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList())
                         accounts.add(account)
-                        sale.accounts = accounts
+                        sale.account = accounts
                     }
                     8 -> {
                         for (i in 1..2) {
@@ -410,7 +409,7 @@ class FragmentNewSale : Fragment(){
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 2
                             accounts.add(account)
-                            sale.accounts = accounts
+                            sale.account = accounts
                         }
 
                     }
@@ -425,7 +424,7 @@ class FragmentNewSale : Fragment(){
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 3
                             accounts.add(account)
-                            sale.accounts = accounts
+                            sale.account = accounts
                         }
                     }
                     10 -> {
@@ -439,7 +438,7 @@ class FragmentNewSale : Fragment(){
                             account.dueDate = c.time
                             account.value = viewModel.getTotalSaleToAccount(sale.saleService.toMutableList(), sale.saleProduct.toMutableList()) / 4
                             accounts.add(account)
-                            sale.accounts = accounts
+                            sale.account = accounts
                         }
                     }
 

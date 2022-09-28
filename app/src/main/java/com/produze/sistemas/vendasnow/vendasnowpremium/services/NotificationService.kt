@@ -4,36 +4,14 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.media.RingtoneManager
-import android.os.Build
 import com.produze.sistemas.vendasnow.vendasnowpremium.AccountReceivableDetailActivity
-import com.produze.sistemas.vendasnow.vendasnowpremium.MainActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import java.util.*
-import android.app.PendingIntent
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAccountReceivable
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelAccountReceivable
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.forEach
-import kotlinx.coroutines.launch
-import java.sql.Timestamp
 
 class NotificationService : IntentService("NotificationService"){
     private lateinit var mNotification: Notification

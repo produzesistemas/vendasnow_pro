@@ -7,23 +7,22 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.CardViewAccountReceivableBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelAccountReceivable
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.AccountReceivableViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
 
 
-class AdapterAccountReceivable (private val lst: List<Sale>,
-                                var viewModel: ViewModelAccountReceivable,
-                                var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable,
-                                var year: Int, var month: Int) :
+class AdapterAccountReceivable (private val lst: List<Account>,
+                                var viewModel: AccountReceivableViewModel,
+                                var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable) :
     RecyclerView.Adapter<AdapterAccountReceivable.RecyclerViewViewHolder>(), Filterable {
 
-    private lateinit var sale: Sale
-    private var lstFilter: List<Sale> = arrayListOf()
+    private lateinit var account: Account
+    private var lstFilter: List<Account> = arrayListOf()
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     var df = SimpleDateFormat("dd/MM/yyyy")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder{
@@ -46,19 +45,19 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
 
     inner class RecyclerViewViewHolder(private val binding: CardViewAccountReceivableBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(lst: List<Sale>, position: Int) {
+        fun bind(lst: List<Account>, position: Int) {
 
-            val dt = lst[position].saleDate?.let { it }
+            val dt = lst[position].dueDate
             binding.textViewSalesDate.text = df.format(dt)
-            binding.textViewClient.text = lst[position].client?.name
-            binding.textViewPayment.text = lst[position].paymentCondition?.description
+            binding.textViewClient.text = lst[position].sale?.client!!.name
+            binding.textViewPayment.text = lst[position].sale?.paymentCondition!!.description
             binding.viewDetail.setBackgroundColor(itemView.resources.getColor(R.color.purple))
 
             binding.cardViewSale.setOnClickListener {
-                sale = lst[position]
-                viewModelDetailAccountReceivable.selectedAccount(sale)
-                viewModelDetailAccountReceivable.selectedYear(year)
-                viewModelDetailAccountReceivable.selectedMonth(month)
+                account = lst[position]
+                viewModelDetailAccountReceivable.selectedAccount(account)
+//                viewModelDetailAccountReceivable.selectedYear(year)
+//                viewModelDetailAccountReceivable.selectedMonth(month)
                 when (it.id) {
                     R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_account_receivable)
                 }
@@ -78,9 +77,9 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
                 if (charSearch.isEmpty()) {
                     lstFilter = lst
                 } else {
-                    val resultList = ArrayList<Sale>()
+                    val resultList = ArrayList<Account>()
                     for (row in lst) {
-                        if (row.client?.name?.contains(charSearch, true)!!
+                        if (row.sale?.client?.name?.contains(charSearch, true)!!
                         ) {
                             resultList.add(row)
                         }
@@ -94,16 +93,16 @@ class AdapterAccountReceivable (private val lst: List<Sale>,
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                lstFilter = results?.values as List<Sale>
+                lstFilter = results?.values as List<Account>
 
                 notifyDataSetChanged()
-                viewModel.getTotalByFilter(lstFilter, year, month)
+                viewModel.getTotalByFilter(lstFilter)
             }
 
         }
     }
 
-    fun getItems(): List<Sale> {
+    fun getItems(): List<Account> {
         return lstFilter
     }
 

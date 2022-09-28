@@ -178,7 +178,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     private fun cancelNotification(saleToNotification: Sale) {
         when (saleToNotification.paymentConditionId) {
             4,7 -> {
-                var accountToNotification: Account = saleToNotification.accounts.first()
+                var accountToNotification: Account = saleToNotification.account.first()
                 if (accountToNotification.status === 2) {
 
                     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -196,7 +196,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             }
             8 -> {
                 for (i in 1..2) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.account[i]
                     if (accountToNotification.status === 2) {
                         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         notificationManager.cancel(accountToNotification.uniqueIDNotification)
@@ -214,7 +214,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             }
             9 -> {
                 for (i in 1..3) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.account[i]
                     if (accountToNotification.status === 2) {
                         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         notificationManager.cancel(accountToNotification.uniqueIDNotification)
@@ -230,7 +230,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
             }
             10 -> {
                 for (i in 1..4) {
-                    var accountToNotification: Account = saleToNotification.accounts[i]
+                    var accountToNotification: Account = saleToNotification.account[i]
                     if (accountToNotification.status === 2) {
                         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         notificationManager.cancel(accountToNotification.uniqueIDNotification)

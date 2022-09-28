@@ -11,7 +11,7 @@ data class Sale(
         var client: Client?,
         var saleProduct: List<SaleProduct> = ArrayList(),
         var saleService: List<SaleService> = ArrayList(),
-        var accounts: List<Account> = ArrayList(),
+        var account: List<Account> = ArrayList(),
         var paymentConditionId: Int
         ){
     constructor():this(0, 0, null,null,null, emptyList(), emptyList(), emptyList(),0)

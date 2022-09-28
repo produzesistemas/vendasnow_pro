@@ -13,29 +13,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAccountsReceivableBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSaleBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
 
 class FragmentAccountReceivable : Fragment() {
-    private lateinit var viewModelAccountReceivable: ViewModelAccountReceivable
+    private lateinit var viewModelAccountReceivable: AccountReceivableViewModel
     private val viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable by activityViewModels()
     private lateinit var viewModelDetailSale: ViewModelDetailSale
     private lateinit var viewModelClient: ClientViewModel
@@ -49,6 +43,7 @@ class FragmentAccountReceivable : Fragment() {
     private var sv: SearchView? = null
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private var filter: FilterDefault = FilterDefault()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,9 +69,9 @@ class FragmentAccountReceivable : Fragment() {
         if (token.token == "") {
 
         }
-        viewModelAccountReceivable = ViewModelProvider(this).get(ViewModelAccountReceivable::class.java)
+        viewModelAccountReceivable = ViewModelProvider(this).get(AccountReceivableViewModel::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)
-        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+        adapterAccountReceivable = AdapterAccountReceivable(arrayListOf(), viewModelAccountReceivable, viewModelDetailAccountReceivable)
         viewModelClient = ViewModelProvider(this).get(ClientViewModel::class.java)
         viewModelProductService = ViewModelProvider(this).get(ProductViewModel::class.java)
 
@@ -87,6 +82,38 @@ class FragmentAccountReceivable : Fragment() {
 
         viewModelAccountReceivable.totalSaleByFilter.observe(viewLifecycleOwner, Observer<Double> {
             binding.textViewTotalSale.text = nFormat.format(it)
+        })
+
+        viewModelAccountReceivable.lst.observe(this) {
+            adapterAccountReceivable  = AdapterAccountReceivable(it.sortedWith(compareBy { it.dueDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable)
+                        binding.recyclerView.apply {
+                            adapter = adapterAccountReceivable
+                            layoutManager = LinearLayoutManager(context)
+                        }
+            binding.progressBar.visibility = View.GONE
+        }
+
+        viewModelAccountReceivable.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModelAccountReceivable.loading.observe(this, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModelAccountReceivable.complete.observe(this, Observer {
+            if (it) {
+                calendar = GregorianCalendar()
+                load(calendar)
+            }
         })
 
         calendar = GregorianCalendar()
@@ -106,30 +133,9 @@ class FragmentAccountReceivable : Fragment() {
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-//        lifecycleScope.launch {
-//            viewModelAccountReceivable.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        adapterAccountReceivable  = AdapterAccountReceivable((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), viewModelAccountReceivable, viewModelDetailAccountReceivable, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-//                        binding.recyclerView.apply {
-//                            adapter = adapterAccountReceivable
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                        binding.progressBar.visibility = View.GONE
-//                        viewModelAccountReceivable.getTotalByFilter((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                            Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        filter.month = calendar.get(Calendar.MONTH) + 1
+        filter.year = calendar.get(Calendar.YEAR)
+        viewModelAccountReceivable.getAllByMonthAndYear(filter, token.token)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -172,6 +178,14 @@ class FragmentAccountReceivable : Fragment() {
             startActivity(appIntent)
         } catch (ex: ActivityNotFoundException) {
             startActivity(webIntent)
+        }
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
         }
     }
 

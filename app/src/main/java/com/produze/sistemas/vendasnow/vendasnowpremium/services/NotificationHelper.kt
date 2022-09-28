@@ -29,7 +29,7 @@ class NotificationHelper(val context: Context, val sale: Sale) {
 
     fun createNotification(){
         createNotificationChannel()
-        val account = sale.accounts.firstOrNull()
+        val account = sale.account.firstOrNull()
         val intent = Intent(context, AccountReceivableDetailActivity:: class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
