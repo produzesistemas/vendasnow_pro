@@ -98,7 +98,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_margin="@dimen/margin_between_views"
                                 android:layout_height="match_parent"
-                                android:text="@string/label_total_sale" />
+                                android:text="@string/label_value" />
 
 
                             <TextView
@@ -107,7 +107,42 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_between_views"/>
 
+                            <TextView
+                                android:id="@+id/textViewLabelSituation"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_situation" />
+
+                            <RadioGroup
+                                android:id="@+id/radioGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:theme="@style/CustomRadioAccountReceivable"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonToReceive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_account_to_receive"/>
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonReceive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_account_receive"/>
+
+                            </RadioGroup>
+
                         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
                     </androidx.cardview.widget.CardView>
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>

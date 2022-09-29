@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -104,6 +105,19 @@ object MainUtils {
                 .make(it, message, duration)
         }!!
         snackbar.show()
+    }
+
+    fun getStatusName(status: Int, view: View) : String{
+        var str = ""
+        val arrayStatus = view.resources.getStringArray(R.array.ArrayStatus)
+
+        arrayStatus.forEach {
+            val s = it.split(",")
+            if (status === s[0].toInt()) {
+                str = s[1]
+            }
+        }
+        return str
     }
 
 

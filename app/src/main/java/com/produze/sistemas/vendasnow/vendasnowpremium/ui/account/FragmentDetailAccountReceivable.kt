@@ -135,6 +135,11 @@ class FragmentDetailAccountReceivable : Fragment(){
         binding.textViewPayment.text = accountDetail.sale?.paymentCondition?.description
         binding.textViewDueDate.text = df.format(accountDetail.dueDate)
         binding.textViewValue.text = nFormat.format(accountDetail.value)
+
+        when (accountDetail.status) {
+            1 -> {binding.radioGroup.check(R.id.radioButtonToReceive)}
+            2 -> {binding.radioGroup.check(R.id.radioButtonReceive)}
+        }
     }
     private fun update(account: Account, view: View?) {
         lifecycleScope.launch {
