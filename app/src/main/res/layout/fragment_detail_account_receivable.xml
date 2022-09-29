@@ -50,15 +50,15 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textViewLabelSaleDate"
+                                android:id="@+id/textViewLabelDueDate"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/margin_between_views"
-                                android:text="@string/label_sale_date_register" />
+                                android:text="@string/label_due_date" />
 
                             <TextView
-                                android:id="@+id/textViewSaleDate"
+                                android:id="@+id/textViewDueDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_between_views"/>
@@ -93,7 +93,7 @@
                                 android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
-                                android:id="@+id/textViewLabelTotalSales"
+                                android:id="@+id/textViewLabelValue"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_margin="@dimen/margin_between_views"
@@ -102,7 +102,7 @@
 
 
                             <TextView
-                                android:id="@+id/textViewTotalSale"
+                                android:id="@+id/textViewValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_between_views"/>
@@ -111,62 +111,6 @@
                     </androidx.cardview.widget.CardView>
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutAppBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutCard">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="10dp"
-                        android:layout_margin="@dimen/margin_default"
-                        app:cardElevation="1dp"
-
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_card_panel_small"
-                            android:background="@drawable/custom_background_panel_purple">
-
-                            <TextView
-                                android:id="@+id/textViewLabelAccountsSale"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_app_bar_account_receive"
-                                android:textColor="@color/white"
-                                android:theme="@style/TextStyleSmall"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 

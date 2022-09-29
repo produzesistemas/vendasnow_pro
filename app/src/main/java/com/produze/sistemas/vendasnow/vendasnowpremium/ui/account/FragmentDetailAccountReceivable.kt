@@ -79,6 +79,7 @@ class FragmentDetailAccountReceivable : Fragment(){
         binding.progressBar.visibility = View.GONE
         viewModelDetailAccountReceivable.selectedAccount.observe(viewLifecycleOwner, Observer<Account> { item ->
             accountDetail = item
+            load()
         })
 
         viewModelDetailAccountReceivable.selectedYear.observe(viewLifecycleOwner, Observer<Int> { item ->
@@ -88,10 +89,6 @@ class FragmentDetailAccountReceivable : Fragment(){
         viewModelDetailAccountReceivable.selectedMonth.observe(viewLifecycleOwner, Observer<Int> { item ->
             month = item
             load()
-        })
-
-        viewModelDetailSale.totalSale.observe(viewLifecycleOwner, Observer<Double> {
-            binding.textViewTotalSale.text = nFormat.format(it)
         })
 
         viewModelAccountReceivable.errorMessage.observe(this) {
@@ -136,20 +133,8 @@ class FragmentDetailAccountReceivable : Fragment(){
     private fun load() {
         binding.textViewClient.text = accountDetail.sale?.client?.name
         binding.textViewPayment.text = accountDetail.sale?.paymentCondition?.description
-        binding.textViewSaleDate.text = df.format(accountDetail.sale?.saleDate)
-
-//        viewModelDetailSale.getTotalSale(saleDetail.saleService.toMutableList(), saleDetail.saleProduct.toMutableList())
-
-//            binding.recyclerView.apply {
-//                adapter = AdapterAccountReceivableDetail(saleDetail.account.filter {
-//                val calendar = Calendar.getInstance()
-//                calendar.time = it.dueDate
-//                    calendar.get(Calendar.YEAR) == year &&
-//                    calendar.get(Calendar.MONTH) + 1 == month
-//                    })
-//                layoutManager = LinearLayoutManager(context)
-//            }
-
+        binding.textViewDueDate.text = df.format(accountDetail.dueDate)
+        binding.textViewValue.text = nFormat.format(accountDetail.value)
     }
     private fun update(account: Account, view: View?) {
         lifecycleScope.launch {
