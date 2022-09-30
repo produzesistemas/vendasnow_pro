@@ -91,13 +91,12 @@ class FragmentDetailAccountReceivable : Fragment(){
             load()
         })
 
-        viewModelAccountReceivable.errorMessage.observe(this) {
+        viewModelAccountReceivable.errorMessage.observe(this, Observer {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401) {
                 changeActivity()
             }
-
-        }
+        })
 
         viewModelAccountReceivable.loading.observe(this, Observer {
             if (it) {
@@ -112,6 +111,17 @@ class FragmentDetailAccountReceivable : Fragment(){
                         view?.findNavController()?.navigate(R.id.nav_account_receivable)
             }
         })
+
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonToReceive -> {
+                    accountDetail.status = 1
+                }
+                R.id.radioButtonReceive -> {
+                    accountDetail.status = 2
+                }
+            }
+        }
 
     }
 
@@ -129,6 +139,8 @@ class FragmentDetailAccountReceivable : Fragment(){
         }
         false
     }
+
+
 
     private fun load() {
         binding.textViewClient.text = accountDetail.sale?.client?.name

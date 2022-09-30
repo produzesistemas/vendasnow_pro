@@ -93,13 +93,13 @@ class FragmentAccountReceivable : Fragment() {
             binding.progressBar.visibility = View.GONE
         }
 
-        viewModelAccountReceivable.errorMessage.observe(this) {
+        viewModelAccountReceivable.errorMessage.observe(this, Observer {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401) {
                 changeActivity()
             }
 
-        }
+        })
 
         viewModelAccountReceivable.loading.observe(this, Observer {
             if (it) {
