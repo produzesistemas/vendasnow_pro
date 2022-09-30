@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.graphics
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,12 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsProfitYearBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
@@ -43,6 +47,7 @@ class FragmentGraphicProfitYear : Fragment(){
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private var filter: FilterDefault = FilterDefault()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,6 +82,28 @@ class FragmentGraphicProfitYear : Fragment(){
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         mChart = binding.barChart
+
+        viewModel.lst.observe(this) {
+            loadGraph(it.sortedWith(compareBy { it.saleDate }))
+            binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModel.loading.observe(this) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+
         calendar = GregorianCalendar()
         load(calendar)
 
@@ -102,35 +129,29 @@ class FragmentGraphicProfitYear : Fragment(){
         false
     }
 
-    fun loadGraph(sales: List<Sale>) {
+    private fun loadGraph(sales: List<Sale>) {
         totalGeral = 0.0f
         var entries: ArrayList<BarEntry> = ArrayList()
-//        for (mes in 12 downTo 1 step 1) {
-//            var salesByMonth = sales.filter {
-//                var m = it.salesDate?.month
-//                if (m != null) {
-//                    m += 1
-//                }
-//                m == mes
-//            }
-//
-//            salesByMonth.forEach{
-////                it.saleProducts.forEach {
-//                    total += viewModelDetailSale.getTotalProfitByMonth(it.saleProducts.toMutableList()).toFloat()!!
-////                }
-//
-////                it.saleServices.forEach {
-////                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-////                }
-//            }
-//
-//            if (total > 0) {
-//                entries.add(BarEntry(mes.toFloat() - 1, total))
-//                totalGeral += total
-//                total = 0.0f
-//            }
-//
-//        }
+        for (mes in 12 downTo 1 step 1) {
+            var salesByMonth = sales.filter {
+                var m = it.saleDate?.month
+                if (m != null) {
+                    m += 1
+                }
+                m == mes
+            }
+
+            salesByMonth.forEach{
+                    total += viewModelDetailSale.getTotalProfitByMonth(it.saleProduct.toMutableList()).toFloat()!!
+            }
+
+            if (total > 0) {
+                entries.add(BarEntry(mes.toFloat() - 1, total))
+                totalGeral += total
+                total = 0.0f
+            }
+
+        }
 
         binding.textViewTotal.text = nFormat.format(totalGeral)
         totalGeral = 0.0f
@@ -182,24 +203,15 @@ class FragmentGraphicProfitYear : Fragment(){
 
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
-//        lifecycleScope.launch {
-//            viewModel.getAllByYear(calendar.get(Calendar.YEAR), token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                            Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        filter.year = calendar.get(Calendar.YEAR)
+        viewModel.getAllByMonthAndYear(filter, token.token)
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
+        }
     }
 }
