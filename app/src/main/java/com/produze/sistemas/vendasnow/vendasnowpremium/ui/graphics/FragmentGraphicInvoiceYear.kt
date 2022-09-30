@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.graphics
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +11,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsInvoiceYearBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
@@ -39,6 +45,7 @@ class FragmentGraphicInvoiceYear : Fragment(){
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private var filter: FilterDefault = FilterDefault()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -72,6 +79,29 @@ class FragmentGraphicInvoiceYear : Fragment(){
         binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         mChart = binding.chart
+
+        viewModel.lst.observe(this) {
+            loadGraph(it.sortedWith(compareBy { it.saleDate }))
+            binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModel.loading.observe(this) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+
+
         calendar = GregorianCalendar()
         load(calendar)
 
@@ -100,33 +130,33 @@ class FragmentGraphicInvoiceYear : Fragment(){
     private fun loadGraph(sales: List<Sale>) {
         totalGeral = 0.0f
         var entries: ArrayList<BarEntry> = ArrayList()
-//        for (mes in 12 downTo 1 step 1) {
-//            var salesByMonth = sales.filter {
-//
-//                var m = it.salesDate?.month
-//                if (m != null) {
-//                    m += 1
-//                }
-//                m == mes
-//            }
-//
-//            salesByMonth.forEach{
-//                it.saleProducts.forEach {
-//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-//                }
-//
-//                it.saleServices.forEach {
-//                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
-//                }
-//            }
-//
-//            if (total > 0) {
-//                entries.add(BarEntry(mes.toFloat() - 1, total))
-//                totalGeral += total
-//                total = 0.0f
-//            }
-//
-//        }
+        for (mes in 12 downTo 1 step 1) {
+            var salesByMonth = sales.filter {
+
+                var m = it.saleDate?.month
+                if (m != null) {
+                    m += 1
+                }
+                m == mes
+            }
+
+            salesByMonth.forEach{
+                it.saleProduct.forEach {
+                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
+                }
+
+                it.saleService.forEach {
+                    total += (it.valueSale.times(it.quantity))?.toFloat()!!
+                }
+            }
+
+            if (total > 0) {
+                entries.add(BarEntry(mes.toFloat() - 1, total))
+                totalGeral += total
+                total = 0.0f
+            }
+
+        }
 
         binding.textViewTotal.text = nFormat.format(totalGeral)
         totalGeral = 0.0f
@@ -178,24 +208,15 @@ class FragmentGraphicInvoiceYear : Fragment(){
 
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
-//        lifecycleScope.launch {
-//            viewModel.getAllByYear(calendar.get(Calendar.YEAR), token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        filter.year = calendar.get(Calendar.YEAR)
+        viewModel.getAllByMonthAndYear(filter, token.token)
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
+        }
     }
 }

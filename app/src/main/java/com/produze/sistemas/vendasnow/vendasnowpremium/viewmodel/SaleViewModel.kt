@@ -76,10 +76,8 @@ class SaleViewModel constructor() : ViewModel() {
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error())
                     } else {
                         loading.value = false
-                        //movieList.postValue(NetworkState.Error)
                     }
                 }
             }
@@ -93,7 +91,6 @@ class SaleViewModel constructor() : ViewModel() {
                 is NetworkState.Success -> {
                     complete.value = true
                     loading.value = false
-//                    itemButtonClickEvent.postValue(client)
                 }
                 is NetworkState.Error -> {
                     if (response.response.code() == 401) {
@@ -113,14 +110,6 @@ class SaleViewModel constructor() : ViewModel() {
             }
         }
     }
-
-//    fun onItemButtonClick(sale: Sale) {
-//        itemButtonClickEvent.postValue(sale)
-//    }
-//
-//    fun onItemButtonClickEdit(client: ResponseBody) {
-//        itemButtonClickEventEdit.postValue(client)
-//    }
 
     private fun onError(message: String, code: Int) {
         responseBody.code = code
