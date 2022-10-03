@@ -25,76 +25,113 @@ import android.app.PendingIntent
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
+import android.widget.RadioGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.ActivityAccountReceivableDetailBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.ActivityLoginBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.AccountReceivableViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
+import kotlinx.coroutines.launch
 
 class AccountReceivableDetailActivity : AppCompatActivity() {
-    private lateinit var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable
-    private lateinit var viewModel: SaleViewModel
-    private lateinit var binding: FragmentDetailAccountReceivableBinding
+    private lateinit var viewModelAccountReceivable: AccountReceivableViewModel
     var df = SimpleDateFormat("dd/MM/yyyy")
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
-    private var saleDetail: Sale = Sale()
-    private lateinit var dueDate: Date
-    private var calendarDueDate: Calendar = Calendar.getInstance()
+    private lateinit var token: Token
+    private var accountDetail: Account = Account()
+    private var datasource: DataSourceUser? = null
 
     private lateinit var mProgressBar: ProgressBar
-    private lateinit var mTextViewClient: TextView
-    private lateinit var mTextViewPayment: TextView
-    private lateinit var mTextViewSaleDate: TextView
-    private lateinit var mRecyclerView: RecyclerView
-    private var datasource: DataSourceUser? = null
+    private lateinit var textViewClient: TextView
+    private lateinit var textViewDueDate: TextView
+    private lateinit var textViewPayment: TextView
+    private lateinit var textViewValue: TextView
+
+    private lateinit var mRadioGroup: RadioGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_receivable_detail)
+//        binding = ActivityAccountReceivableDetailBinding.inflate(layoutInflater)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
+
         mProgressBar = findViewById(R.id.progressBar)
-        mTextViewClient = findViewById(R.id.textViewClient)
-        mTextViewPayment = findViewById(R.id.textViewPayment)
-        mTextViewSaleDate = findViewById(R.id.textViewSaleDate)
-        mRecyclerView = findViewById(R.id.recyclerView)
+        textViewClient = findViewById(R.id.textViewClient)
+        textViewPayment = findViewById(R.id.textViewPayment)
+        textViewDueDate = findViewById(R.id.textViewDueDate)
+        textViewValue = findViewById(R.id.textViewValue)
+        mRadioGroup = findViewById(R.id.radioGroup)
         try {
             datasource = DataSourceUser(this)
-            var token = datasource?.get()!!
+            token = datasource?.get()!!
             if (token.token == "") {
                 changeActivity()
                 finish()
             }
 
-            viewModel = ViewModelProvider(this).get(SaleViewModel::class.java)
-            viewModelDetailAccountReceivable = ViewModelProvider(this).get(ViewModelDetailAccountReceivable::class.java)
-
+            viewModelAccountReceivable = ViewModelProvider(this).get(AccountReceivableViewModel::class.java)
             val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
             bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-            mProgressBar.visibility = View.GONE
 
             val extras = intent.extras
             if (extras !== null) {
                 val isNotification = extras!!.getBoolean("notification")
-                val idSale = extras!!.getString("idSale")
-                dueDate = df.parse(extras!!.getString("dueDate"))
-                calendarDueDate.time = dueDate
+                val idAccount = extras!!.getString("idAccount")
                 if (isNotification) {
-                    idSale?.let { load(it) }
+                    idAccount?.let { get(it.toInt()) }
                 }
             } else {
                 Toast.makeText(this, R.string.validation_no_requestCode,
                     Toast.LENGTH_SHORT).show()
             }
 
-            viewModel.loading.observe(this) {
+
+            mRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.radioButtonToReceive -> {
+                        accountDetail.status = 1
+                    }
+                    R.id.radioButtonReceive -> {
+                        accountDetail.status = 2
+                    }
+                }
+            }
+
+            viewModelAccountReceivable.loading.observe(this) {
                 if (it) {
-                    binding.progressBar.visibility = View.VISIBLE
+                    mProgressBar.visibility = View.VISIBLE
                 } else {
-                    binding.progressBar.visibility = View.GONE
+                    mProgressBar.visibility = View.GONE
+                }
+            }
+
+            viewModelAccountReceivable.complete.observe(this) {
+                if (it) {
+                    finish()
+                    toMainActivity()
+                }
+            }
+
+            viewModelAccountReceivable.account.observe(this) {
+                accountDetail = it
+                textViewClient.text = it.sale?.client?.name
+                textViewPayment.text = it.sale?.paymentCondition?.description
+                textViewDueDate.text = df.format(it.dueDate)
+                textViewValue.text = nFormat.format(it.value)
+
+                when (accountDetail.status) {
+                    1 -> {mRadioGroup.check(R.id.radioButtonToReceive)}
+                    2 -> {mRadioGroup.check(R.id.radioButtonReceive)}
                 }
             }
 
@@ -103,77 +140,23 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun load(id: String) {
-//        lifecycleScope.launch {
-//            viewModel.getById(id).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        mProgressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        mProgressBar.visibility = View.GONE
-//                        val docReference = state.data
-//                        saleDetail = state.data.toObject(Sale::class.java)!!
-//                        saleDetail.id = docReference.id
-//                        mTextViewClient.text = saleDetail.client?.name
-//                        mTextViewPayment.text = saleDetail.formPayment?.name
-//                        mTextViewSaleDate.text = df.format(saleDetail.salesDate)
-//
-//                        mRecyclerView.apply {
-//                            adapter = AdapterAccountReceivableDetail(saleDetail.accounts.filter {
-//                                val calendar = Calendar.getInstance()
-//                                calendar.time = it.dueDate
-//                                calendar.get(Calendar.DAY_OF_MONTH) == calendarDueDate.get(Calendar.DAY_OF_MONTH) &&
-//                                calendar.get(Calendar.YEAR) == calendarDueDate.get(Calendar.YEAR) &&
-//                                calendar.get(Calendar.MONTH) + 1 == calendarDueDate.get(Calendar.MONTH) + 1
-//                            })
-//                            layoutManager = LinearLayoutManager(context)
-//                        }
-//                    }
-//
-//                    is State.Failed -> {
-//                        mProgressBar.visibility = View.GONE
-//                        Toast.makeText(
-//                            applicationContext, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
+    private fun get(id: Int) {
+        lifecycleScope.launch {
+            viewModelAccountReceivable.getById(id, token.token)
+        }
     }
-    private fun update(sale: Sale) {
-//        lifecycleScope.launch {
-//            viewModel.update(sale).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        mProgressBar.visibility = View.VISIBLE
-//                    }
-//
-//                    is State.Success -> {
-//                        cancelNotification(sale)
-//                        mProgressBar.visibility = View.GONE
-//                        finish()
-//                    }
-//
-//                    is State.Failed -> {
-//                        mProgressBar.visibility = View.GONE
-//                        Toast.makeText(
-//                            applicationContext, state.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
+
+    private fun update(account: Account) {
+        lifecycleScope.launch {
+            viewModelAccountReceivable.save(account, token.token)
+        }
     }
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.navigation_confirm -> {
-                update(saleDetail)
+                update(accountDetail)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_cancel -> {
@@ -184,82 +167,13 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
         false
     }
 
-    private fun cancelNotification(saleToNotification: Sale) {
-        when (saleToNotification.paymentConditionId) {
-            4,7 -> {
-                var accountToNotification: Account = saleToNotification.account.first()
-                if (accountToNotification.status === 2) {
-
-                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                    notificationManager.cancel(accountToNotification.uniqueIDNotification)
-
-                    val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-                    val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
-                    val pendingIntent = PendingIntent.getBroadcast(
-                        applicationContext, accountToNotification.mRequestCode, myIntent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-
-                    alarmManager.cancel(pendingIntent)
-                }
-            }
-            8 -> {
-                for (i in 1..2) {
-                    var accountToNotification: Account = saleToNotification.account[i]
-                    if (accountToNotification.status === 2) {
-                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
-                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
-                        val pendingIntent = PendingIntent.getBroadcast(
-                            applicationContext, accountToNotification.mRequestCode, myIntent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                        alarmManager.cancel(pendingIntent)
-                    }
-
-                    }
-
-            }
-            9 -> {
-                for (i in 1..3) {
-                    var accountToNotification: Account = saleToNotification.account[i]
-                    if (accountToNotification.status === 2) {
-                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
-                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
-                        val pendingIntent = PendingIntent.getBroadcast(
-                            applicationContext, accountToNotification.mRequestCode, myIntent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                        alarmManager.cancel(pendingIntent)
-                    }
-                  }
-            }
-            10 -> {
-                for (i in 1..4) {
-                    var accountToNotification: Account = saleToNotification.account[i]
-                    if (accountToNotification.status === 2) {
-                        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        notificationManager.cancel(accountToNotification.uniqueIDNotification)
-                        val alarmManager = getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-                        val myIntent = Intent(applicationContext, AlarmReceiver::class.java)
-                        val pendingIntent = PendingIntent.getBroadcast(
-                            applicationContext, accountToNotification.mRequestCode, myIntent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                        alarmManager.cancel(pendingIntent)
-                    }
-                 }
-            }
-
-        }
-
-    }
-
     private fun changeActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
+    private fun toMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }

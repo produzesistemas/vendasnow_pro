@@ -87,19 +87,6 @@ private var datasource: DataSourceUser? = null
                 true
             }
 
-//            auth = FirebaseAuth.getInstance()
-//            val user = auth.getCurrentUser()
-//            if (user == null) {
-//                startActivity(Intent(this, LoginActivity::class.java))
-//                finish()
-//            } else {
-//                val header: View = navView.getHeaderView(0)
-//                val textView: TextView = header.findViewById(R.id.textViewEmail)
-//                val profileImage: CircleImageView = header.findViewById(R.id.profile_image)
-//                textView.text = user.displayName
-//                Picasso.get().load(user.photoUrl).into(profileImage);
-//            }
-
             datasource = DataSourceUser(this)
             var token = datasource?.get()!!
             if (token.token == "") {
@@ -119,8 +106,6 @@ private var datasource: DataSourceUser? = null
             viewModelMain.title.observe(this, Observer {
                 mTitle.setText(it)
             })
-
-//            createWorkRequest("Funciona", 30)
 
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
@@ -142,12 +127,6 @@ private var datasource: DataSourceUser? = null
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-//    private fun signOut() {
-//        auth.signOut()
-//        onBackPressed()
-//        startActivity(Intent(this, LoginActivity::class.java))
-//    }
 
     private fun changeActivity() {
         startActivity(Intent(this, LoginActivity::class.java))

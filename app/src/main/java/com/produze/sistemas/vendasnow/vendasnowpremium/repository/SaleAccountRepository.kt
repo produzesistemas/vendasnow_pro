@@ -48,4 +48,18 @@ class SaleAccountRepository constructor(private val retrofitService: RetrofitSer
             NetworkState.Error(response)
         }
     }
+
+    suspend fun getById(token: String, id: Int) : NetworkState<Account> {
+        val response = retrofitService.getAccountById(token, id)
+        return if (response.isSuccessful) {
+            val responseBody = response.body()
+            if (responseBody != null) {
+                NetworkState.Success(responseBody)
+            } else {
+                NetworkState.Error(response)
+            }
+        } else {
+            NetworkState.Error(response)
+        }
+    }
 }

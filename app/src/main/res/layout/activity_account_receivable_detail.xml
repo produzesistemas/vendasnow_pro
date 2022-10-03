@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutSpinnerPayment">
+                    app:layout_constraintTop_toBottomOf="parent">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
@@ -66,44 +66,48 @@
                         app:cardUseCompatPadding="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/margin_default">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/linearLayoutInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_default"
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textViewLabelSaleDate"
+                                android:id="@+id/textViewLabelDueDate"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="@string/label_sale_date_register" />
+                                android:layout_margin="@dimen/margin_between_views"
+                                android:text="@string/label_due_date" />
 
                             <TextView
-                                android:id="@+id/textViewSaleDate"
+                                android:id="@+id/textViewDueDate"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
                                 android:id="@+id/textViewLabelClient"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_between_views"
                                 android:text="@string/label_client_name" />
 
                             <TextView
                                 android:id="@+id/textViewClient"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
                                 android:id="@+id/textViewLabelPayment"
                                 style="@style/TextStyleTitleActivity"
                                 android:layout_width="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"
                                 android:layout_height="match_parent"
                                 android:text="@string/label_payment_form" />
 
@@ -111,66 +115,63 @@
                             <TextView
                                 android:id="@+id/textViewPayment"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutAppBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutCard">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="1dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_card_panel_small"
-                            android:background="@drawable/custom_background_panel_purple">
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"/>
 
                             <TextView
-                                android:id="@+id/textViewTotalSale"
+                                android:id="@+id/textViewLabelValue"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_value" />
+
+
+                            <TextView
+                                android:id="@+id/textViewValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/label_app_bar_account_receive"
-                                android:textColor="@color/white"
-                                android:theme="@style/TextStyleSmall"
+                                android:layout_margin="@dimen/margin_between_views"/>
+
+                            <TextView
+                                android:id="@+id/textViewLabelSituation"
+                                style="@style/TextStyleTitleActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_margin="@dimen/margin_between_views"
+                                android:layout_height="match_parent"
+                                android:text="@string/label_situation" />
+
+                            <RadioGroup
+                                android:id="@+id/radioGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:theme="@style/CustomRadioAccountReceivable"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintStart_toStartOf="parent">
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <RadioButton
+                                    android:id="@+id/radioButtonToReceive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_account_to_receive"/>
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonReceive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_account_receive"/>
+
+                            </RadioGroup>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card" />
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 

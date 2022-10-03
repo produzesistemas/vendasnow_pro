@@ -32,7 +32,7 @@ class NotificationUtils {
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime(),
-            AlarmManager.INTERVAL_DAY,
+            AlarmManager.INTERVAL_HALF_HOUR,
             pendingIntent
         )
 
