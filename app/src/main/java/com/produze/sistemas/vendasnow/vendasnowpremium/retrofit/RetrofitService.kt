@@ -56,6 +56,9 @@ interface RetrofitService {
     @POST("saleAccount/save")
     suspend fun saveAccount(@Header("Authorization") token: String, @Body account: Account): Response<Void>
 
+    @GET("saleAccount/getAllToNotification")
+    suspend fun getAllToNotification(@Header("Authorization") token: String): Response<List<Account>>
+
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
 

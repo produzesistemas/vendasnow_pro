@@ -22,6 +22,20 @@ class SaleAccountRepository constructor(private val retrofitService: RetrofitSer
         }
     }
 
+    suspend fun getAllToNotification(token: String) : NetworkState<List<Account>> {
+        val response = retrofitService.getAllToNotification(token)
+        return if (response.isSuccessful) {
+            val responseBody = response.body()
+            if (responseBody != null) {
+                NetworkState.Success(responseBody)
+            } else {
+                NetworkState.Error(response)
+            }
+        } else {
+            NetworkState.Error(response)
+        }
+    }
+
     suspend fun save(token: String, account: Account) : NetworkState<Any> {
         val response = retrofitService.saveAccount(token, account)
         return if (response.isSuccessful) {

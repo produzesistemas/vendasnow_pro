@@ -5,20 +5,30 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.CoroutineWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.RepositoryAccountReceivable
+import com.produze.sistemas.vendasnow.vendasnowpremium.repository.SaleAccountRepository
+import com.produze.sistemas.vendasnow.vendasnowpremium.retrofit.RetrofitService
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
+import com.produze.sistemas.vendasnow.vendasnowpremium.utils.NetworkState
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -26,11 +36,15 @@ import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.sql.Timestamp
 import java.util.*
 
 class ReminderWorker(val context: Context, val params: WorkerParameters) : CoroutineWorker(context, params){
-//    var repository = RepositoryAccountReceivable()
+    private val retrofitService = RetrofitService.getInstance()
+    private val saleAccountRepository = SaleAccountRepository(retrofitService)
     private var calendar: GregorianCalendar = Calendar.getInstance() as GregorianCalendar
 //    private lateinit var auth: FirebaseAuth
 
@@ -41,6 +55,19 @@ class ReminderWorker(val context: Context, val params: WorkerParameters) : Corou
         datasource = context?.let { DataSourceUser(it) }
         token = datasource?.get()!!
         withContext(Dispatchers.IO) {
+
+            when (val response = saleAccountRepository.getAllToNotification(token.token)) {
+                is NetworkState.Success -> {
+                    response.data!!.forEach{
+                        NotificationHelper(context, it).createNotification()
+                    }
+
+                }
+                is NetworkState.Error -> {
+
+                }
+            }
+
 
 //            if (token.email != null) {
 //                var dateStart = calendar.time
