@@ -1,6 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.graphics
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +19,12 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentGraphicsTopFiveProductsBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.SaleProduct
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
@@ -40,6 +44,7 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     private lateinit var viewModelMain: ViewModelMain
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private var filter: FilterDefault = FilterDefault()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -75,6 +80,29 @@ class FragmentGraphicTopFiveProducts : Fragment(){
 
         mChart = binding.chart
         legend = binding.chart.legend
+
+        viewModel.lst.observe(this) {
+            loadGraph(it.sortedWith(compareBy { it.saleDate }))
+            binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.errorMessage.observe(this) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+
+        }
+
+        viewModel.loading.observe(this) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+
+
         calendar = GregorianCalendar()
         load(calendar)
 
@@ -153,24 +181,16 @@ class FragmentGraphicTopFiveProducts : Fragment(){
     private fun load(calendar: Calendar) {
         binding.textViewAno.text = calendar.get(Calendar.YEAR).toString()
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
-//        lifecycleScope.launch {
-//            viewModel.getAllByMonthAndYear(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, token.email).collectLatest { state ->
-//                when (state) {
-//                    is State.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is State.Success -> {
-//                        loadGraph((state.data as MutableList<Sale>).sortedWith(compareBy { it.salesDate }))
-//                        binding.progressBar.visibility = View.GONE
-//                    }
-//
-//                    is State.Failed -> {
-//                        binding.progressBar.visibility = View.GONE
-//                        Toast.makeText(activity, state.message,
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
+        filter.year = calendar.get(Calendar.YEAR)
+        filter.month = calendar.get(Calendar.MONTH) + 1
+        viewModel.getAllByMonthAndYear(filter, token.token)
+    }
+
+    private fun changeActivity() {
+        activity?.let{
+            datasource!!.deleteAll()
+            val intent = Intent (it, LoginActivity::class.java)
+            it.startActivity(intent)
+        }
     }
 }

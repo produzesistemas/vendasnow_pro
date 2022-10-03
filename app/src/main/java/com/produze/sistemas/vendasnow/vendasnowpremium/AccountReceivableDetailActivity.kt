@@ -13,7 +13,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentDetailAccountReceivableBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelDetailAccountReceivable
@@ -26,12 +25,12 @@ import android.app.PendingIntent
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
+import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.SaleViewModel
 
 class AccountReceivableDetailActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var viewModelDetailAccountReceivable: ViewModelDetailAccountReceivable
     private lateinit var viewModel: SaleViewModel
     private lateinit var binding: FragmentDetailAccountReceivableBinding
@@ -47,6 +46,7 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
     private lateinit var mTextViewPayment: TextView
     private lateinit var mTextViewSaleDate: TextView
     private lateinit var mRecyclerView: RecyclerView
+    private var datasource: DataSourceUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +62,10 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
         mTextViewSaleDate = findViewById(R.id.textViewSaleDate)
         mRecyclerView = findViewById(R.id.recyclerView)
         try {
-            auth = FirebaseAuth.getInstance()
-            val user = auth.getCurrentUser()
-            if (user == null) {
-                startActivity(Intent(this, LoginActivity::class.java))
+            datasource = DataSourceUser(this)
+            var token = datasource?.get()!!
+            if (token.token == "") {
+                changeActivity()
                 finish()
             }
 
@@ -89,6 +89,15 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.validation_no_requestCode,
                     Toast.LENGTH_SHORT).show()
             }
+
+            viewModel.loading.observe(this) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+
         } catch (e: SecurityException) {
             e.message?.let { Log.e("Exception: %s", it) }
         }
@@ -249,4 +258,8 @@ class AccountReceivableDetailActivity : AppCompatActivity() {
 
     }
 
+    private fun changeActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
 }
