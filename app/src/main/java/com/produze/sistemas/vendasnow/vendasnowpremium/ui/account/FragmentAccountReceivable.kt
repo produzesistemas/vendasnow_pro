@@ -13,18 +13,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAccountsReceivableBinding
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.FilterDefault
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterAccountReceivable
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -79,6 +84,8 @@ class FragmentAccountReceivable : Fragment() {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_accounts_receivable))
+
+        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         viewModelAccountReceivable.totalSaleByFilter.observe(viewLifecycleOwner, Observer<Double> {
             binding.textViewTotalSale.text = nFormat.format(it)
@@ -188,6 +195,31 @@ class FragmentAccountReceivable : Fragment() {
             val intent = Intent (it, LoginActivity::class.java)
             it.startActivity(intent)
         }
+    }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.navigation_account_to_receive -> {
+                filter.month = MainUtils.getMonthInt(binding.textViewMes.text.toString())
+                filter.year = Integer.parseInt(binding.textViewAno.text.toString())
+                filter.status = 1
+                loadByFilter(filter)
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.navigation_account_receive -> {
+                filter.month = MainUtils.getMonthInt(binding.textViewMes.text.toString())
+                filter.year = Integer.parseInt(binding.textViewAno.text.toString())
+                filter.status = 2
+                loadByFilter(filter)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+    private fun loadByFilter(filter: FilterDefault) {
+        viewModelAccountReceivable.getAllByMonthAndYear(filter, token.token)
     }
 
 }

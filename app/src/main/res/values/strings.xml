@@ -15,7 +15,7 @@
     <string name="menu_new_sale">Nova venda</string>
     <string name="menu_graphics">Gráficos</string>
     <string name="menu_about">Sobre</string>
-    <string name="menu_accounts_receivable">Contas a receber</string>
+    <string name="menu_accounts_receivable">Contas a receber/recebidas</string>
 
 
 
@@ -143,7 +143,7 @@
         <item>Clientes</item>
         <item>Produtos</item>
         <item>Vendas</item>
-        <item>Contas a receber</item>
+        <item>Contas a receber/recebidas</item>
         <item>Gráficos</item>
     </string-array>
 
