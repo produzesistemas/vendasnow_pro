@@ -135,6 +135,7 @@ class FragmentAccountReceivable : Fragment() {
         binding.textViewMes.text = MainUtils.getMonth(calendar.get(Calendar.MONTH) + 1)
         filter.month = calendar.get(Calendar.MONTH) + 1
         filter.year = calendar.get(Calendar.YEAR)
+        filter.status = 1
         viewModelAccountReceivable.getAllByMonthAndYear(filter, token.token)
     }
 
