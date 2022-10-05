@@ -104,7 +104,7 @@ private var datasource: DataSourceUser? = null
 
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
             viewModelMain.title.observe(this, Observer {
-                mTitle.setText(it)
+                mTitle.text = it
             })
 
         } catch (e: SecurityException) {

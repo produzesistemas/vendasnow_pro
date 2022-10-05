@@ -97,6 +97,7 @@ class FragmentAccountReceivable : Fragment() {
                             adapter = adapterAccountReceivable
                             layoutManager = LinearLayoutManager(context)
                         }
+
             binding.progressBar.visibility = View.GONE
         }
 
@@ -203,6 +204,7 @@ class FragmentAccountReceivable : Fragment() {
                 filter.month = MainUtils.getMonthInt(binding.textViewMes.text.toString())
                 filter.year = Integer.parseInt(binding.textViewAno.text.toString())
                 filter.status = 1
+                binding.textViewLabelTotalAccounts.text = resources.getString(R.string.label_panel_account_receive)
                 loadByFilter(filter)
                 return@OnNavigationItemSelectedListener true
             }
@@ -211,6 +213,7 @@ class FragmentAccountReceivable : Fragment() {
                 filter.month = MainUtils.getMonthInt(binding.textViewMes.text.toString())
                 filter.year = Integer.parseInt(binding.textViewAno.text.toString())
                 filter.status = 2
+                binding.textViewLabelTotalAccounts.text = resources.getString(R.string.label_panel_account_to_receive)
                 loadByFilter(filter)
                 return@OnNavigationItemSelectedListener true
             }
