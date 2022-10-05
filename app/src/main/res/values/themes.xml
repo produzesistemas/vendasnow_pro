@@ -16,7 +16,7 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">?attr/colorOnPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="toolbarStyle">@style/CustomToolBarStyle</item>
     </style>
