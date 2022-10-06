@@ -58,7 +58,7 @@ class DialogNewProduct(private var viewModel: ProductViewModel,
 
         binding.editTextCostValue.setText(strCostValue)
 
-        binding.btnConfirm.setOnClickListener {
+        binding.cardViewConfirm.setOnClickListener {
             if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             if ((binding.editTextDescription.text.isEmpty()) ||
                     (binding.editTextValue.text.equals("0,00"))){
@@ -79,15 +79,14 @@ class DialogNewProduct(private var viewModel: ProductViewModel,
                 vlCost = vlCost.replace(",", ".")
                 vlCost = vlCost.replace("\\s".toRegex(), "")
                 product.costValue = vlCost.toDouble()
+                binding.imageViewLogin.visibility = View.GONE
+                binding.textViewLogin.visibility = View.GONE
                     save(product)
             }
             } else {
                 Toast.makeText(context, R.string.validation_connection,
                     Toast.LENGTH_SHORT).show()
             }
-        }
-        binding.btnCancel.setOnClickListener {
-            dismiss()
         }
 
         viewModel.loading.observe(this, {
@@ -103,9 +102,6 @@ class DialogNewProduct(private var viewModel: ProductViewModel,
                 dismiss()
             }
         })
-
-
-
         return binding.root
     }
 

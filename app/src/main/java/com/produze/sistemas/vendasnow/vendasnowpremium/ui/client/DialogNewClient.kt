@@ -48,12 +48,14 @@ class DialogNewClient(
 
         binding.editTextTelefone.addTextChangedListener(Mask.insert("(##)#####-####", binding.editTextTelefone))
         binding.editTextNome.setText(client.name)
-        binding.btnConfirm.setOnClickListener {
+        binding.cardViewConfirm.setOnClickListener {
             if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
             if (binding.editTextNome.text.isEmpty()) {
                 Toast.makeText(activity, R.string.hint_new_client,
                         Toast.LENGTH_SHORT).show()
             } else {
+                binding.imageViewLogin.visibility = View.GONE
+                binding.textViewLogin.visibility = View.GONE
                 client.name = binding.editTextNome.text.toString()
                 save(client)
             }
@@ -61,9 +63,6 @@ class DialogNewClient(
                 Toast.makeText(context, R.string.validation_connection,
                     Toast.LENGTH_SHORT).show()
             }
-        }
-        binding.btnCancel.setOnClickListener {
-            dismiss()
         }
 
         viewModel.loading.observe(this, {

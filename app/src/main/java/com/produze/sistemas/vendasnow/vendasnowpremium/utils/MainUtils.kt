@@ -9,6 +9,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.Gravity
+
+import android.widget.FrameLayout
+
+
+
 
 object MainUtils {
 
@@ -104,6 +110,10 @@ object MainUtils {
             Snackbar
                 .make(it, message, duration)
         }!!
+        val viewS = snackbar.view
+        val params = viewS.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        viewS.layoutParams = params
         snackbar.show()
     }
 
