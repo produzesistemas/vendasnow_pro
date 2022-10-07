@@ -110,10 +110,6 @@ object MainUtils {
             Snackbar
                 .make(it, message, duration)
         }!!
-        val viewS = snackbar.view
-        val params = viewS.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        viewS.layoutParams = params
         snackbar.show()
     }
 

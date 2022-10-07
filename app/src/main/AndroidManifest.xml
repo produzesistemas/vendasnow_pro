@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -42,19 +43,31 @@
         </activity>
 
         <receiver
-            android:name="com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver"
-            android:enabled="true" />
-
-        <service
-            android:name="com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationService"
-            android:enabled="true" />
-
-        <receiver android:name=".services.OnBootReceiver"
-            android:exported="false">
+            android:name=".services.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+        <service android:name=".services.AlarmService"
+            android:exported="false"
+            android:label="Alarm Service"
+            android:stopWithTask="false">
+
+            <intent-filter>
+                <action android:name=".services.AlarmService" />
+            </intent-filter>
+
+        </service>
+
+        <service
+            android:name=".services.NotificationService"
+            android:enabled="true">
+        </service>
+
+
     </application>
 
 </manifest>
