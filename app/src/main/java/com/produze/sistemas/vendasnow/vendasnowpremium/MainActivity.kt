@@ -1,13 +1,10 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,23 +17,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
-import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.*
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.work.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.services.ReminderWorker
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-//    private lateinit var auth: FirebaseAuth
 private var datasource: DataSourceUser? = null
     private lateinit var viewModelMain: ViewModelMain
 //    var requestPermissionsResultCallback: (() -> Unit)? = null

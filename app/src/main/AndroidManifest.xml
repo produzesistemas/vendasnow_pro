@@ -51,21 +51,10 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.AlarmService"
-            android:exported="false"
-            android:label="Alarm Service"
-            android:stopWithTask="false">
-
-            <intent-filter>
-                <action android:name=".services.AlarmService" />
-            </intent-filter>
-
-        </service>
-
-        <service
-            android:name=".services.NotificationService"
-            android:enabled="true">
-        </service>
+<!--        <service-->
+<!--            android:name=".services.NotificationService"-->
+<!--            android:enabled="true">-->
+<!--        </service>-->
 
 
     </application>
