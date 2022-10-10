@@ -3,7 +3,9 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.services
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
@@ -34,6 +36,14 @@ class NotificationUtils {
             SystemClock.elapsedRealtime(),
             AlarmManager.INTERVAL_HALF_HOUR,
             pendingIntent
+        )
+
+        val receiver = ComponentName(activity.applicationContext, AlarmReceiver::class.java)
+
+        activity.applicationContext.packageManager.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
         )
 
     }
