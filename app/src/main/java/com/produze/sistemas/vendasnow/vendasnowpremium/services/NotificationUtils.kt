@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.SystemClock
@@ -26,10 +27,26 @@ import java.util.*
 
 class NotificationUtils {
 
-    fun setAlarmManager(activity: Activity) {
-        val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(activity, 10, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
+//    fun setAlarmManager(activity: Activity) {
+//        val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+//        val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java)
+//        val pendingIntent = PendingIntent.getBroadcast(activity, 10, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
+//
+//        alarmManager.setInexactRepeating(
+//            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//            SystemClock.elapsedRealtime(),
+//            AlarmManager.INTERVAL_HALF_HOUR,
+//            pendingIntent
+//        )
+//
+//
+//
+//    }
+
+        fun setAlarmManager(context: Context) {
+        val alarmManager = context.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(context, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 10, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -38,13 +55,7 @@ class NotificationUtils {
             pendingIntent
         )
 
-        val receiver = ComponentName(activity.applicationContext, AlarmReceiver::class.java)
 
-        activity.applicationContext.packageManager.setComponentEnabledSetting(
-            receiver,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP
-        )
 
     }
 }

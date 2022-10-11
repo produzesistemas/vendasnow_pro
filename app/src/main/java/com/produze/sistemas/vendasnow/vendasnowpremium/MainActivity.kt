@@ -1,6 +1,8 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -21,6 +23,7 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.services.NotificationUtil
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ViewModelMain
 import de.hdodenhof.circleimageview.CircleImageView
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
+import com.produze.sistemas.vendasnow.vendasnowpremium.services.AlarmReceiver
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +55,15 @@ private var datasource: DataSourceUser? = null
 //        }
 
         try {
+
+                    val receiver = ComponentName(applicationContext, AlarmReceiver::class.java)
+
+        applicationContext.packageManager.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             val mTitle: TextView = toolbar.findViewById(R.id.toolbar_title);
             setSupportActionBar(toolbar)
