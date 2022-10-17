@@ -3,32 +3,18 @@ package com.produze.sistemas.vendasnow.vendasnowpremium
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.ActivityLoginBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.LoginUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
-import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.ApiInterface
-import com.produze.sistemas.vendasnow.vendasnowpremium.services.authentication.RetrofitInstance
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity(){
     private var datasource: DataSourceUser? = null
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var viewModelLogin: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +26,7 @@ class LoginActivity : AppCompatActivity(){
             changeActivity()
             finish()
         }
+        viewModelLogin = ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.cardViewLogin.setOnClickListener{
 
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
@@ -51,10 +38,7 @@ class LoginActivity : AppCompatActivity(){
                         Snackbar.LENGTH_LONG
                     )
                 } else {
-                    binding.imageViewLogin.visibility = View.GONE
-                    binding.textViewLogin.visibility = View.GONE
-                    binding.progressBar.visibility = View.VISIBLE
-                    onLogin(it, binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
+                    onLogin(binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
                 }
             } else {
                 MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
@@ -72,9 +56,7 @@ class LoginActivity : AppCompatActivity(){
         }
 
         binding.cardViewRegister.setOnClickListener{
-
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-
                 if ((binding.editTextEmailRegister.text.toString() == "") || (binding.editTextSecretRegister.text.toString() == "")) {
                     MainUtils.snack(
                         it,
@@ -82,11 +64,7 @@ class LoginActivity : AppCompatActivity(){
                         Snackbar.LENGTH_LONG
                     )
                 } else {
-
-                    binding.imageViewRegister.visibility = View.GONE
-                    binding.textViewRegister.visibility = View.GONE
-                    binding.progressBarRegister.visibility = View.VISIBLE
-                    onRegister(it, binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
+                    onRegister(binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
                 }
             } else {
                 MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
@@ -99,9 +77,7 @@ class LoginActivity : AppCompatActivity(){
         }
 
         binding.cardViewForgot.setOnClickListener{
-
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-
                 if ((binding.editTextEmailForgot.text.toString() == "") || (binding.editTextSecretForgot.text.toString() == "")) {
                     MainUtils.snack(
                         it,
@@ -109,11 +85,7 @@ class LoginActivity : AppCompatActivity(){
                         Snackbar.LENGTH_LONG
                     )
                 } else {
-
-                    binding.imageViewForgot.visibility = View.GONE
-                    binding.textViewForgot.visibility = View.GONE
-                    binding.progressBarForgot.visibility = View.VISIBLE
-                    onForgot(it, binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
+                    onForgot(binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
                 }
             } else {
                 MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
@@ -125,50 +97,45 @@ class LoginActivity : AppCompatActivity(){
             binding.linearLayoutLogin.visibility = View.VISIBLE
         }
 
+        viewModelLogin.errorMessage.observe(this) {
+            MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+                it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401) {
+                changeActivity()
+            }
+            binding.imageViewLogin.visibility = View.VISIBLE
+            binding.textViewLogin.visibility = View.VISIBLE
+        }
+
+        viewModelLogin.loading.observe(this, {
+            if (it) {
+                binding.imageViewLogin.visibility = View.GONE
+                binding.textViewLogin.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.imageViewLogin.visibility = View.VISIBLE
+                binding.textViewLogin.visibility = View.VISIBLE
+            }
+        })
+
+        viewModelLogin.token.observe(this, {
+            datasource?.deleteAll()
+            datasource?.insert(it)
+            changeActivity()
+        })
+
+        viewModelLogin.msg.observe(this, {
+            MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+                it, Snackbar.LENGTH_LONG)
+        })
+
     }
 
     override fun onStart() {
         super.onStart()
-//        if (auth.currentUser != null) {
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
     }
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 123) {
-//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-//            val account = task.result
-//            if (account != null) {
-//                firebaseAuthWithGoogle(account)
-//            }
-//        }
-//
-//    }
-//
-//    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
-//        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-//        auth.signInWithCredential(credential)
-//                .addOnCompleteListener(this) { task ->
-//                    if (task.isSuccessful) {
-//                        imageViewGoogle.visibility = View.VISIBLE
-//                        textViewGoogle.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-//                        startActivity(Intent(this, MainActivity::class.java))
-//                        finish()
-//                    } else {
-//                        MainUtils.snack(
-//                            window.decorView.findViewById(android.R.id.content),
-//                            this.resources.getString(R.string.msg_error_authentication_failure),
-//                            Snackbar.LENGTH_LONG)
-//                    }
-//                }
-//    }
-//
-//    private  fun signInGoogle(){
-//        val signInIntent:Intent=googleSignInClient.signInIntent
-//        startActivityForResult(signInIntent, reqCode)
-//    }
+
 
     override fun onBackPressed() {
         finishAffinity()
@@ -179,111 +146,16 @@ class LoginActivity : AppCompatActivity(){
         private const val RC_SIGN_IN = 123
     }
 
-    private fun onLogin(view: View, email: String, secret: String){
-
-        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        val loginUser = LoginUser(email, secret)
-        retIn.login(loginUser).enqueue(object : Callback<Token> {
-            override fun onFailure(call: Call<Token>, t: Throwable) {
-                Toast.makeText(
-                    this@LoginActivity,
-                    t.message,
-                    Toast.LENGTH_SHORT
-                ).show()
-                binding.imageViewLogin.visibility = View.VISIBLE
-                binding.textViewLogin.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-            }
-
-            override fun onResponse(call: Call<Token>, response: Response<Token>) {
-                if (response.code() == 200) {
-                    binding.imageViewLogin.visibility = View.VISIBLE
-                    binding.textViewLogin.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
-
-                    try {
-                        var token = MutableLiveData<Token>()
-                        token.value = response.body()
-                        datasource?.deleteAll()
-                        token.value?.let { datasource?.insert(it) }
-                        changeActivity()
-                    } catch (e: SecurityException) {
-                        e.message?.let { MainUtils.snack(view, it, Snackbar.LENGTH_LONG) }
-                    }
-                }
-                if (response.code() == 400) {
-                    MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
-                    binding.imageViewLogin.visibility = View.VISIBLE
-                    binding.textViewLogin.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
-                }
-            }
-        })
-
+    private fun onLogin(email: String, secret: String){
+        viewModelLogin.login(email, secret)
     }
 
-    private fun onRegister(view: View, email: String, secret: String){
-
-        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        val loginUser = LoginUser(email, secret)
-        retIn.registerUser(loginUser).enqueue(object : Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Toast.makeText(
-                    this@LoginActivity,
-                    t.message,
-                    Toast.LENGTH_SHORT
-                ).show()
-                binding.imageViewRegister.visibility = View.VISIBLE
-                binding.textViewRegister.visibility = View.VISIBLE
-                binding.progressBarRegister.visibility = View.GONE
-            }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.code() == 200) {
-                    binding.imageViewRegister.visibility = View.VISIBLE
-                    binding.textViewRegister.visibility = View.VISIBLE
-                    binding.progressBarRegister.visibility = View.GONE
-                    MainUtils.snack(view, response.body()!!, Snackbar.LENGTH_LONG)
-                }
-                if (response.code() == 400) {
-                    MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
-                    binding.imageViewRegister.visibility = View.VISIBLE
-                    binding.textViewRegister.visibility = View.VISIBLE
-                    binding.progressBarRegister.visibility = View.GONE
-                }
-            }
-        })
-
+    private fun onRegister(email: String, secret: String){
+        viewModelLogin.register(email, secret)
     }
 
-    private fun onForgot(view: View, email: String, secret: String){
-
-        val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        val loginUser = LoginUser(email, secret)
-        retIn.forgotPassword(loginUser).enqueue(object : Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                MainUtils.snack(view, t.message.toString(), Snackbar.LENGTH_LONG)
-                binding.imageViewForgot.visibility = View.VISIBLE
-                binding.textViewForgot.visibility = View.VISIBLE
-                binding.progressBarForgot.visibility = View.GONE
-            }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.code() == 200) {
-                    binding.imageViewForgot.visibility = View.VISIBLE
-                    binding.textViewForgot.visibility = View.VISIBLE
-                    binding.progressBarForgot.visibility = View.GONE
-                    MainUtils.snack(view, response.body()!!, Snackbar.LENGTH_LONG)
-                }
-                if (response.code() == 400) {
-                    MainUtils.snack(view, response.errorBody()!!.string(), Snackbar.LENGTH_LONG)
-                    binding.imageViewForgot.visibility = View.VISIBLE
-                    binding.textViewForgot.visibility = View.VISIBLE
-                    binding.progressBarForgot.visibility = View.GONE
-                }
-            }
-        })
-
+    private fun onForgot(email: String, secret: String){
+        viewModelLogin.forgot(email, secret)
     }
 
     private fun changeActivity() {

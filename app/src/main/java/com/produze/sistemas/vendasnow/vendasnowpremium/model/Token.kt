@@ -4,7 +4,8 @@ data class Token(
     var token: String = "",
     var email: String = "",
     var userName: String ="",
-    var role: String="") {
+    var role: String="",
+    var subscription: Subscription?) {
 
     override fun toString(): String {
         return token

@@ -1,7 +1,7 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.repository
 
 import android.util.Log
-import com.google.firebase.firestore.FirebaseFirestore
+//import com.google.firebase.firestore.FirebaseFirestore
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Account
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Sale
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.State

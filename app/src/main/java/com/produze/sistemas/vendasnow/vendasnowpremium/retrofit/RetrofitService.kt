@@ -12,6 +12,18 @@ import java.util.concurrent.TimeUnit
 interface RetrofitService {
 
     @Headers("Content-Type:application/json")
+    @POST("account/loginVendasNow")
+    suspend fun login(@Body loginUser: LoginUser): Response<Token>
+
+    @Headers("Content-Type:application/json")
+    @POST("account/registerVendasNow")
+    suspend fun registerUser(@Body loginUser: LoginUser): Response<String>
+
+    @Headers("Content-Type:application/json")
+    @POST("account/recoverPasswordVendasNow")
+    suspend fun forgotPassword(@Body loginUser: LoginUser): Response<String>
+
+    @Headers("Content-Type:application/json")
     @POST("client/getPagination")
     suspend fun getPaginationClients(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Client>>
 
