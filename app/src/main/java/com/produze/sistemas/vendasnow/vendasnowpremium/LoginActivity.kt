@@ -103,6 +103,12 @@ class LoginActivity : AppCompatActivity(){
             if (it.code == 401) {
                 changeActivity()
             }
+
+            if (it.code == 600) {
+                MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+                    this.resources.getString(R.string.validation_subscription), Snackbar.LENGTH_LONG)
+            }
+
             binding.imageViewLogin.visibility = View.VISIBLE
             binding.textViewLogin.visibility = View.VISIBLE
         }

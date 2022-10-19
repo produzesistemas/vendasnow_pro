@@ -52,6 +52,11 @@ class LoginViewModel constructor() : ViewModel() {
                         loading.value = false
                         onError(response.response.errorBody()!!.string(), 400)
                     }
+
+                    if (response.response.code() == 600) {
+                        loading.value = false
+                        onError("", 600)
+                    }
                 }
             }
         }
