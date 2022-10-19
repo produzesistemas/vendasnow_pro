@@ -6,7 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class SqliteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    private val createTableUser = "CREATE TABLE User (token TEXT, email TEXT, userName TEXT, role TEXT)"
+    private val createTableUser = "CREATE TABLE User (" +
+            "token TEXT," +
+            " email TEXT," +
+            " userName TEXT," +
+            " role TEXT)"
+
     private val deleteTableUser = "DROP TABLE IF EXISTS User"
 
     override fun onCreate(db: SQLiteDatabase) {
