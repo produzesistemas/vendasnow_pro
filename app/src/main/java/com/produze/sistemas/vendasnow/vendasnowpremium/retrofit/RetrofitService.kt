@@ -71,6 +71,10 @@ interface RetrofitService {
     @GET("saleAccount/getAllToNotification")
     suspend fun getAllToNotification(@Header("Authorization") token: String): Response<List<Account>>
 
+    @GET("plan/getAll")
+    suspend fun getAllPlan(): Response<List<Plan>>
+
+
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
 
