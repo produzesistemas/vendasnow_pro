@@ -4,16 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import java.text.SimpleDateFormat
 import java.util.*
-import android.view.Gravity
-
-import android.widget.FrameLayout
-
-
 
 
 object MainUtils {
@@ -106,11 +103,23 @@ object MainUtils {
     }
 
     fun snack(view: View, message: String, duration: Int) {
-        val snackbar: Snackbar = view?.let {
+        val snack: Snackbar = view?.let {
             Snackbar
                 .make(it, message, duration)
         }!!
-        snackbar.show()
+        snack.show()
+    }
+
+    fun snackInTop(view: View, message: String, duration: Int) {
+        val snack: Snackbar = view?.let {
+            Snackbar
+                .make(it, message, duration)
+        }!!
+        val viewS = snack.view
+        val params = viewS.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        viewS.layoutParams = params
+        snack.show()
     }
 
     fun getStatusName(status: Int, view: View) : String{

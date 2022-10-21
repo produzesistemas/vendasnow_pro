@@ -98,15 +98,16 @@ class LoginActivity : AppCompatActivity(){
         }
 
         viewModelLogin.errorMessage.observe(this) {
-            MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+            MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),
                 it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401) {
                 changeActivity()
             }
 
             if (it.code == 600) {
-                MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+                MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),
                     this.resources.getString(R.string.validation_subscription), Snackbar.LENGTH_LONG)
+                startActivity(Intent(this, SubscriptionActivity::class.java))
             }
 
             binding.imageViewLogin.visibility = View.VISIBLE
