@@ -16,11 +16,11 @@ interface RetrofitService {
     suspend fun login(@Body loginUser: LoginUser): Response<Token>
 
     @Headers("Content-Type:application/json")
-    @POST("account/registerVendasNow")
+    @POST("account/register")
     suspend fun registerUser(@Body loginUser: LoginUser): Response<String>
 
     @Headers("Content-Type:application/json")
-    @POST("account/recoverPasswordVendasNow")
+    @POST("account/recoverPassword")
     suspend fun forgotPassword(@Body loginUser: LoginUser): Response<String>
 
     @Headers("Content-Type:application/json")

@@ -111,6 +111,7 @@
     <string name="validation_subscription">Sua assinatura expirou. Faça uma nova assinatura e continue sendo Pro!</string>
     <string name="validation_new_sale_product">É necessário cadastrar os produtos antes de registrar uma venda</string>
     <string name="error_400">Falha na tentativa!</string>
+    <string name="error_503">Aplicativo fora do ar. Aguarde o retorno!</string>
     <string name="movie_client">bROElv6NCGM</string>
     <string name="movie_product">N11KBDlBIfs</string>
     <string name="movie_sale">cCkYnxzR7WU</string>
@@ -150,5 +151,5 @@
         <item>Gráficos</item>
     </string-array>
 
-    <string name="validation_login">Informe o usuário e senha!</string>
+    <string name="validation_login">Informe o e-mail e senha!</string>
 </resources>

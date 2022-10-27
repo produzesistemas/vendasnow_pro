@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity(){
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
 
                 if ((binding.editTextEmail.text.toString() == "") || (binding.editTextSecret.text.toString() == "")) {
-                    MainUtils.snack(
+                    MainUtils.snackInTop(
                         it,
                         this.resources.getString(R.string.validation_login),
                         Snackbar.LENGTH_LONG
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity(){
                     onLogin(binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
                 }
             } else {
-                MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+                MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
         }
 
@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity(){
         binding.cardViewRegister.setOnClickListener{
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
                 if ((binding.editTextEmailRegister.text.toString() == "") || (binding.editTextSecretRegister.text.toString() == "")) {
-                    MainUtils.snack(
+                    MainUtils.snackInTop(
                         it,
                         this.resources.getString(R.string.validation_login),
                         Snackbar.LENGTH_LONG
@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity(){
                     onRegister(binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
                 }
             } else {
-                MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+                MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
         }
 
@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity(){
         binding.cardViewForgot.setOnClickListener{
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
                 if ((binding.editTextEmailForgot.text.toString() == "") || (binding.editTextSecretForgot.text.toString() == "")) {
-                    MainUtils.snack(
+                    MainUtils.snackInTop(
                         it,
                         this.resources.getString(R.string.validation_login),
                         Snackbar.LENGTH_LONG
@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity(){
                     onForgot(binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
                 }
             } else {
-                MainUtils.snack(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+                MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
         }
 
@@ -105,9 +105,12 @@ class LoginActivity : AppCompatActivity(){
             }
 
             if (it.code == 600) {
-                MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),
-                    this.resources.getString(R.string.validation_subscription), Snackbar.LENGTH_LONG)
                 startActivity(Intent(this, SubscriptionActivity::class.java))
+            }
+
+            if (it.code == 503) {
+                MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),
+                    this.resources.getString(R.string.error_503), Snackbar.LENGTH_LONG)
             }
 
             binding.imageViewLogin.visibility = View.VISIBLE
@@ -126,6 +129,18 @@ class LoginActivity : AppCompatActivity(){
             }
         })
 
+        viewModelLogin.loadingRegister.observe(this, {
+            if (it) {
+                binding.imageViewRegister.visibility = View.GONE
+                binding.textViewRegister.visibility = View.GONE
+                binding.progressBarRegister.visibility = View.VISIBLE
+            } else {
+                binding.progressBarRegister.visibility = View.GONE
+                binding.imageViewRegister.visibility = View.VISIBLE
+                binding.textViewRegister.visibility = View.VISIBLE
+            }
+        })
+
         viewModelLogin.token.observe(this, {
             datasource?.deleteAll()
             datasource?.insert(it)
@@ -133,7 +148,7 @@ class LoginActivity : AppCompatActivity(){
         })
 
         viewModelLogin.msg.observe(this, {
-            MainUtils.snack(window.decorView.findViewById(android.R.id.content),
+            MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),
                 it, Snackbar.LENGTH_LONG)
         })
 

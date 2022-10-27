@@ -1,3 +1,3 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.model
 
-data class LoginUser(val email: String, val secret: String)
+data class LoginUser(val email: String, val secret: String, val appName: String)

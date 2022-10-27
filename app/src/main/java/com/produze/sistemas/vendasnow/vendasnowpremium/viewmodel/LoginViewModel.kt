@@ -27,6 +27,7 @@ class LoginViewModel constructor() : ViewModel() {
     var job: Job? = null
 
     val loading = MutableLiveData<Boolean>()
+    val loadingRegister = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
     val msg = MutableLiveData<String>()
     val token = MutableLiveData<Token>()
@@ -63,22 +64,21 @@ class LoginViewModel constructor() : ViewModel() {
     }
 
     fun register(email: String, secret: String) {
-        loading.value = true
+        loadingRegister.value = true
         viewModelScope.launch {
             when (val response = loginRepository.register(email, secret)) {
                 is NetworkState.Success -> {
-                    loading.value = false
+                    loadingRegister.value = false
                     msg.value = response.data!!
                 }
                 is NetworkState.Error -> {
-                    if (response.response.code() == 401) {
-                        loading.value = false
-                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
-                    }
-
                     if (response.response.code() == 400) {
-                        loading.value = false
+                        loadingRegister.value = false
                         onError(response.response.errorBody()!!.string(), 400)
+                    }
+                    if (response.response.code() == 503) {
+                        loadingRegister.value = false
+                        onError("", 503)
                     }
                 }
             }
@@ -94,11 +94,6 @@ class LoginViewModel constructor() : ViewModel() {
                     msg.value = response.data!!
                 }
                 is NetworkState.Error -> {
-                    if (response.response.code() == 401) {
-                        loading.value = false
-                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
-                    }
-
                     if (response.response.code() == 400) {
                         loading.value = false
                         onError(response.response.errorBody()!!.string(), 400)
