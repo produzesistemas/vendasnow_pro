@@ -36,6 +36,7 @@
 
     <string name="hint_email">Informe o email</string>
     <string name="hint_secret">Informe a senha</string>
+    <string name="hint_new_secret">Informe a nova senha</string>
     <string name="hint_new_client">Informe o nome do Cliente</string>
     <string name="hint_new_telephone">Informe o Telefone</string>
     <string name="hint_quantity">Informe a quantidade</string>

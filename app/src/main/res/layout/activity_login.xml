@@ -421,7 +421,7 @@
 
                 <EditText
                     android:id="@+id/editTextSecretForgot"
-                    android:hint="@string/hint_secret"
+                    android:hint="@string/hint_new_secret"
                     android:inputType="textPassword"
                     style="@style/SearchViewStyle"
                     android:background="@drawable/custom_background_search_view"
