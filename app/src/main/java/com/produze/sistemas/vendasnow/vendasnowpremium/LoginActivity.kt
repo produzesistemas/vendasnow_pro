@@ -104,9 +104,9 @@ class LoginActivity : AppCompatActivity(){
                 changeActivity()
             }
 
-            if (it.code == 600) {
-                startActivity(Intent(this, SubscriptionActivity::class.java))
-            }
+//            if (it.code == 600) {
+//                startActivity(Intent(this, SubscriptionActivity::class.java))
+//            }
 
             if (it.code == 503) {
                 MainUtils.snackInTop(window.decorView.findViewById(android.R.id.content),

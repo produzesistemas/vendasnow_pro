@@ -19,6 +19,7 @@ import androidx.core.view.MenuItemCompat
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
@@ -87,6 +88,11 @@ class FragmentClient : Fragment() {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401) {
                 changeActivity()
+            }
+
+            if (it.code == 600) {
+                view?.findNavController()?.navigate(R.id.nav_subscription)
+//                startActivity(Intent(this, SubscriptionActivity::class.java))
             }
         }
 

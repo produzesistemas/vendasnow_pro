@@ -54,6 +54,11 @@ class ClientViewModel constructor() : ViewModel() {
                         loading.value = false
                         onError("Falha na tentativa.", 400)
                     }
+
+                    if (response.response.code() == 600) {
+                        loading.value = false
+                        onError("", 600)
+                    }
                 }
             }
         }

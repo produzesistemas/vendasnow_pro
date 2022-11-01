@@ -23,10 +23,6 @@ interface RetrofitService {
     @POST("account/recoverPassword")
     suspend fun forgotPassword(@Body loginUser: LoginUser): Response<String>
 
-    @Headers("Content-Type:application/json")
-    @POST("client/getPagination")
-    suspend fun getPaginationClients(@Header("Authorization") token: String, @Body filter: FilterDefault): Response<List<Client>>
-
     @POST("client/save")
     suspend fun saveClient(@Header("Authorization") token: String, @Body client: Client): Response<Void>
 

@@ -7,20 +7,6 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.retrofit.RetrofitService
 
 class SaleRepository constructor(private val retrofitService: RetrofitService) {
 
-    suspend fun getAll(token: String) : NetworkState<List<Sale>> {
-        val response = retrofitService.getAllSale(token)
-        return if (response.isSuccessful) {
-            val responseBody = response.body()
-            if (responseBody != null) {
-                NetworkState.Success(responseBody)
-            } else {
-                NetworkState.Error(response)
-            }
-        } else {
-            NetworkState.Error(response)
-        }
-    }
-
     suspend fun getAllByMonthAndYear(token: String, filter: FilterDefault) : NetworkState<List<Sale>> {
         val response = retrofitService.getAllByMonthAndYear(token, filter)
         return if (response.isSuccessful) {
