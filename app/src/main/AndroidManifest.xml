@@ -42,12 +42,6 @@
             android:parentActivityName=".MainActivity" >
         </activity>
 
-        <activity
-            android:name=".SubscriptionActivity"
-            android:label="@string/menu_subscription"
-            android:parentActivityName=".LoginActivity" >
-        </activity>
-
         <receiver
             android:name=".services.AlarmReceiver"
             android:enabled="true"

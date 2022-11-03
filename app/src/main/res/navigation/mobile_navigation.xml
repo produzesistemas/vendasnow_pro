@@ -89,5 +89,10 @@
         android:label="@string/menu_accounts_receivable"
         tools:layout="@layout/fragment_detail_account_receivable" />
 
+    <fragment
+        android:id="@+id/nav_subscription"
+        android:name="com.produze.sistemas.vendasnow.vendasnowpremium.ui.subscription.FragmentSubscription"
+        android:label="@string/menu_new_sale"
+        tools:layout="@layout/fragment_new_sale" />
 
 </navigation>
