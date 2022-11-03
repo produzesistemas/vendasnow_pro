@@ -154,10 +154,6 @@ class LoginActivity : AppCompatActivity(){
 
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
 
     override fun onBackPressed() {
         finishAffinity()
