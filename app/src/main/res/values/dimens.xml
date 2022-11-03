@@ -12,6 +12,8 @@
     <dimen name="height_input">30dp</dimen>
     <dimen name="height_button">60dp</dimen>
     <dimen name="height_card_panel">65dp</dimen>
+    <dimen name="height_card_panel_alert">100dp</dimen>
+
     <dimen name="height_card_panel_small">45dp</dimen>
     <dimen name="margin_default">8dp</dimen>
     <dimen name="margin_default_start_end">6dp</dimen>

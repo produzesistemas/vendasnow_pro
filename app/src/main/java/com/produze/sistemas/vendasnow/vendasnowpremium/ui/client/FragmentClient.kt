@@ -85,14 +85,12 @@ class FragmentClient : Fragment() {
         }
 
         clientViewModel.errorMessage.observe(this) {
-            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401) {
+                MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
                 changeActivity()
             }
-
             if (it.code == 600) {
                 view?.findNavController()?.navigate(R.id.nav_subscription)
-//                startActivity(Intent(this, SubscriptionActivity::class.java))
             }
         }
 

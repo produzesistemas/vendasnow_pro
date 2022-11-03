@@ -73,7 +73,7 @@ private var datasource: DataSourceUser? = null
             val navView: NavigationView = findViewById(R.id.nav_view)
             val navController = findNavController(R.id.nav_host_fragment)
             appBarConfiguration = AppBarConfiguration(setOf(
-                    R.id.nav_home, R.id.nav_client, R.id.nav_product, R.id.nav_sale, R.id.nav_graphic, R.id.nav_account_receivable, R.id.nav_about), drawerLayout)
+                    R.id.nav_home, R.id.nav_client, R.id.nav_product, R.id.nav_sale, R.id.nav_graphic, R.id.nav_account_receivable, R.id.nav_about, R.id.nav_subscription), drawerLayout)
             setupActionBarWithNavController(navController, appBarConfiguration)
             navView.setupWithNavController(navController)
 

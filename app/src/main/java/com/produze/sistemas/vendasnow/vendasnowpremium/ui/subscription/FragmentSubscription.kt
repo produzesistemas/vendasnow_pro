@@ -21,12 +21,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSubscriptionBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterClient
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterPlan
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleProduct
-import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.AdapterSaleService
+import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
+import com.smarteist.autoimageslider.SliderView
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -42,6 +40,10 @@ class FragmentSubscription : Fragment(){
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
     private lateinit var adapterPlan: AdapterPlan
+    lateinit var imageUrl: ArrayList<String>
+    lateinit var sliderView: SliderView
+    lateinit var sliderAdapter: SliderAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,7 +74,39 @@ class FragmentSubscription : Fragment(){
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
         } ?: throw Throwable("invalid activity")
-        viewModelMain.updateActionBarTitle(getString(R.string.menu_new_sale))
+        viewModelMain.updateActionBarTitle(getString(R.string.menu_subscription))
+
+        imageUrl = ArrayList()
+        imageUrl =
+            (imageUrl + "https://produzesistemas.com.br/assets/item1.jpg") as ArrayList<String>
+        imageUrl =
+            (imageUrl + "https://produzesistemas.com.br/assets/item2.jpg") as ArrayList<String>
+        imageUrl =
+            (imageUrl + "https://produzesistemas.com.br/assets/item3.jpg") as ArrayList<String>
+        imageUrl =
+            (imageUrl + "https://produzesistemas.com.br/assets/item4.jpg") as ArrayList<String>
+        imageUrl =
+            (imageUrl + "https://produzesistemas.com.br/assets/item5.jpg") as ArrayList<String>
+
+        sliderAdapter = SliderAdapter( imageUrl)
+        // on below line we are setting auto cycle direction
+        // for our slider view from left to right.
+        binding.slider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
+
+        // on below line we are setting adapter for our slider.
+        binding.slider.setSliderAdapter(sliderAdapter)
+
+        // on below line we are setting scroll time
+        // in seconds for our slider view.
+        binding.slider.scrollTimeInSec = 3
+
+        // on below line we are setting auto cycle
+        // to true to auto slide our items.
+        binding.slider.isAutoCycle = true
+
+        // on below line we are calling start
+        // auto cycle to start our cycle.
+        binding.slider.startAutoCycle()
 
         viewModel.errorMessage.observe(this) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
