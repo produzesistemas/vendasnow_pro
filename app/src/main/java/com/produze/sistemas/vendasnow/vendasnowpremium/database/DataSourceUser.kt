@@ -6,6 +6,9 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import java.lang.Exception
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DataSourceUser constructor(context: Context){
     private val dbHelper = SqliteHelper(context)
@@ -30,6 +33,7 @@ class DataSourceUser constructor(context: Context){
                 put("token", "bearer " + user.token)
                 put("userName", user.userName)
                 put("role", user.role)
+                put("subscriptionDate", user.subscriptionDate.toString())
             }
             database?.insert("User", null, values)
         }
@@ -60,6 +64,13 @@ class DataSourceUser constructor(context: Context){
                     token.userName = getString(getColumnIndexOrThrow("userName"))
                     token.token = getString(getColumnIndexOrThrow("token"))
                     token.role = getString(getColumnIndexOrThrow("role"))
+                    val strdata: String = getString(getColumnIndexOrThrow("subscriptionDate"))
+                    val format = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                    try {
+                        token.subscriptionDate = format.parse(strdata)
+                    } catch (e: ParseException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 

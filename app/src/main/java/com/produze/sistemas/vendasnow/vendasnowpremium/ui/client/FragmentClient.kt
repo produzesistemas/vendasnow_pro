@@ -26,6 +26,13 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+
+import io.jsonwebtoken.security.Keys
+
+
+
 
 class FragmentClient : Fragment() {
 
@@ -63,6 +70,10 @@ class FragmentClient : Fragment() {
         token = datasource?.get()!!
         if (token.token == "") {
 
+        } else {
+            if (token.subscriptionDate?.let { MainUtils.checkSubscription(it) } == true) {
+                view?.findNavController()?.navigate(R.id.nav_subscription)
+            }
         }
         clientViewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
 
@@ -169,6 +180,10 @@ class FragmentClient : Fragment() {
             val intent = Intent (it, LoginActivity::class.java)
             it.startActivity(intent)
         }
+    }
+
+    private fun checkSubscription(token: String) {
+
     }
 
 }

@@ -3,13 +3,18 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Base64.URL_SAFE
+import android.util.Base64.decode
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
+import java.io.UnsupportedEncodingException
+import java.lang.Exception
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -135,5 +140,12 @@ object MainUtils {
         return str
     }
 
+    fun checkSubscription(subscriptionDate: Date): Boolean {
+        var check: Boolean = false
+        if (Date().after(subscriptionDate)) {
+            check = true
+        }
 
+        return check
+    }
 }

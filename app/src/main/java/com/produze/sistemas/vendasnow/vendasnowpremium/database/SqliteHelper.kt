@@ -10,6 +10,7 @@ class SqliteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
             "token TEXT," +
             " email TEXT," +
             " userName TEXT," +
+            " subscriptionDate TEXT," +
             " role TEXT)"
 
     private val deleteTableUser = "DROP TABLE IF EXISTS User"
