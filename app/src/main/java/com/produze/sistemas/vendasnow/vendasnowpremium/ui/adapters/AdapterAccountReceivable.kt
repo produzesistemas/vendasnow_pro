@@ -56,8 +56,6 @@ class AdapterAccountReceivable (private val lst: List<Account>,
             binding.cardViewSale.setOnClickListener {
                 account = lst[position]
                 viewModelDetailAccountReceivable.selectedAccount(account)
-//                viewModelDetailAccountReceivable.selectedYear(year)
-//                viewModelDetailAccountReceivable.selectedMonth(month)
                 when (it.id) {
                     R.id.cardViewSale -> it?.findNavController()?.navigate(R.id.nav_detail_account_receivable)
                 }

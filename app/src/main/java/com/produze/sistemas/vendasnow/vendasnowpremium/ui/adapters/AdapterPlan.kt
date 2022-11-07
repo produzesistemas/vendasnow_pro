@@ -36,6 +36,7 @@ class AdapterPlan(private val lst: List<Plan>, var viewModel: SubscriptionViewMo
             RecyclerView.ViewHolder(binding.root) {
         fun bind(lst: List<Plan>, position: Int) {
             binding.textViewLabel.text = lst[position].description
+            binding.textViewValue.text = nFormat.format(lst[position].value)
 //            binding.cardView.setBackgroundResource(R.drawable.custom_background_cardview_border_green)
 //            binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
 //            binding.imageView.setColorFilter(itemView.resources.getColor(R.color.green))
