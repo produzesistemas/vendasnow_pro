@@ -41,9 +41,11 @@ class AdapterPlan(private val lst: List<Plan>, var viewModel: SubscriptionViewMo
 //            binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
 //            binding.imageView.setColorFilter(itemView.resources.getColor(R.color.green))
 //
-//            binding.cardView.setOnClickListener {
-//
-//            }
+            binding.cardView.setOnClickListener {
+                binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.green))
+                binding.textViewValue.setTextColor(itemView.resources.getColor(R.color.green))
+                viewModel.selectPlan(lst[position])
+            }
         }
 
     }

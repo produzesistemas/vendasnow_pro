@@ -27,6 +27,7 @@ class SubscriptionViewModel constructor() : ViewModel() {
 
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
+    val plan = MutableLiveData<Plan>()
 
     fun getAllPlan() {
         loading.value = true
@@ -54,6 +55,10 @@ class SubscriptionViewModel constructor() : ViewModel() {
 
     fun setCompleteFalse() {
         complete.value = false
+    }
+
+    fun selectPlan(selectedPlan: Plan) {
+         plan.value = selectedPlan
     }
 
     private fun onError(message: String, code: Int) {

@@ -39,6 +39,7 @@ class FragmentSubscription : Fragment(){
     private lateinit var viewModelMain: ViewModelMain
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
+    private lateinit var selectedPlan: Plan
     private lateinit var adapterPlan: AdapterPlan
     lateinit var imageUrl: ArrayList<String>
     lateinit var sliderView: SliderView
@@ -136,6 +137,10 @@ class FragmentSubscription : Fragment(){
                 adapter = adapterPlan
                 layoutManager = LinearLayoutManager(context)
             }
+        }
+
+        viewModel.plan.observe(this) {
+            this.selectedPlan = it
         }
 
         viewModel.getAllPlan()

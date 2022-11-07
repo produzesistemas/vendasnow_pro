@@ -72,7 +72,11 @@ class FragmentAccountReceivable : Fragment() {
         datasource = context?.let { DataSourceUser(it) }
         token = datasource?.get()!!
         if (token.token == "") {
-
+            changeActivity()
+        } else {
+            if (token.subscriptionDate?.let { MainUtils.checkSubscription(it) } == true) {
+                view?.findNavController()?.navigate(R.id.nav_subscription)
+            }
         }
         viewModelAccountReceivable = ViewModelProvider(this).get(AccountReceivableViewModel::class.java)
         viewModelDetailSale = ViewModelProvider(this).get(ViewModelDetailSale::class.java)

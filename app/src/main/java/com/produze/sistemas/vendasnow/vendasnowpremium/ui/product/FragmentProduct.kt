@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -63,7 +64,11 @@ class FragmentProduct : Fragment() {
         datasource = context?.let { DataSourceUser(it) }
         token = datasource?.get()!!
         if (token.token == "") {
-
+            changeActivity()
+        } else {
+            if (token.subscriptionDate?.let { MainUtils.checkSubscription(it) } == true) {
+                view?.findNavController()?.navigate(R.id.nav_subscription)
+            }
         }
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         adapterProduct = AdapterProduct(arrayListOf(), viewModel)
