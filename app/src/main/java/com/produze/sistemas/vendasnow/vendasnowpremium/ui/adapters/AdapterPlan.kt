@@ -38,8 +38,11 @@ class AdapterPlan(private val lst: List<Plan>, var viewModel: SubscriptionViewMo
             binding.cardView.setBackgroundResource(R.drawable.custom_background_panel_green)
             binding.textViewLabel.setTextColor(itemView.resources.getColor(R.color.white))
             binding.textViewValue.setTextColor(itemView.resources.getColor(R.color.white))
-            binding.radioButtonPlan.isChecked = (position == selectedPosition)
+            binding.radioButtonPlan.isChecked = (position === selectedPosition)
             binding.radioButtonPlan.setOnClickListener {
+                binding.radioButtonPlan.isChecked = true
+                selectedPosition = position
+                notifyDataSetChanged()
                 viewModel.selectPlan(lst[position])
             }
 //            binding.cardView.setOnClickListener {
