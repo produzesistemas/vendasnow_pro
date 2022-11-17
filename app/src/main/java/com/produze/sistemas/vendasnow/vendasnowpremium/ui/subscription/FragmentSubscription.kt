@@ -109,7 +109,9 @@ class FragmentSubscription : Fragment(){
         // auto cycle to start our cycle.
         binding.slider.startAutoCycle()
 
-        viewModel.errorMessage.observe(this) {
+        binding.cardViewSelectedPlan.visibility = View.GONE
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401 || it.code == 600) {
                 changeActivity()
@@ -117,21 +119,21 @@ class FragmentSubscription : Fragment(){
 
         }
 
-        viewModel.loading.observe(this, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBarPlan.visibility = View.VISIBLE
             } else {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBarPlan.visibility = View.GONE
             }
         })
 
-        viewModel.complete.observe(this, Observer {
+        viewModel.complete.observe(viewLifecycleOwner, Observer {
             if (it) {
                 changeActivity()
             }
         })
 
-        viewModel.plans.observe(this) {
+        viewModel.plans.observe(viewLifecycleOwner) {
             adapterPlan  = AdapterPlan((it), viewModel)
             binding.recyclerView.apply {
                 adapter = adapterPlan
@@ -139,7 +141,11 @@ class FragmentSubscription : Fragment(){
             }
         }
 
-        viewModel.plan.observe(this) {
+        viewModel.plan.observe(viewLifecycleOwner) {
+            binding.cardView.visibility = View.GONE
+            binding.constraintLayoutSlider.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
+            binding.cardViewSelectedPlan.visibility = View.VISIBLE
             this.selectedPlan = it
         }
 
