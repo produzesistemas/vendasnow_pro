@@ -100,6 +100,7 @@
     <string name="label_panel_account_to_receive">Total geral de contas recebidas no mês</string>
     <string name="label_panel_sales">Total geral de vendas no mês</string>
     <string name="msg_delete_item">Deseja excluir o item?</string>
+    <string name="label_plan_selected">Plano selecionado</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
     <string name="validation_quantity_and_value">Informe o valor</string>

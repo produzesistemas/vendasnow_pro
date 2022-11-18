@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayout"
@@ -101,6 +101,17 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/textViewLabelSelectedPlan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="@string/label_plan_selected"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewOk" />
+
+                    <TextView
                         android:id="@+id/textViewSelectedPlan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,7 +119,7 @@
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewOk" />
+                        app:layout_constraintTop_toBottomOf="@+id/textViewLabelSelectedPlan" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -171,6 +182,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/menu_bottom_subscription"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

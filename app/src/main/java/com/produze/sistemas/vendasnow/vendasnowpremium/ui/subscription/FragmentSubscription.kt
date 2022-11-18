@@ -39,7 +39,7 @@ class FragmentSubscription : Fragment(){
     private lateinit var viewModelMain: ViewModelMain
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
-    private lateinit var selectedPlan: Plan
+    private var selectedPlan: Plan? = null
     private lateinit var adapterPlan: AdapterPlan
     lateinit var imageUrl: ArrayList<String>
     lateinit var sliderView: SliderView
@@ -110,6 +110,7 @@ class FragmentSubscription : Fragment(){
         binding.slider.startAutoCycle()
 
         binding.cardViewSelectedPlan.visibility = View.GONE
+        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
@@ -146,6 +147,7 @@ class FragmentSubscription : Fragment(){
             binding.constraintLayoutSlider.visibility = View.GONE
             binding.recyclerView.visibility = View.GONE
             binding.cardViewSelectedPlan.visibility = View.VISIBLE
+            binding.textViewSelectedPlan.text = it.description + " / " + nFormat.format(it.value)
             this.selectedPlan = it
         }
 
@@ -161,6 +163,21 @@ class FragmentSubscription : Fragment(){
             val intent = Intent (it, LoginActivity::class.java)
             it.startActivity(intent)
         }
+    }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.navigation_cancel -> {
+                binding.cardView.visibility = View.VISIBLE
+                binding.constraintLayoutSlider.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.cardViewSelectedPlan.visibility = View.GONE
+                binding.textViewSelectedPlan.text = ""
+                this.selectedPlan = null
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
     }
 
 
