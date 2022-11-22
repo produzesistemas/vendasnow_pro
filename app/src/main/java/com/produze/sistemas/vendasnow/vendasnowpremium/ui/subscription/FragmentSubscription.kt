@@ -1,35 +1,29 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.subscription
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.webkit.WebView
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
-import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentNewSaleBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSubscriptionBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
 import com.smarteist.autoimageslider.SliderView
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FragmentSubscription : Fragment(){
@@ -174,6 +168,18 @@ class FragmentSubscription : Fragment(){
                 binding.cardViewSelectedPlan.visibility = View.GONE
                 binding.textViewSelectedPlan.text = ""
                 this.selectedPlan = null
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.navigation_confirm -> {
+
+                var creditCard = CreditCard()
+                creditCard.cardNumber = "123456"
+
+                binding.webView.settings.javaScriptEnabled = true
+                binding.webView.addJavascriptInterface(creditCard, "Android")
+                binding.webView.loadUrl("file:///android_asset/index.html")
+
                 return@OnNavigationItemSelectedListener true
             }
         }

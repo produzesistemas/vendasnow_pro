@@ -89,19 +89,19 @@ class DialogNewProduct(private var viewModel: ProductViewModel,
             }
         }
 
-        viewModel.loading.observe(this, {
+        viewModel.loading.observe(this) {
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
             }
-        })
+        }
 
-        viewModel.complete.observe(this, {
+        viewModel.complete.observe(this) {
             if (it) {
                 dismiss()
             }
-        })
+        }
         return binding.root
     }
 
