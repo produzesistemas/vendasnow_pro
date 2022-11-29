@@ -9,10 +9,18 @@
 <p id="demo">Hi.</p>
 
 <script>
-const mp = new MercadoPago("TEST-cb49a4d8-6b0b-4614-8b8e-7d4ebbd04540");
 
-const cardForm = mp.cardForm();
-cardForm.amount = "100.5";
+        $(document).ready(function() {
+                        document.getElementById("demo").innerHTML = "Teste1";
+                const mp = new MercadoPago("TEST-cb49a4d8-6b0b-4614-8b8e-7d4ebbd04540");
+document.getElementById("demo").innerHTML = "Teste2";
+                const cardForm = mp.cardForm();
+            document.getElementById("demo").innerHTML = "Teste3";
+<!--                cardForm.amount = "100.5";-->
+
+
+        });
+
 
 <!--const cardForm = mp.cardForm({-->
 <!--amount: "100.5",-->
@@ -75,7 +83,7 @@ cardForm.amount = "100.5";
 <!--identificationType,-->
 <!--} = cardForm.getCardFormData();-->
 
-document.getElementById("demo").innerHTML = cardForm.amount;
+
 
 <!--fetch("/process_payment", {-->
 <!--method: "POST",-->
