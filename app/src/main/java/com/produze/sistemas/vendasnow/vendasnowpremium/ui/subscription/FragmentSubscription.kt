@@ -178,7 +178,7 @@ class FragmentSubscription : Fragment(){
 
                 binding.webView.settings.javaScriptEnabled = true
                 binding.webView.addJavascriptInterface(creditCard, "Android")
-                binding.webView.loadUrl("file:///android_asset/index.html")
+                binding.webView.loadUrl("file:///android_asset/mercadopago.html")
 
                 return@OnNavigationItemSelectedListener true
             }
