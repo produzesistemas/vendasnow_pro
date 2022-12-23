@@ -81,4 +81,5 @@ dependencies {
             //'org.bouncycastle:bcprov-jdk15on:1.70',
             'io.jsonwebtoken:jjwt-gson:0.11.5' // or 'io.jsonwebtoken:jjwt-gson:0.11.5' for gson
 
+//    implementation 'com.github.danielgunna:PagarMe-Android:0.0.3'
 }

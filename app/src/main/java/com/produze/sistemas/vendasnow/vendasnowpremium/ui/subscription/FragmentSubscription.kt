@@ -3,8 +3,8 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.subscription
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.webkit.WebView
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -18,6 +18,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSubscriptionBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
+import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeAndroid
+import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeAndroid.PagarMeListener
+import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeRequest
+import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeResponse
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
@@ -173,12 +177,33 @@ class FragmentSubscription : Fragment(){
 
             R.id.navigation_confirm -> {
 
-                var creditCard = CreditCard()
-                creditCard.cardNumber = "123456"
+//                var creditCard = CreditCard()
+//                creditCard.cardNumber = "123456"
+//
+//                binding.webView.settings.javaScriptEnabled = true
+//                binding.webView.addJavascriptInterface(creditCard, "Android")
+//                binding.webView.loadUrl("file:///android_asset/mercadopago.html")
 
-                binding.webView.settings.javaScriptEnabled = true
-                binding.webView.addJavascriptInterface(creditCard, "Android")
-                binding.webView.loadUrl("file:///android_asset/mercadopago.html")
+                PagarMeAndroid.initialize("pk_weQ4owu0GSPx4yNJ");
+                PagarMeAndroid.getsInstance()
+                    ?.cvv("123")
+                    ?.expirationDate("12/25")
+                    ?.holderName("Daniel Gunna")
+                    ?.number("4000000000000010")
+                    ?.generateCardHash(object : PagarMeListener {
+                        override fun onSuccess(
+                            pagarMeRequest: PagarMeRequest?,
+                            pagarMeResponse: PagarMeResponse?, cardHash: String?
+                        ) {
+                            if (cardHash != null) {
+                                Log.d("CardHash generated : ", cardHash)
+                            }
+                        }
+
+                        override fun onError(e: Exception?) {
+                            Log.d("CardHash error : ", e.toString())
+                        }
+                    })
 
                 return@OnNavigationItemSelectedListener true
             }

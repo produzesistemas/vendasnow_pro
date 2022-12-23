@@ -26,10 +26,10 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
-
-import io.jsonwebtoken.security.Keys
+//import io.jsonwebtoken.Jwts
+//import io.jsonwebtoken.SignatureAlgorithm
+//
+//import io.jsonwebtoken.security.Keys
 
 
 
@@ -86,7 +86,7 @@ class FragmentClient : Fragment() {
         } ?: throw Throwable("invalid activity")
         viewModelMain.updateActionBarTitle(getString(R.string.menu_client))
 
-        clientViewModel.lst.observe(this) {
+        clientViewModel.lst.observe(viewLifecycleOwner) {
             adapterClient  = AdapterClient((it).sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name })), clientViewModel)
             binding.recyclerView.apply {
                 adapter = adapterClient
@@ -95,7 +95,7 @@ class FragmentClient : Fragment() {
             binding.progressBar.visibility = View.GONE
         }
 
-        clientViewModel.errorMessage.observe(this) {
+        clientViewModel.errorMessage.observe(viewLifecycleOwner) {
             if (it.code == 401) {
                 MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
                 changeActivity()
@@ -105,7 +105,7 @@ class FragmentClient : Fragment() {
             }
         }
 
-        clientViewModel.loading.observe(this, Observer {
+        clientViewModel.loading.observe(viewLifecycleOwner, Observer {
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
@@ -113,7 +113,7 @@ class FragmentClient : Fragment() {
             }
         })
 
-        clientViewModel.complete.observe(this, Observer {
+        clientViewModel.complete.observe(viewLifecycleOwner, Observer {
             if (it) {
                 clientViewModel.getAll(token.token)
             }
