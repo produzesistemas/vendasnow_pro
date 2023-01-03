@@ -101,6 +101,8 @@
     <string name="label_panel_sales">Total geral de vendas no mês</string>
     <string name="msg_delete_item">Deseja excluir o item?</string>
     <string name="label_plan_selected">Plano selecionado</string>
+    <string name="label_credit_card">Cartão de crédito</string>
+    <string name="label_debit_card">Cartão de débito</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
     <string name="validation_quantity_and_value">Informe o valor</string>
@@ -118,6 +120,7 @@
     <string name="movie_product">N11KBDlBIfs</string>
     <string name="movie_sale">cCkYnxzR7WU</string>
     <string name="movie_account">GWEVYgSnfuU</string>
+
 
     <string-array name="ArrayPayment">
         <item>1,Dinheiro</item>

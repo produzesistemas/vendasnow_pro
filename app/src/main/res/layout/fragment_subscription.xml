@@ -16,8 +16,7 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayout"
@@ -125,14 +124,38 @@
 
             </androidx.cardview.widget.CardView>
 
-            <WebView
-                android:id="@+id/web_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutRadio"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardViewSelectedPlan" />
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent">
 
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_default_start_end"
+                    android:layout_marginEnd="@dimen/margin_default_start_end"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonCreditCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_credit_card" />
+
+                    <RadioButton
+                        android:id="@+id/radioButtonDebitCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_debit_card" />
+
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutSlider"
                 android:layout_width="match_parent"
@@ -165,7 +188,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -174,7 +196,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayoutSlider" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
@@ -188,19 +209,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:menu="@menu/menu_bottom_subscription"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

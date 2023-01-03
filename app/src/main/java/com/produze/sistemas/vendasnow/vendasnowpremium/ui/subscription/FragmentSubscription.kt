@@ -18,10 +18,6 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentSubscriptionBinding
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
-import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeAndroid
-import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeAndroid.PagarMeListener
-import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeRequest
-import com.produze.sistemas.vendasnow.vendasnowpremium.pagarme.PagarMeResponse
 import com.produze.sistemas.vendasnow.vendasnowpremium.ui.adapters.*
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.*
@@ -32,6 +28,7 @@ import java.util.*
 
 class FragmentSubscription : Fragment(){
     private lateinit var viewModel: SubscriptionViewModel
+    private lateinit var viewModelCielo: CieloViewModel
     private lateinit var binding: FragmentSubscriptionBinding
     val nFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
     private lateinit var viewModelMain: ViewModelMain
@@ -40,7 +37,7 @@ class FragmentSubscription : Fragment(){
     private var selectedPlan: Plan? = null
     private lateinit var adapterPlan: AdapterPlan
     lateinit var imageUrl: ArrayList<String>
-    lateinit var sliderView: SliderView
+//    lateinit var sliderView: SliderView
     lateinit var sliderAdapter: SliderAdapter
 
     override fun onCreateView(
@@ -69,6 +66,7 @@ class FragmentSubscription : Fragment(){
 
         }
         viewModel = ViewModelProvider(this).get(SubscriptionViewModel::class.java)
+        viewModelCielo = ViewModelProvider(this)[CieloViewModel::class.java]
         adapterPlan = AdapterPlan(arrayListOf(), viewModel)
         activity?.run {
             viewModelMain = ViewModelProvider(this).get(ViewModelMain::class.java)
@@ -108,7 +106,7 @@ class FragmentSubscription : Fragment(){
         binding.slider.startAutoCycle()
 
         binding.cardViewSelectedPlan.visibility = View.GONE
-        binding.bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding.constraintLayoutRadio.visibility = View.GONE
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
@@ -124,6 +122,10 @@ class FragmentSubscription : Fragment(){
             } else {
                 binding.progressBarPlan.visibility = View.GONE
             }
+        })
+
+        viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
+                Log.d("AppBeauty", it.toString())
         })
 
         viewModel.complete.observe(viewLifecycleOwner, Observer {
@@ -145,6 +147,7 @@ class FragmentSubscription : Fragment(){
             binding.constraintLayoutSlider.visibility = View.GONE
             binding.recyclerView.visibility = View.GONE
             binding.cardViewSelectedPlan.visibility = View.VISIBLE
+            binding.constraintLayoutRadio.visibility = View.VISIBLE
             binding.textViewSelectedPlan.text = it.description + " / " + nFormat.format(it.value)
             this.selectedPlan = it
         }
@@ -162,56 +165,6 @@ class FragmentSubscription : Fragment(){
             it.startActivity(intent)
         }
     }
-
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
-        when (menuItem.itemId) {
-            R.id.navigation_cancel -> {
-                binding.cardView.visibility = View.VISIBLE
-                binding.constraintLayoutSlider.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.cardViewSelectedPlan.visibility = View.GONE
-                binding.textViewSelectedPlan.text = ""
-                this.selectedPlan = null
-                return@OnNavigationItemSelectedListener true
-            }
-
-            R.id.navigation_confirm -> {
-
-//                var creditCard = CreditCard()
-//                creditCard.cardNumber = "123456"
-//
-//                binding.webView.settings.javaScriptEnabled = true
-//                binding.webView.addJavascriptInterface(creditCard, "Android")
-//                binding.webView.loadUrl("file:///android_asset/mercadopago.html")
-
-                PagarMeAndroid.initialize("pk_weQ4owu0GSPx4yNJ");
-                PagarMeAndroid.getsInstance()
-                    ?.cvv("123")
-                    ?.expirationDate("12/25")
-                    ?.holderName("Daniel Gunna")
-                    ?.number("4000000000000010")
-                    ?.generateCardHash(object : PagarMeListener {
-                        override fun onSuccess(
-                            pagarMeRequest: PagarMeRequest?,
-                            pagarMeResponse: PagarMeResponse?, cardHash: String?
-                        ) {
-                            if (cardHash != null) {
-                                Log.d("CardHash generated : ", cardHash)
-                            }
-                        }
-
-                        override fun onError(e: Exception?) {
-                            Log.d("CardHash error : ", e.toString())
-                        }
-                    })
-
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
-
-
     }
 
 

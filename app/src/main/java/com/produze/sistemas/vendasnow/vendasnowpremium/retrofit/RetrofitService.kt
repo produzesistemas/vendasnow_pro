@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -69,7 +70,6 @@ interface RetrofitService {
 
     @GET("plan/getAll")
     suspend fun getAllPlan(): Response<List<Plan>>
-
 
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
