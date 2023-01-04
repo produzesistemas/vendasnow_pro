@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.produze.sistemas.vendasnow.vendasnowpremium.LoginActivity
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
@@ -107,6 +106,7 @@ class FragmentSubscription : Fragment(){
 
         binding.cardViewSelectedPlan.visibility = View.GONE
         binding.constraintLayoutRadio.visibility = View.GONE
+        binding.constraintLayoutCard.visibility = View.GONE
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
@@ -128,6 +128,22 @@ class FragmentSubscription : Fragment(){
                 Log.d("AppBeauty", it.toString())
         })
 
+        viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.progressBarConfirm.visibility = View.VISIBLE
+            } else {
+                binding.progressBarConfirm.visibility = View.GONE
+            }
+        })
+
+        viewModelCielo.errorMessage.observe(viewLifecycleOwner) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401 || it.code == 600) {
+                changeActivity()
+            }
+
+        }
+
         viewModel.complete.observe(viewLifecycleOwner, Observer {
             if (it) {
                 changeActivity()
@@ -148,8 +164,39 @@ class FragmentSubscription : Fragment(){
             binding.recyclerView.visibility = View.GONE
             binding.cardViewSelectedPlan.visibility = View.VISIBLE
             binding.constraintLayoutRadio.visibility = View.VISIBLE
+            binding.constraintLayoutCard.visibility = View.VISIBLE
             binding.textViewSelectedPlan.text = it.description + " / " + nFormat.format(it.value)
             this.selectedPlan = it
+        }
+
+        binding.cardViewConfirm.setOnClickListener{
+            if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
+                if ((binding.editTextNumberCard.text.toString() == "") ||
+                    (binding.editTextExpiration.text.toString() == "") ||
+                        (binding.editTextHolder.text.toString() == "")){
+                    MainUtils.snackInTop(
+                        it,
+                        this.resources.getString(R.string.validation_card),
+                        Snackbar.LENGTH_LONG
+                    )
+                } else {
+
+                    var card = Card()
+                    card.CardNumber = binding.editTextNumberCard.text.toString()
+                    card.Brand = "Visa"
+                    card.Holder = binding.editTextHolder.text.toString()
+                    card.CustomerName = binding.editTextHolder.text.toString()
+                    card.ExpirationDate = binding.editTextExpiration.text.toString()
+                    viewModelCielo.getCardToken(this.resources.getString(R.string.MerchantId),
+                        this.resources.getString(R.string.MerchantKey),
+                        card
+                    )
+
+                }
+
+            } else {
+                MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
+            }
         }
 
         viewModel.getAllPlan()

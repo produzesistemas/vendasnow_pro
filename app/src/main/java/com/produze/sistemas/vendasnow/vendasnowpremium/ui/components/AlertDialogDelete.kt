@@ -1,7 +1,6 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.components
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast

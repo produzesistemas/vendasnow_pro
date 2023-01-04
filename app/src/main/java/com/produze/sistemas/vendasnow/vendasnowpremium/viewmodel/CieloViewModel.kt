@@ -38,11 +38,11 @@ class CieloViewModel constructor() : ViewModel() {
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
 
-    fun getCardToken(MerchantId: String, MerchantKey: String, contentType: String, card: Card) {
+    fun getCardToken(MerchantId: String, MerchantKey: String, card: Card) {
         loading.value = true
         viewModelScope.launch {
             Log.d("Thread Inside", Thread.currentThread().name)
-            when (val response = cieloRepository.getCardToken(MerchantId, MerchantKey, contentType, card)) {
+            when (val response = cieloRepository.getCardToken(MerchantId, MerchantKey, card)) {
                 is NetworkState.Success -> {
                     responseCard.postValue(response.data!!)
                     loading.value = false
@@ -55,7 +55,7 @@ class CieloViewModel constructor() : ViewModel() {
 
                     if (response.response.code() == 400) {
                         loading.value = false
-                        onError("Falha na tentativa.", 400)
+                        onError(response.response.errorBody()!!.string(), 400)
                     }
                 }
             }

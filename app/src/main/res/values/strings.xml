@@ -7,6 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="MerchantId">52b1e339-f735-4db9-9909-2408f4a23382</string>
+    <string name="MerchantKey">QTXQVXZMTHNJMVNFBCKRXZSGWAYMQQNFKPJPPSMI</string>
+
     <string name="menu_home">Home</string>
     <string name="menu_client">Clientes</string>
     <string name="menu_product">Produtos</string>
@@ -103,6 +106,10 @@
     <string name="label_plan_selected">Plano selecionado</string>
     <string name="label_credit_card">Cartão de crédito</string>
     <string name="label_debit_card">Cartão de débito</string>
+    <string name="label_number_card">Número do Cartão</string>
+    <string name="label_holder_name">Nome do titular do Cartão</string>
+    <string name="label_expiration_date">Data de expiração</string>
+    <string name="label_security_code">Código de segurança</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
     <string name="validation_quantity_and_value">Informe o valor</string>
@@ -114,6 +121,7 @@
     <string name="validation_connection">Dispositivo sem internet.</string>
     <string name="validation_subscription">Sua assinatura expirou. Faça uma nova assinatura e continue sendo Pro!</string>
     <string name="validation_new_sale_product">É necessário cadastrar os produtos antes de registrar uma venda</string>
+    <string name="validation_card">Informe os dados do cartão</string>
     <string name="error_400">Falha na tentativa!</string>
     <string name="error_503">Aplicativo fora do ar. Aguarde o retorno!</string>
     <string name="movie_client">bROElv6NCGM</string>

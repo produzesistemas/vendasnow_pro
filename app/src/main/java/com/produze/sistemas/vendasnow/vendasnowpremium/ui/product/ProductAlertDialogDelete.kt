@@ -1,22 +1,18 @@
 package com.produze.sistemas.vendasnow.vendasnowpremium.ui.product
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.R
 import com.produze.sistemas.vendasnow.vendasnowpremium.database.DataSourceUser
 import com.produze.sistemas.vendasnow.vendasnowpremium.databinding.FragmentAlertdialogDeleteBinding
-import com.produze.sistemas.vendasnow.vendasnowpremium.model.Client
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Token
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.MainUtils
-import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ClientViewModel
 import com.produze.sistemas.vendasnow.vendasnowpremium.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 

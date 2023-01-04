@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit
 
 interface RetrofitCielo {
 
+    @Headers("Content-Type:application/json")
     @POST("/1/card")
     suspend fun getCardToken(
         @Header("MerchantId") MerchantId: String?,
         @Header("MerchantKey") MerchantKey: String?,
-        @Header("Content-Type") contentType: String?,
         @Body Card: Card?
     ): Response<ResponseCard>
 

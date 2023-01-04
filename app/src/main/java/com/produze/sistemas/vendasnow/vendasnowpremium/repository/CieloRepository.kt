@@ -10,8 +10,8 @@ import com.produze.sistemas.vendasnow.vendasnowpremium.retrofit.RetrofitService
 
 class CieloRepository constructor(private val retrofitService: RetrofitCielo) {
 
-    suspend fun getCardToken(MerchantId: String, MerchantKey: String, contentType: String, card: Card) : NetworkState<ResponseCard> {
-        val response = retrofitService.getCardToken(MerchantId, MerchantKey, contentType, card)
+    suspend fun getCardToken(MerchantId: String, MerchantKey: String, card: Card) : NetworkState<ResponseCard> {
+        val response = retrofitService.getCardToken(MerchantId, MerchantKey, card)
         return if (response.isSuccessful) {
             val responseBody = response.body()
             if (responseBody != null) {
