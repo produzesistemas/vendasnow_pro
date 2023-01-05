@@ -125,7 +125,7 @@ class FragmentSubscription : Fragment(){
         })
 
         viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
-                Log.d("AppBeauty", it.toString())
+                Log.d("AppBeauty", it.CardToken.toString())
         })
 
         viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
