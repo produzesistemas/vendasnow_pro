@@ -125,7 +125,7 @@ class FragmentSubscription : Fragment(){
         })
 
         viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
-                Log.d("AppBeauty", it.CardToken.toString())
+                Log.d("Paulo", it.CardToken.toString())
         })
 
         viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
@@ -141,8 +141,24 @@ class FragmentSubscription : Fragment(){
             if (it.code == 401 || it.code == 600) {
                 changeActivity()
             }
-
         }
+
+        viewModelCielo.completeValidateCard.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                var card = Card()
+                card.CardNumber = binding.editTextNumberCard.text.toString()
+                card.Brand = "Visa"
+                card.Holder = binding.editTextHolder.text.toString()
+                card.CustomerName = binding.editTextHolder.text.toString()
+                card.ExpirationDate = binding.editTextExpiration.text.toString()
+                viewModelCielo.getCardToken(this.resources.getString(R.string.MerchantId),
+                    this.resources.getString(R.string.MerchantKey),
+                    card
+                )
+            } else {
+                Log.d("Paulo", "Cartão inválido")
+            }
+        })
 
         viewModel.complete.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -180,18 +196,7 @@ class FragmentSubscription : Fragment(){
                         Snackbar.LENGTH_LONG
                     )
                 } else {
-
-                    var card = Card()
-                    card.CardNumber = binding.editTextNumberCard.text.toString()
-                    card.Brand = "Visa"
-                    card.Holder = binding.editTextHolder.text.toString()
-                    card.CustomerName = binding.editTextHolder.text.toString()
-                    card.ExpirationDate = binding.editTextExpiration.text.toString()
-                    viewModelCielo.getCardToken(this.resources.getString(R.string.MerchantId),
-                        this.resources.getString(R.string.MerchantKey),
-                        card
-                    )
-
+                    viewModelCielo.validCardNumber(binding.editTextNumberCard.text.toString())
                 }
 
             } else {
