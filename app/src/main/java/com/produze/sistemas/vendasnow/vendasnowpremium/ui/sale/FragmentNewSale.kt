@@ -105,9 +105,7 @@ class FragmentNewSale : Fragment(){
         binding.toolbarService.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_service -> {
-//                    loadServices()
-
-                    saleService = SaleService()
+                  saleService = SaleService()
                         val dialog = saleService?.let {
                             DialogSaleService(
 //                                (state.data as MutableList<Service>).sortedWith(

@@ -20,7 +20,7 @@
     <string name="menu_about">Sobre</string>
     <string name="menu_subscription">Seja Pro!</string>
     <string name="menu_accounts_receivable">Contas a receber/recebidas</string>
-
+    <string name="menu_my_account">Minha conta</string>
 
 
 <!--        <string name="default_web_client_id" translatable="false">918458643178-qes184gml7730okop4roqdjcos9oo3j6.apps.googleusercontent.com</string>-->
@@ -104,12 +104,17 @@
     <string name="label_panel_sales">Total geral de vendas no mês</string>
     <string name="msg_delete_item">Deseja excluir o item?</string>
     <string name="label_plan_selected">Plano selecionado</string>
+    <string name="label_plan_current">Plano atual:</string>
+    <string name="label_plan_subscription_date">Assinado em:</string>
+    <string name="label_plan_value">Valor pago:</string>
+    <string name="label_plan_expiration">Expira em:</string>
     <string name="label_credit_card">Cartão de crédito</string>
     <string name="label_debit_card">Cartão de débito</string>
     <string name="label_number_card">Número do Cartão</string>
     <string name="label_holder_name">Nome do titular do Cartão</string>
     <string name="label_expiration_date">Data de expiração</string>
     <string name="label_security_code">Código de segurança</string>
+    <string name="label_select_brand">Selecione a bandeira do seu cartão</string>
 
     <string name="validation_quantity">Informe a quantidade</string>
     <string name="validation_quantity_and_value">Informe o valor</string>
@@ -122,6 +127,8 @@
     <string name="validation_subscription">Sua assinatura expirou. Faça uma nova assinatura e continue sendo Pro!</string>
     <string name="validation_new_sale_product">É necessário cadastrar os produtos antes de registrar uma venda</string>
     <string name="validation_card">Informe os dados do cartão</string>
+    <string name="validation_login">Informe o e-mail e senha!</string>
+
     <string name="error_400">Falha na tentativa!</string>
     <string name="error_503">Aplicativo fora do ar. Aguarde o retorno!</string>
     <string name="movie_client">bROElv6NCGM</string>
@@ -164,5 +171,17 @@
         <item>Gráficos</item>
     </string-array>
 
-    <string name="validation_login">Informe o e-mail e senha!</string>
+    <string-array name="ArrayBrands">
+        <item>American Express</item>
+        <item>Aura</item>
+        <item>Diners Club</item>
+        <item>Discover</item>
+        <item>Elo</item>
+        <item>Hipercard</item>
+        <item>JCB</item>
+        <item>MasterCard</item>
+        <item>Visa</item>
+    </string-array>
+
+
 </resources>

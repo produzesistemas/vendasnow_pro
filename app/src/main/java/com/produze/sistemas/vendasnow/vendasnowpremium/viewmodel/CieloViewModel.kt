@@ -48,15 +48,13 @@ class CieloViewModel constructor() : ViewModel() {
 
     private fun isValid(number: String): Boolean {
         var checksum: Int = 0
-
         for (i in number.length - 1 downTo 0 step 2) {
-            checksum += number.get(i) - '0'
+            checksum += number[i] - '0'
         }
         for (i in number.length - 2 downTo 0 step 2) {
-            val n: Int = (number.get(i) - '0') * 2
+            val n: Int = (number[i] - '0') * 2
             checksum += if (n > 9) n - 9 else n
         }
-
         return checksum%10 == 0
     }
 
@@ -77,7 +75,7 @@ class CieloViewModel constructor() : ViewModel() {
 
                     if (response.response.code() == 400) {
                         loading.value = false
-                        Log.d("VendasNow", response.response.errorBody()!!.string())
+                        Log.d("VendasNowPro", response.response.errorBody()!!.string())
                         onError(response.response.errorBody()!!.string(), 400)
                     }
                 }

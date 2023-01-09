@@ -32,11 +32,12 @@ class LoginActivity : AppCompatActivity(){
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
 
                 if ((binding.editTextEmail.text.toString() == "") || (binding.editTextSecret.text.toString() == "")) {
-                    MainUtils.snackInTop(
-                        it,
-                        this.resources.getString(R.string.validation_login),
-                        Snackbar.LENGTH_LONG
-                    )
+//                    MainUtils.snackInTop(
+//                        it,
+//                        this.resources.getString(R.string.validation_login),
+//                        Snackbar.LENGTH_LONG
+//                    )
+                    binding.editTextEmail?.error = this.resources.getString(R.string.validation_login)
                 } else {
                     onLogin(binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
                 }
@@ -117,7 +118,7 @@ class LoginActivity : AppCompatActivity(){
             binding.textViewLogin.visibility = View.VISIBLE
         }
 
-        viewModelLogin.loading.observe(this, {
+        viewModelLogin.loading.observe(this) {
             if (it) {
                 binding.imageViewLogin.visibility = View.GONE
                 binding.textViewLogin.visibility = View.GONE
@@ -127,7 +128,7 @@ class LoginActivity : AppCompatActivity(){
                 binding.imageViewLogin.visibility = View.VISIBLE
                 binding.textViewLogin.visibility = View.VISIBLE
             }
-        })
+        }
 
         viewModelLogin.loadingRegister.observe(this, {
             if (it) {

@@ -121,7 +121,7 @@ class FragmentAccountReceivable : Fragment() {
             }
         })
 
-        viewModelAccountReceivable.complete.observe(this, Observer {
+        viewModelAccountReceivable.complete.observe(viewLifecycleOwner, Observer {
             if (it) {
                 calendar = GregorianCalendar()
                 load(calendar)

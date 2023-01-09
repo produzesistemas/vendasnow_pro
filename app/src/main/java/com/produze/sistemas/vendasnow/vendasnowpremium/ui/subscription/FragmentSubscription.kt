@@ -3,7 +3,6 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.subscription
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -34,10 +33,11 @@ class FragmentSubscription : Fragment(){
     private var datasource: DataSourceUser? = null
     private lateinit var token: Token
     private var selectedPlan: Plan? = null
+    private var card = Card()
     private lateinit var adapterPlan: AdapterPlan
     lateinit var imageUrl: ArrayList<String>
-//    lateinit var sliderView: SliderView
     lateinit var sliderAdapter: SliderAdapter
+    private var brands: MutableList<Brand> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,7 +107,8 @@ class FragmentSubscription : Fragment(){
         binding.cardViewSelectedPlan.visibility = View.GONE
         binding.constraintLayoutRadio.visibility = View.GONE
         binding.constraintLayoutCard.visibility = View.GONE
-
+        binding.constraintLayoutBrands.visibility = View.GONE
+        binding.radioGroup.check(R.id.radioButtonCreditCard)
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
             if (it.code == 401 || it.code == 600) {
@@ -121,42 +122,6 @@ class FragmentSubscription : Fragment(){
                 binding.progressBarPlan.visibility = View.VISIBLE
             } else {
                 binding.progressBarPlan.visibility = View.GONE
-            }
-        })
-
-        viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
-                Log.d("Paulo", it.CardToken.toString())
-        })
-
-        viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                binding.progressBarConfirm.visibility = View.VISIBLE
-            } else {
-                binding.progressBarConfirm.visibility = View.GONE
-            }
-        })
-
-        viewModelCielo.errorMessage.observe(viewLifecycleOwner) {
-            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
-            if (it.code == 401 || it.code == 600) {
-                changeActivity()
-            }
-        }
-
-        viewModelCielo.completeValidateCard.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                var card = Card()
-                card.CardNumber = binding.editTextNumberCard.text.toString()
-                card.Brand = "Visa"
-                card.Holder = binding.editTextHolder.text.toString()
-                card.CustomerName = binding.editTextHolder.text.toString()
-                card.ExpirationDate = binding.editTextExpiration.text.toString()
-                viewModelCielo.getCardToken(this.resources.getString(R.string.MerchantId),
-                    this.resources.getString(R.string.MerchantKey),
-                    card
-                )
-            } else {
-                Log.d("Paulo", "Cartão inválido")
             }
         })
 
@@ -181,15 +146,60 @@ class FragmentSubscription : Fragment(){
             binding.cardViewSelectedPlan.visibility = View.VISIBLE
             binding.constraintLayoutRadio.visibility = View.VISIBLE
             binding.constraintLayoutCard.visibility = View.VISIBLE
+            binding.constraintLayoutBrands.visibility = View.VISIBLE
             binding.textViewSelectedPlan.text = it.description + " / " + nFormat.format(it.value)
             this.selectedPlan = it
         }
+
+        viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
+            MainUtils.snack(view, it.CardToken.toString(), Snackbar.LENGTH_LONG)
+
+        })
+
+        viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.imageViewConfirm.visibility = View.GONE
+                binding.textViewConfirm.visibility = View.GONE
+                binding.progressBarConfirm.visibility = View.VISIBLE
+            } else {
+                binding.progressBarConfirm.visibility = View.GONE
+                binding.imageViewConfirm.visibility = View.VISIBLE
+                binding.textViewConfirm.visibility = View.VISIBLE
+            }
+        })
+
+        viewModelCielo.errorMessage.observe(viewLifecycleOwner) {
+            MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
+            if (it.code == 401 || it.code == 600) {
+                changeActivity()
+            }
+        }
+
+        viewModelCielo.completeValidateCard.observe(viewLifecycleOwner, Observer {
+            if (it) {
+
+                card.CardNumber = binding.editTextNumberCard.text.toString()
+                val brand = binding.spinnerBrand.selectedItem as Brand
+                card.Brand = brand.description
+                card.Holder = binding.editTextHolder.text.toString()
+                card.CustomerName = binding.editTextHolder.text.toString()
+                card.ExpirationDate = binding.editTextExpiration.text.toString()
+                viewModelCielo.getCardToken(this.resources.getString(R.string.MerchantId),
+                    this.resources.getString(R.string.MerchantKey),
+                    card
+                )
+            } else {
+                MainUtils.snack(view, "Número de Cartão inválido", Snackbar.LENGTH_LONG)
+//                Log.d("VendasNowPro", "Cartão inválido")
+            }
+        })
 
         binding.cardViewConfirm.setOnClickListener{
             if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
                 if ((binding.editTextNumberCard.text.toString() == "") ||
                     (binding.editTextExpiration.text.toString() == "") ||
-                        (binding.editTextHolder.text.toString() == "")){
+                        (binding.editTextHolder.text.toString() == "") ||
+                    (binding.editTextSecurityCode.text.toString() == "")){
                     MainUtils.snackInTop(
                         it,
                         this.resources.getString(R.string.validation_card),
@@ -203,7 +213,7 @@ class FragmentSubscription : Fragment(){
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
         }
-
+        loadBrands()
         viewModel.getAllPlan()
 
     }
@@ -216,6 +226,23 @@ class FragmentSubscription : Fragment(){
             val intent = Intent (it, LoginActivity::class.java)
             it.startActivity(intent)
         }
+    }
+
+    private fun loadBrands() {
+        val res = resources
+        val forms = res.getStringArray(R.array.ArrayBrands)
+        forms.forEach {
+            val form = Brand()
+            form.description = it
+            brands.add(form)
+        }
+        val adapterBrand: ArrayAdapter<Brand>? = context?.let { ArrayAdapter<Brand>(
+            it,
+            android.R.layout.simple_spinner_dropdown_item,
+            brands
+        ) }
+        adapterBrand?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerBrand .adapter = adapterBrand
     }
     }
 

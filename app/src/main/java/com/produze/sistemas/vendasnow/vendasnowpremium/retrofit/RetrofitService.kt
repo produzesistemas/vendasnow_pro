@@ -71,6 +71,9 @@ interface RetrofitService {
     @GET("plan/getAll")
     suspend fun getAllPlan(): Response<List<Plan>>
 
+    @GET("subscription/getCurrent")
+    suspend fun getCurrentSubscription(@Header("Authorization") token: String): Response<Subscription>
+
     companion object {
         private const val BASE_URL: String = "https://produzesistemas.com.br/api/"
 

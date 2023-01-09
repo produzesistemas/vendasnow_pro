@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Plan
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.Product
 import com.produze.sistemas.vendasnow.vendasnowpremium.model.ResponseBody
+import com.produze.sistemas.vendasnow.vendasnowpremium.model.Subscription
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.ProductRepository
 import com.produze.sistemas.vendasnow.vendasnowpremium.repository.SubscriptionRepository
 import com.produze.sistemas.vendasnow.vendasnowpremium.utils.NetworkState
@@ -28,6 +29,7 @@ class SubscriptionViewModel constructor() : ViewModel() {
     val loading = MutableLiveData<Boolean>()
     val complete = MutableLiveData<Boolean>()
     val plan = MutableLiveData<Plan>()
+    val subscription = MutableLiveData<Subscription>()
 
     fun getAllPlan() {
         loading.value = true
@@ -36,6 +38,30 @@ class SubscriptionViewModel constructor() : ViewModel() {
             when (val response = subscriptionRepository.getAllPlan()) {
                 is NetworkState.Success -> {
                     plans.postValue(response.data!!)
+                    loading.value = false
+                }
+                is NetworkState.Error -> {
+                    if (response.response.code() == 401) {
+                        loading.value = false
+                        onError("Sessão expirada! Para sua segurança efetue novamente o login.", 401)
+                    }
+
+                    if (response.response.code() == 400) {
+                        loading.value = false
+                        onError("Falha na tentativa.", 400)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCurrentSubscription(token: String) {
+        loading.value = true
+        viewModelScope.launch {
+            Log.d("Thread Inside", Thread.currentThread().name)
+            when (val response = subscriptionRepository.getCurrentSubscription(token)) {
+                is NetworkState.Success -> {
+                    subscription.postValue(response.data!!)
                     loading.value = false
                 }
                 is NetworkState.Error -> {
