@@ -28,19 +28,18 @@ class LoginActivity : AppCompatActivity(){
         }
         viewModelLogin = ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.cardViewLogin.setOnClickListener{
-
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-
-                if ((binding.editTextEmail.text.toString() == "") || (binding.editTextSecret.text.toString() == "")) {
-//                    MainUtils.snackInTop(
-//                        it,
-//                        this.resources.getString(R.string.validation_login),
-//                        Snackbar.LENGTH_LONG
-//                    )
-                    binding.editTextEmail?.error = this.resources.getString(R.string.validation_login)
-                } else {
-                    onLogin(binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
+                if (binding.editTextEmail.text.toString() == "") {
+                        binding.editTextEmail?.error = this.resources.getString(R.string.validation_email)
+                    binding.editTextEmail?.requestFocus()
+                    return@setOnClickListener
                 }
+                if (binding.editTextSecret.text.toString() == "") {
+                    binding.editTextSecret?.error = this.resources.getString(R.string.validation_secret)
+                    binding.editTextSecret?.requestFocus()
+                    return@setOnClickListener
+                }
+                onLogin(binding.editTextEmail.text.toString(), binding.editTextSecret.text.toString())
             } else {
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
@@ -58,15 +57,17 @@ class LoginActivity : AppCompatActivity(){
 
         binding.cardViewRegister.setOnClickListener{
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-                if ((binding.editTextEmailRegister.text.toString() == "") || (binding.editTextSecretRegister.text.toString() == "")) {
-                    MainUtils.snackInTop(
-                        it,
-                        this.resources.getString(R.string.validation_login),
-                        Snackbar.LENGTH_LONG
-                    )
-                } else {
-                    onRegister(binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
+                if (binding.editTextEmailRegister.text.toString() == "") {
+                    binding.editTextEmailRegister?.error = this.resources.getString(R.string.validation_email)
+                    binding.editTextEmailRegister?.requestFocus()
+                    return@setOnClickListener
                 }
+                if (binding.editTextSecretRegister.text.toString() == "") {
+                    binding.editTextSecretRegister?.error = this.resources.getString(R.string.validation_secret)
+                    binding.editTextSecretRegister?.requestFocus()
+                    return@setOnClickListener
+                }
+                onRegister(binding.editTextEmailRegister.text.toString(), binding.editTextSecretRegister.text.toString())
             } else {
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }
@@ -79,15 +80,18 @@ class LoginActivity : AppCompatActivity(){
 
         binding.cardViewForgot.setOnClickListener{
             if (this?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-                if ((binding.editTextEmailForgot.text.toString() == "") || (binding.editTextSecretForgot.text.toString() == "")) {
-                    MainUtils.snackInTop(
-                        it,
-                        this.resources.getString(R.string.validation_login),
-                        Snackbar.LENGTH_LONG
-                    )
-                } else {
-                    onForgot(binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
+                if (binding.editTextEmailForgot.text.toString() == "") {
+                    binding.editTextEmailForgot?.error = this.resources.getString(R.string.validation_email)
+                    binding.editTextEmailForgot?.requestFocus()
+                    return@setOnClickListener
                 }
+                if (binding.editTextSecretForgot.text.toString() == "") {
+                    binding.editTextSecretForgot?.error = this.resources.getString(R.string.validation_secret)
+                    binding.editTextSecretForgot?.requestFocus()
+                    return@setOnClickListener
+                }
+                    onForgot(binding.editTextEmailForgot.text.toString(), binding.editTextSecretForgot.text.toString())
+
             } else {
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }

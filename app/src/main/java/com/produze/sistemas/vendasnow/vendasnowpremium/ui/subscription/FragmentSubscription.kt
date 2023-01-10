@@ -125,12 +125,6 @@ class FragmentSubscription : Fragment(){
             }
         })
 
-        viewModel.complete.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                changeActivity()
-            }
-        })
-
         viewModel.plans.observe(viewLifecycleOwner) {
             adapterPlan  = AdapterPlan((it), viewModel)
             binding.recyclerView.apply {
@@ -177,7 +171,6 @@ class FragmentSubscription : Fragment(){
 
         viewModelCielo.completeValidateCard.observe(viewLifecycleOwner, Observer {
             if (it) {
-
                 card.CardNumber = binding.editTextNumberCard.text.toString()
                 val brand = binding.spinnerBrand.selectedItem as Brand
                 card.Brand = brand.description
@@ -189,26 +182,34 @@ class FragmentSubscription : Fragment(){
                     card
                 )
             } else {
-                MainUtils.snack(view, "Número de Cartão inválido", Snackbar.LENGTH_LONG)
-//                Log.d("VendasNowPro", "Cartão inválido")
+                binding.editTextNumberCard?.error = this.resources.getString(R.string.validation_number_card_mod10)
+                binding.editTextNumberCard?.requestFocus()
             }
         })
 
         binding.cardViewConfirm.setOnClickListener{
             if (context?.let { it1 -> MainUtils.isOnline(it1) }!!) {
-                if ((binding.editTextNumberCard.text.toString() == "") ||
-                    (binding.editTextExpiration.text.toString() == "") ||
-                        (binding.editTextHolder.text.toString() == "") ||
-                    (binding.editTextSecurityCode.text.toString() == "")){
-                    MainUtils.snackInTop(
-                        it,
-                        this.resources.getString(R.string.validation_card),
-                        Snackbar.LENGTH_LONG
-                    )
-                } else {
-                    viewModelCielo.validCardNumber(binding.editTextNumberCard.text.toString())
+                if (binding.editTextNumberCard.text.toString() == "") {
+                    binding.editTextNumberCard?.error = this.resources.getString(R.string.validation_number_card)
+                    binding.editTextNumberCard?.requestFocus()
+                    return@setOnClickListener
                 }
-
+                if (binding.editTextHolder.text.toString() == "") {
+                    binding.editTextHolder?.error = this.resources.getString(R.string.validation_holder_name)
+                    binding.editTextHolder?.requestFocus()
+                    return@setOnClickListener
+                }
+                if (binding.editTextExpiration.text.toString() == "") {
+                    binding.editTextExpiration?.error = this.resources.getString(R.string.validation_expiration_date)
+                    binding.editTextExpiration?.requestFocus()
+                    return@setOnClickListener
+                }
+                if (binding.editTextSecurityCode.text.toString() == "") {
+                    binding.editTextSecurityCode?.error = this.resources.getString(R.string.validation_security_code)
+                    binding.editTextSecurityCode?.requestFocus()
+                    return@setOnClickListener
+                }
+                viewModelCielo.validCardNumber(binding.editTextNumberCard.text.toString())
             } else {
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }

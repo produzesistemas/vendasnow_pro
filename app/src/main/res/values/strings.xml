@@ -126,8 +126,13 @@
     <string name="validation_connection">Dispositivo sem internet.</string>
     <string name="validation_subscription">Sua assinatura expirou. Faça uma nova assinatura e continue sendo Pro!</string>
     <string name="validation_new_sale_product">É necessário cadastrar os produtos antes de registrar uma venda</string>
-    <string name="validation_card">Informe os dados do cartão</string>
-    <string name="validation_login">Informe o e-mail e senha!</string>
+    <string name="validation_email">Informe o e-mail!</string>
+    <string name="validation_secret">Informe a senha!</string>
+    <string name="validation_number_card">Informe o número do cartão</string>
+    <string name="validation_holder_name">Informe o nome do titular do cartão</string>
+    <string name="validation_expiration_date">Informe a data de expiração do cartão</string>
+    <string name="validation_security_code">Informe o código de segurança do cartão</string>
+    <string name="validation_number_card_mod10">Número de Cartão inválido</string>
 
     <string name="error_400">Falha na tentativa!</string>
     <string name="error_503">Aplicativo fora do ar. Aguarde o retorno!</string>

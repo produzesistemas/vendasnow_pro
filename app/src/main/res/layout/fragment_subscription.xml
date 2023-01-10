@@ -237,6 +237,7 @@
                         <EditText
                             android:id="@+id/editTextNumberCard"
                             style="@style/SearchViewStyle"
+                            android:inputType="number"
                             android:background="@drawable/custom_background_search_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -325,6 +326,7 @@
                         <EditText
                             android:id="@+id/editTextSecurityCode"
                             style="@style/SearchViewStyle"
+                            android:inputType="number"
                             android:background="@drawable/custom_background_search_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
