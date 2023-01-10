@@ -3,6 +3,7 @@ package com.produze.sistemas.vendasnow.vendasnowpremium.ui.subscription
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -147,15 +148,28 @@ class FragmentSubscription : Fragment(){
 
         viewModelCielo.responseCard.observe(viewLifecycleOwner, Observer {
             MainUtils.snack(view, it.CardToken.toString(), Snackbar.LENGTH_LONG)
+            Log.d("CardToken", it.CardToken.toString())
 
         })
 
         viewModelCielo.loading.observe(viewLifecycleOwner, Observer {
             if (it) {
+                binding.editTextNumberCard.isEnabled = false
+                binding.editTextHolder.isEnabled = false
+                binding.editTextExpiration.isEnabled = false
+                binding.editTextSecurityCode.isEnabled = false
+                binding.radioGroup.isEnabled = false
+                binding.spinnerBrand.isEnabled = false
                 binding.imageViewConfirm.visibility = View.GONE
                 binding.textViewConfirm.visibility = View.GONE
                 binding.progressBarConfirm.visibility = View.VISIBLE
             } else {
+                binding.editTextNumberCard.isEnabled = true
+                binding.editTextHolder.isEnabled = true
+                binding.editTextExpiration.isEnabled = true
+                binding.editTextSecurityCode.isEnabled = true
+                binding.radioGroup.isEnabled = true
+                binding.spinnerBrand.isEnabled = true
                 binding.progressBarConfirm.visibility = View.GONE
                 binding.imageViewConfirm.visibility = View.VISIBLE
                 binding.textViewConfirm.visibility = View.VISIBLE
@@ -164,7 +178,7 @@ class FragmentSubscription : Fragment(){
 
         viewModelCielo.errorMessage.observe(viewLifecycleOwner) {
             MainUtils.snack(view, it.message, Snackbar.LENGTH_LONG)
-            if (it.code == 401 || it.code == 600) {
+            if (it.code == 401) {
                 changeActivity()
             }
         }
@@ -209,7 +223,7 @@ class FragmentSubscription : Fragment(){
                     binding.editTextSecurityCode?.requestFocus()
                     return@setOnClickListener
                 }
-                viewModelCielo.validCardNumber(binding.editTextNumberCard.text.toString())
+                viewModelCielo.validCardNumber(binding.editTextNumberCard.text.toString().trim())
             } else {
                 MainUtils.snackInTop(it, this.resources.getString(R.string.validation_connection), Snackbar.LENGTH_LONG)
             }

@@ -15,23 +15,9 @@ class CieloViewModel constructor() : ViewModel() {
     val errorMessage: LiveData<ResponseBody>
         get() = _errorMessage
 
-//    private val _totalProducts = MutableLiveData<Double>()
-//    private val _totalServices = MutableLiveData<Double>()
-//    private val _totalSale = MutableLiveData<Double>()
-//    private val _totalSaleByFilter = MutableLiveData<Double>()
-
     private val retrofitService = RetrofitCielo.getInstance()
     private val cieloRepository = CieloRepository(retrofitService)
     private var responseBody: ResponseBody = ResponseBody()
-
-//    val itemButtonClickEvent: MutableLiveData<Sale> by lazy {
-//        MutableLiveData<Sale>()
-//    }
-//
-//    val itemButtonClickEventEdit: MutableLiveData<ResponseBody> by lazy {
-//        MutableLiveData<ResponseBody>()
-//    }
-
     val responseCard = MutableLiveData<ResponseCard>()
     var job: Job? = null
 
@@ -40,10 +26,7 @@ class CieloViewModel constructor() : ViewModel() {
     val completeValidateCard = MutableLiveData<Boolean>()
 
     fun validCardNumber(cardNumber: String) {
-        completeValidateCard.value = false
-        if (isValid(cardNumber)) {
-            completeValidateCard.value = true
-        }
+        completeValidateCard.value = isValid(cardNumber)
     }
 
     private fun isValid(number: String): Boolean {
