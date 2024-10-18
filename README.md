@@ -19,4 +19,4 @@ Desenvolvido com as seguintes tecnologias e recursos:
 * AlarmManager
 * BroadcastReceiver
 * CoroutineWorker
-* API Rest .Net core 3.1
+* Consumo de API Rest .Net core 3.1
